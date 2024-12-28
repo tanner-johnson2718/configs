@@ -1,0 +1,95 @@
+[0;33m--- esp-idf-monitor 1.5.0 on /dev/ttyUSB0 115200[0m
+[0;33m--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H[0m
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libVkLayer_INTEL_nullhw.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libvulkan_lvp.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libEGL_mesa.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libvulkan_dzn.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libGLX_mesa.so.0.0.0 is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libvulkan_virtio.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libvulkan_intel.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libEGL_mesa.so.0.0.0 is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libvulkan_intel_hasvk.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libGLX_mesa.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libvulkan_nouveau.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libGLX_mesa.so.0 is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libVkLayer_MESA_overlay.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libEGL_mesa.so.0 is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libvulkan_radeon.so is truncated
+
+[0;33m--- 0x40080400: _init at ??:?
+[0m
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libVkLayer_INTEL_nullhw.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libvulkan_lvp.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libEGL_mesa.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libvulkan_dzn.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libGLX_mesa.so.0.0.0 is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libvulkan_virtio.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libvulkan_intel.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libEGL_mesa.so.0.0.0 is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libvulkan_intel_hasvk.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libGLX_mesa.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libvulkan_nouveau.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libGLX_mesa.so.0 is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libVkLayer_MESA_overlay.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libEGL_mesa.so.0 is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libvulkan_radeon.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libVkLayer_INTEL_nullhw.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libvulkan_lvp.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libEGL_mesa.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libvulkan_dzn.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libGLX_mesa.so.0.0.0 is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libvulkan_virtio.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libvulkan_intel.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libEGL_mesa.so.0.0.0 is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libvulkan_intel_hasvk.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libGLX_mesa.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libvulkan_nouveau.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libGLX_mesa.so.0 is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libVkLayer_MESA_overlay.so is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libEGL_mesa.so.0 is truncated
+
+/nix/store/vpsla1ivhavzd4fmi95yzmgb4g9rd072-glibc-2.40-36-bin/bin/ldconfig: file /run/opengl-driver-32/lib/libvulkan_radeon.so is truncated
+
+[0m
