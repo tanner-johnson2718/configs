@@ -16,13 +16,15 @@
 # directory structure. The .section.md allow you to add a short description
 # of the topic and/or the contents of the docs in the directory this file is
 # contained in. Then for each markdown file in a given, a table is generated
-# linking to that file. Finally, one can also reference .drawio files in any
-# of the markdown files contained in the docs dir. It is rendered to an svg
-# and a reference such as ![](test.drawio) is replaced with the path to the 
-# appropiate location of the rendered image
+# linking to that file. Finally, for every .drawio file we have, we generate
+# an .svg of that drawio file and place it in a dir at <base>/docs/rendered_images
+# This image can then be referened in your markdown files.
 
 # TODO Link Checker
-# TODO get rid of secdanru lhs drop down menu thing
+# TODO get rid of secondary lhs drop down menu thing
+# TODO allow for references to drawio files and rename as naming collision could
+#      be an issue
+# TODO Can we increase column width? My GDB Table is being cut off
 {inputs, pkgs, lib, config, ... }:
 let
   inherit (builtins) readDir readFile toString attrNames foldl' filter;
@@ -178,10 +180,11 @@ in
 
 	mv _index.md ./docs/index.md 
   
-	cd ${cfg.workingDir}/docs/Data_Management/Project_Files
-	drawio -x -f svg test.drawio --no-sandbox
-	mv test.svg ${cfg.workingDir}/docs/rendered_images
-	cd ${cfg.workingDir}
+	for i in $(find ./docs -name "*.drawio")
+	do
+	  drawio -x -f svg $i -o ./docs/rendered_images/$(basename $i | tr -d '.drawio').svg --no-sandbox
+	done
+
 	${myenv}/bin/mkdocs serve -a ${cfg.ip}:${cfg.port}
       '';
     };
