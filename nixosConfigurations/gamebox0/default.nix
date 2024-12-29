@@ -57,5 +57,6 @@ in
     yubi.id = "29490434";
     mkdocs.enable = true;
     mkdocs.docsDir = ../../docs;
+    mkdocs.siteName = "Env Docs";
   };
 }

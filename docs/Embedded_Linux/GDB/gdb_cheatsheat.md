@@ -1,5 +1,5 @@
 Below is table of the must know GDB commands. With these you can almost examine almost anything in your process. We will add to this list as we examine more and more topics. This [reference](https://darkdust.net/files/GDB%20Cheat%20Sheet.pdf) is another good source to find anything not included below.
-       
+           
 | Command | Description | Comment |
 | --- | --- | --- |
 | `starti` | Start executing at very first instruction | Usually Dynamic Linker _start function |

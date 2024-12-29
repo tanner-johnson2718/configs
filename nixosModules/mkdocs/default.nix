@@ -169,7 +169,9 @@ in
 	
 	echo "''${line_1}" >> _index.md
 	echo "''${line_2}" >> _index.md
-	
+
+	sed -i "s/\#docs/\# ${cfg.siteName} Index Page/" _index.md
+
 	mv _index.md ./docs/index.md 
   
 	cd ${cfg.workingDir}
