@@ -15,11 +15,14 @@
 # The index page that will be generated should infer the headings from the
 # directory structure. The .section.md allow you to add a short description
 # of the topic and/or the contents of the docs in the directory this file is
-# contained in.
+# contained in. Then for each markdown file in a given, a table is generated
+# linking to that file. Finally, one can also reference .drawio files in any
+# of the markdown files contained in the docs dir. It is rendered to an svg
+# and a reference such as ![](test.drawio) is replaced with the path to the 
+# appropiate location of the rendered image
 
 # TODO Link Checker
 # TODO get rid of secdanru lhs drop down menu thing
-# TODO Need some more descriptive doc
 {inputs, pkgs, lib, config, ... }:
 let
   inherit (builtins) readDir readFile toString attrNames foldl' filter;
