@@ -18,8 +18,8 @@
 # contained in.
 
 # TODO Link Checker
-# TODO Make Sure Drawio plug in works
-# TODO check that mermaid works
+# TODO get rid of secdanru lhs drop down menu thing
+# TODO Need some more descriptive doc
 {inputs, pkgs, lib, config, ... }:
 let
   inherit (builtins) readDir readFile toString attrNames foldl' filter;
@@ -81,7 +81,6 @@ let
     mkdocs
     python-markdown-math
     mkdocs-linkcheck
-    mkdocs-mermaid2-plugin
     mkdocs-jupyter
   ]);
 in
@@ -123,10 +122,12 @@ in
       description = "Service to run backend of mkdocs";
       wantedBy = [ "multi-user.target" ];
       serviceConfig = { Type = "simple"; };
+      path = [ pkgs.drawio-headless ];
       script = ''
 	cd ${cfg.workingDir}
 	rm -rf ./*
 	mkdir ./docs
+	mkdir ./docs/rendered_images
 	echo "${yml cfg.siteName cfg.theme cfg.colorScheme}" > ${cfg.workingDir}/mkdocs.yml
 	cp -r ${cfg.docsDir}/* ${cfg.workingDir}/docs
 	echo '${dir2Index cfg.docsDir 1}' > ${cfg.workingDir}/docs/index.md
@@ -174,6 +175,9 @@ in
 
 	mv _index.md ./docs/index.md 
   
+	cd ${cfg.workingDir}/docs/Data_Management/Project_Files
+	drawio -x -f svg test.drawio --no-sandbox
+	mv test.svg ${cfg.workingDir}/docs/rendered_images
 	cd ${cfg.workingDir}
 	${myenv}/bin/mkdocs serve -a ${cfg.ip}:${cfg.port}
       '';
