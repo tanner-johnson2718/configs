@@ -5,7 +5,7 @@
   ];
 
   config = {
-    virtualisation = {
+    virtualisation.vmVariant.virtualisation = {
       graphics = false;
       cores = 1;
       diskSize = 1024;
