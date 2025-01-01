@@ -33,7 +33,6 @@ in
 	specialArgs = { inherit inputs; };
 	modules = [ 
 	  (import (lib.path.append dir name)) 
-	  inputs.home-manager.nixosModules.default
 	];
       })
     );

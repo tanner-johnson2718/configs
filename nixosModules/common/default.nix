@@ -19,6 +19,8 @@ in
     common.home-manager-config = lib.mkOption {};
   };
 
+  imports = [ inputs.home-manager.nixosModules.default ];
+
   config = lib.mkIf cfg.enable {
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
     nix.settings.trusted-users = [ "root" "${cfg.userName}" ];
