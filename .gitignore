@@ -2,3 +2,5 @@
 *.o
 build
 .ccls-cache
+result
+nixos.qcow2
