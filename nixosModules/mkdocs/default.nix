@@ -25,6 +25,7 @@
 # TODO allow for references to drawio files and rename as naming collision could
 #      be an issue
 # TODO Can we increase column width? My GDB Table is being cut off
+# TODO ' chars break it because of the echo '<index.md content>' command
 {inputs, pkgs, lib, config, ... }:
 let
   inherit (builtins) readDir readFile toString attrNames foldl' filter;

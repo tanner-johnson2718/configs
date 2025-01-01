@@ -21,7 +21,6 @@ in
     );
 
   # TODO For now we are assuming all systems are x86. Dont do that.
-  # TODO For now we are assuming all systems want hm. Dont do that.
   # For a given dir, import each subdir and create an attr set where the key
   # is the dir name and the value is a nixos system. Each sub dir is expected
   # to contain a single (top level) module that defines the system.

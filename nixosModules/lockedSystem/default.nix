@@ -50,7 +50,7 @@ in
     };
 
     users.mutableUsers = false;
-    users.users."root".openssh.authorizedKeys.keys = cfg.sshKey;
+    users.users."root".openssh.authorizedKeys.keys = [ cfg.sshKey ];
 
     networking.firewall = 
     {
