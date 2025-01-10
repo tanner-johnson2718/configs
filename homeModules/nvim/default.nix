@@ -49,7 +49,6 @@ in
 	nnoremap fc :bd<CR>
 	nnoremap fd :Gdiffsplit<CR>
 	nnoremap mp :MarkdownPreview<CR>
-	nnoremap n o<Esc>
       '';
       extraLuaConfig = ''
 	local c = require('vscode.colors').get_colors()

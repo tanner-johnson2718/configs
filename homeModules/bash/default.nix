@@ -34,6 +34,7 @@ in
       dtc
       tio
       wirelesstools
+      dracut
     ];
 
     home.file = { 
