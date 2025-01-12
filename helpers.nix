@@ -117,7 +117,6 @@ rec {
     ${errorCheck "[ $? -ne 0 ]" "Could not find completion for ${cmd}" "1"}
     out=$(echo $out | grep -oe '-F [-_0-9A-Za-z]*' | awk '{print $2}')
   '';
-
   
   build = {
     name,

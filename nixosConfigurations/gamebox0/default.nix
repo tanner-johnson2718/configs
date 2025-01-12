@@ -5,8 +5,7 @@ in
 {
   imports = with inputs.self.nixosModules; [
     asus-gu603
-    common
-    deviceManager
+    commonSystem
     gnome
     nvidiaPrime
     yubi
@@ -33,10 +32,10 @@ in
     ];
     
     asus-gu603.enable = true;
-    common.enable = true;
-    common.userName = sysID;
-    common.home-manager-enable = true;
-    common.home-manager-config =
+    commonSystem.enable = true;
+    commonSystem.userName = sysID;
+    commonSystem.home-manager-enable = true;
+    commonSystem.home-manager-config =
       ({inputs, ...}: {
 	imports = with inputs.self.homeModules; [
 	  bash
@@ -51,7 +50,6 @@ in
         nvim.enable = true;
         tmux.enable = true;
       });
-    deviceManager.enable = true;
     gnome.enable = true;
     nvidiaPrime.enable = true;
     yubi.enable = true;

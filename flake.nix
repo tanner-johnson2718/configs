@@ -6,7 +6,7 @@
 
   outputs = {...}@inputs:
   let
-    inherit (inputs.self.helpers.nixHelpers) 
+    inherit (inputs.self.helpers) 
       dir2Set
       dir2Set'
       dir2ConfigsSet;

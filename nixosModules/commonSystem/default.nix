@@ -1,22 +1,23 @@
-# Common module to set some dumb stuff that should just be fucking default i.e.
-# allow unfree and flakes. This is more opionated but I also believe this 
-# should just be default, but set up the plumbing so that home manager modules
-# that are declared under homeModules and exposed at the flake level are 
-# actually in scope for my nixosConfigs to access and pass to this module via
-# the home-manager-config option. This module also enforces a mono user system 
-# where the username, host name, and  nixos system name are all the same, 
-# ideally derived from the name of the dir that the system config is contained in.
+# Common System module that sets up a nixos system with the following properties:
+#
+# - Enable flakes
+# - Allow unfree
+# - Single user system where the hostname is user name
+# - timezone set
+# - enable guard home manager
+# - pass through inputs to homemanager
+# - users passes a home manager cfg that configs hm to their liking
 
 {config, lib, inputs, ...}:
 let
-  cfg = config.common;
+  cfg = config.commonSystem;
 in
 {
   options = {
-    common.enable = lib.mkEnableOption "Enable nixos common";
-    common.userName = lib.mkOption { type = lib.types.str; };
-    common.home-manager-enable = lib.mkEnableOption "Enable home manager common";
-    common.home-manager-config = lib.mkOption {};
+    commonSystem.enable = lib.mkEnableOption "Enable nixos common";
+    commonSystem.userName = lib.mkOption { type = lib.types.str; };
+    commonSystem.home-manager-enable = lib.mkEnableOption "Enable home manager common";
+    commonSystem.home-manager-config = lib.mkOption {};
   };
 
   imports = [ inputs.home-manager.nixosModules.default ];
