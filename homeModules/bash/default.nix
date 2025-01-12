@@ -35,6 +35,7 @@ in
       tio
       wirelesstools
       dracut
+      ethtool
     ];
 
     home.file = { 

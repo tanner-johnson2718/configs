@@ -1,0 +1,4 @@
+set serial baud 115200
+target remote /dev/pts/2
+
+b *0xffffffc0107ec8c4

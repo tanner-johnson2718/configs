@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "stdio.h": "c",
+        "time.h": "c",
+        "ws.h": "c",
+        "stdlib.h": "c"
+    },
+    "cmake.configureOnOpen": false
+}

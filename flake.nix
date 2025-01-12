@@ -18,11 +18,7 @@
     homeModules              = dir2Set  lib ./homeModules;
     nixosModules             = dir2Set  lib ./nixosModules;
     nixosConfigurations      = dir2ConfigsSet lib inputs ./nixosConfigurations;
-    helpers             =
-      { 
-	scriptBuilder = import ./helpers/scriptBuilder.nix;
-	nixHelpers = import ./helpers/nixHelpers.nix;
-      };
+    helpers                  = import ./helpers.nix;
   };
 }
 
