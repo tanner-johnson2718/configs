@@ -8,16 +8,20 @@
   let
     inherit (inputs.self.helpers) 
       dir2Set
-      dir2Set'
-      dir2ConfigsSet;
+      dir2ConfigsSet
+      dir2PackageSet;
     inherit (inputs.nixpkgs) lib;
+    pkgs = inputs.nixpkgs.legacyPackages;
   in
   {
     # TODO Good way to export esp32 code via flakes?
-    devShells."x86_64-linux" = dir2Set' lib {inherit inputs;} ./devShells ; 
     homeModules              = dir2Set  lib ./homeModules;
     nixosModules             = dir2Set  lib ./nixosModules;
-    nixosConfigurations      = dir2ConfigsSet lib inputs ./nixosConfigurations;
+    nixosConfigurations      = dir2ConfigsSet inputs ./nixosConfigurations;
+    packages = {
+      "x86_64-linux"  = dir2PackageSet pkgs."x86_64-linux"  ./packages;
+      "aarch64-linux" = dir2PackageSet pkgs."aarch64-linux" ./packages;
+    };
     helpers                  = import ./helpers.nix;
   };
 }

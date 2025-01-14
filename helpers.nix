@@ -190,15 +190,24 @@ rec {
   # For a given dir, import each subdir and create an attr set where the key
   # is the dir name and the value is a nixos system. Each sub dir is expected
   # to contain a single (top level) module that defines the system.
-  dir2ConfigsSet = lib: inputs: dir:
-    (lib.genAttrs
+  dir2ConfigsSet = inputs: dir:
+    (inputs.nixpkgs.lib.genAttrs
       (attrNames (readDir dir))
-      (name: lib.nixosSystem {
+      (name: inputs.nixpkgs.lib.nixosSystem {
 	system = "x86_64-linux";
 	specialArgs = { inherit inputs; };
 	modules = [ 
-	  (import (lib.path.append dir name)) 
+	  (import (inputs.nixpkgs.lib.path.append dir name)) 
 	];
       })
+    );
+
+  # TODO What if we need to override or have out of band inputs?
+  # For a given dir create an attr set whose name is the dir and whose value
+  # is that of calling callPackage on the import of the dir
+  dir2PackageSet  = pkgs: dir:
+    (pkgs.lib.genAttrs
+      (attrNames (readDir dir))
+      (name: pkgs.callPackage (import (pkgs.lib.path.append dir name)){})
     );
 }
