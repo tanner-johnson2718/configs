@@ -45,8 +45,6 @@ in
           . ~/complete_alias
           complete -F _complete_alias jctl
           complete -F _complete_alias sctl
-          complete -F _complete_alias cc
-	  complete -F _complete_alias nsq
         '';
       };
     };
@@ -57,10 +55,7 @@ in
 
     home.shellAliases = {
       l = "ls -CF --color=auto";
-      g = "grep --color=auto";
       e = "exit";
-      c = "clear";
-
       la = "alias";
       ll = "ls -la --color=auto";
       lf = "declare -F"; 
@@ -70,12 +65,8 @@ in
       lw = "echo 'Desktops)' ; wmctrl -d ; echo '' ; echo 'Windows)' ; wmctrl -lG";
       lu = "systemctl list-units";
 
-      nsq = "nix-store --query";
-
       jctl = "journalctl";
       sctl = "systemctl";
-
-      gsettings = "GSK_RENDERER=gl gnome-control-center";
     };
     
     programs.kitty = {
@@ -90,16 +81,6 @@ in
       initExtra = ''
         source ~/.bash_complete
 
-	# Closure
-        function cl {
-	  if [ $# -ne 1 ]; then
-	    echo "pass ./result"
-	    return 1
-	  fi
-          nix path-info -r $1
-        }
-        export cl
-
 	# Grep-closure
         function gcl {
 	  if [ $# -ne 2 ]; then
@@ -109,16 +90,6 @@ in
           nix path-info -r $1 | grep $2
         }
         export gcl
-
-	# Firefox
-        function ff {
-	  if [ $# -ne 1 ]; then
-	    echo "pass file"
-	    return 1
-	  fi
-          firefox-esr $1
-        }
-	export ff
 
 	# Grep-kill
 	function gkill {
@@ -140,15 +111,6 @@ in
 	}
 	export gps
 
-	# Dervier of nix store object
-	function drv {
-	  if [ $# -ne 1 ]; then
-	    echo "pass /nix/store/obj"
-	    return 1
-	  fi
-	  nix-store --query --deriver
-	}
-	export drv
       '';
     };
   };
