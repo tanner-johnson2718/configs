@@ -6,7 +6,7 @@
 #include <sys/time.h>
 #include <time.h>
 
-struct my_time{
+struct my_time {
 	double cputime;    // total cpu time in ms
 	double systime;    // total system time in ms
 	struct timeval time;

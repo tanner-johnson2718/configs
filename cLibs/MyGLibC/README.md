@@ -1,3 +1,0 @@
-# MEME Lib
-
-Given the complexity and code obfuscation that comes with using libc, we create a static libc replacement that exports some basic system calls, string manipulation and printing, and any other additional code that is not depedant on libc to be added later. This allows our future programs to be as simple as possible so we can dig into system programmings topic with out dealing with the dynamic linker and loader.
