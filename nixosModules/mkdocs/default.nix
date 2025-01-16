@@ -26,6 +26,8 @@
 #      be an issue
 # TODO Can we increase column width? My GDB Table is being cut off
 # TODO ' chars break it because of the echo '<index.md content>' command
+# TODO replace the last modified date with the abstract from the page.
+
 {inputs, pkgs, lib, config, ... }:
 let
   inherit (builtins) readDir readFile toString attrNames foldl' filter;

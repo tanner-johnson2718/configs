@@ -1,4 +1,4 @@
-{inputs, ...}:
+{inputs, lib, ...}:
 {
   imports = [
     inputs.self.nixosModules.lockedSystem
@@ -13,10 +13,11 @@
       forwardPorts = [
 	 { from = "host"; host.port = 2222; guest.port = 22; }
       ];
+      # qemu.consoles = lib.mkForce [];
     };
 
     lockedSystem.enable = true;
-    lockedSystem.sshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJB6woywk5BcJjvvlEvxaUNMaCMgqZlWSwVGOJkLg5Eq"; 
+    lockedSystem.sshLoginKey = inputs.self.nixosConfigurations.gamebox0.config.commonSystem.sshKey; 
   };
   
 }

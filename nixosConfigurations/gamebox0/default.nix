@@ -1,6 +1,7 @@
 {pkgs, inputs, ...}:
 let
   sysID = "gamebox0";
+  publicSshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJB6woywk5BcJjvvlEvxaUNMaCMgqZlWSwVGOJkLg5Eq gamebox0@gamebox0"; 
 in
 {
   imports = with inputs.self.nixosModules; [
@@ -34,6 +35,7 @@ in
     asus-gu603.enable = true;
     commonSystem.enable = true;
     commonSystem.userName = sysID;
+    commonSystem.sshKey = publicSshKey;
     commonSystem.home-manager-enable = true;
     commonSystem.home-manager-config =
       ({inputs, ...}: {

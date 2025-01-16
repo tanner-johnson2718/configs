@@ -16,6 +16,7 @@ in
   options = {
     commonSystem.enable = lib.mkEnableOption "Enable nixos common";
     commonSystem.userName = lib.mkOption { type = lib.types.str; };
+    commonSystem.sshKey = lib.mkOption { type = lib.types.str; };
     commonSystem.home-manager-enable = lib.mkEnableOption "Enable home manager common";
     commonSystem.home-manager-config = lib.mkOption {};
   };

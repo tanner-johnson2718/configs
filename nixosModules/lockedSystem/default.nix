@@ -9,6 +9,7 @@
 # - Try to get rid of unneeded users, groups, etc
 # - Log all network traffic, logins, etc 
 # - Do not allow loadable kernel module
+# - Definetly more stuff like this ^^ exists
 
 {config, lib, ...}:
 let
@@ -17,7 +18,7 @@ in
 {
   options = {
     lockedSystem.enable = lib.mkEnableOption "Enable Locked System Module";
-    lockedSystem.sshKey = lib.mkOption { type = lib.types.str; };
+    lockedSystem.sshLoginKey = lib.mkOption { type = lib.types.str; };
   };    
 
   config = lib.mkIf cfg.enable {
@@ -49,8 +50,11 @@ in
       allowSFTP = false;
     };
 
+    users.users.root.hashedPassword = "";
     users.mutableUsers = false;
-    users.users."root".openssh.authorizedKeys.keys = [ cfg.sshKey ];
+    users.users."root".openssh.authorizedKeys.keys = [ cfg.sshLoginKey ];
+    services.openssh.settings.PermitEmptyPasswords = "yes";
+    security.pam.services.sshd.allowNullPassword = true;
 
     networking.firewall = 
     {
