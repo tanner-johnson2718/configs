@@ -6,7 +6,6 @@ let
 in
 {
   imports = with inputs.self.nixosModules; [
-    lockedSystem
     gitea-server
   ];
 
@@ -18,9 +17,10 @@ in
       memorySize = 1024;
       forwardPorts = [
 	 { from = "host"; host.port = 2222; guest.port = 22; }
+	 { from = "host"; host.port = 2323; guest.port = 23; }
 	 { from = "host"; host.port = 8080; guest.port = 80; }
       ];
-      qemu.consoles = lib.mkForce [];
+      # qemu.consoles = lib.mkForce [];
     };
 
     # This is a user defined attribute that defines a derivation to be exposed
@@ -29,7 +29,8 @@ in
     system.build.runTarget = gitea-server-qemu0.config.system.build.vm;
 
     gitea-server.enable = true;
-    gitea-server.sshPort = 22;
+    gitea-server.gitSshPort = 22;
+    gitea-server.sshPort = 23;
     gitea-server.httpPort = 80;
     gitea-server.domain = "localhost";
     gitea-server.sshLoginKey = gamebox0.config.commonSystem.sshKey; 

@@ -1,6 +1,6 @@
 # Module to wrap a gitea server with mkdocs support..
 
-{config, lib, ...}:
+{config, lib, pkgs, ...}:
 let
   cfg = config.gitea-server;
 in
@@ -16,6 +16,10 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    environment.systemPackages = with pkgs; [
+      lsof
+    ];
+
     services.gitea = {
       enable = true;
       stateDir = "/var/lib/gitea";
@@ -32,11 +36,21 @@ in
 	session.COOKIE_SECURE = true;
 	service.DISABLE_REGISTRATION = true;
 	server.SSH_PORT = cfg.gitSshPort;
-	server.PROTOCOL = "https";
 	server.HTTP_PORT = cfg.httpPort;
 	server.DOMAIN = cfg.domain;
 	log.level = "Info";
       };  
+    };
+
+    services.nginx = {
+      enable = true;    
+      recommendedGzipSettings = true;
+      recommendedOptimisation = true;
+      recommendedProxySettings = true;
+      recommendedTlsSettings = true;
+      virtualHosts."${cfg.domain}" = {
+        locations."/".proxyPass = "http://localhost:${builtins.toString cfg.httpPort}/";
+      };
     };
 
     services.openssh =
