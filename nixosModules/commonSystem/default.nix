@@ -17,6 +17,7 @@ in
     commonSystem.enable = lib.mkEnableOption "Enable nixos common";
     commonSystem.userName = lib.mkOption { type = lib.types.str; };
     commonSystem.sshKey = lib.mkOption { type = lib.types.str; };
+    commonSystem.hashedPassword = lib.mkOption { type = lib.types.str; };
     commonSystem.home-manager-enable = lib.mkEnableOption "Enable home manager common";
     commonSystem.home-manager-config = lib.mkOption {};
   };
@@ -46,10 +47,12 @@ in
       LC_TIME = "en_US.UTF-8";
     };
 
-     users.users."${cfg.userName}" = {
+    users.mutableUsers = false; 
+    users.users."${cfg.userName}" = {
       isNormalUser = true;
       description = "Mono User";
       extraGroups = [ "networkmanager" "wheel" "dialout" ];
+      hashedPassword = cfg.hashedPassword;
     };
 
     home-manager = lib.mkIf cfg.home-manager-enable {

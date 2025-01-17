@@ -211,12 +211,11 @@ rec {
       (name: pkgs.callPackage (import (pkgs.lib.path.append dir name)){})
     );
 
-  # TODO will this even work with gamebox0? What about PI images?
   # Take as input an attr set (of nixosConfigurations) and produce a package
-  # that runs the vm target of that nixconfiguration.
-  config2VmRunPackage = confs: pkgs:
+  # that runs the target "config.system.build.pkgTarget" for that closure
+  config2RunPackage = confs: pkgs:
     (pkgs.lib.genAttrs
       (attrNames confs)
-      (name: confs."${name}".config.system.build.vm)
+      (name: confs."${name}".config.system.build.runTarget)
     );
 }

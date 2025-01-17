@@ -19,6 +19,7 @@ in
   options = {
     lockedSystem.enable = lib.mkEnableOption "Enable Locked System Module";
     lockedSystem.sshLoginKey = lib.mkOption { type = lib.types.str; };
+    lockedSystem.hashedPassword = lib.mkOption { type = lib.types.str; };
   };    
 
   config = lib.mkIf cfg.enable {
@@ -50,11 +51,9 @@ in
       allowSFTP = false;
     };
 
-    users.users.root.hashedPassword = "";
+    users.users.root.hashedPassword = cfg.hashedPassword;
     users.mutableUsers = false;
     users.users."root".openssh.authorizedKeys.keys = [ cfg.sshLoginKey ];
-    services.openssh.settings.PermitEmptyPasswords = "yes";
-    security.pam.services.sshd.allowNullPassword = true;
 
     networking.firewall = 
     {

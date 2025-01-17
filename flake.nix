@@ -10,7 +10,7 @@
       dir2Set
       dir2ConfigsSet
       dir2PackageSet
-      config2VmRunPackage;
+      config2RunPackage;
     inherit (inputs.nixpkgs) lib;
     pkgs = inputs.nixpkgs.legacyPackages;
   in
@@ -22,7 +22,7 @@
     nixosConfigurations      = dir2ConfigsSet inputs ./nixosConfigurations;
     packages = {
       "x86_64-linux"  = (dir2PackageSet pkgs."x86_64-linux"  ./packages)
-	// config2VmRunPackage inputs.self.nixosConfigurations pkgs."x86_64-linux";
+	// config2RunPackage inputs.self.nixosConfigurations pkgs."x86_64-linux";
       "aarch64-linux" = dir2PackageSet pkgs."aarch64-linux" ./packages;
     };  
     helpers                  = import ./helpers.nix;
