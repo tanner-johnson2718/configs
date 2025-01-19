@@ -22,36 +22,18 @@ in
 
     services.gitea = {
       enable = true;
-      stateDir = "/var/lib/gitea";
-
-      # Dump is used to generate backups
-      dump = {
-	enable = true;
-	type = "tar.gz";
-	interval = "weekly";
-	file = "gitea-bak.tar.gz";
-      };
-
       settings = {
-	session.COOKIE_SECURE = true;
-	service.DISABLE_REGISTRATION = true;
 	server.SSH_PORT = cfg.gitSshPort;
-	server.HTTP_PORT = cfg.httpPort;
-	server.DOMAIN = cfg.domain;
-	log.level = "Info";
+	server.HTTP_PORT = 3001;
       };  
     };
 
-    services.nginx = {
-      enable = true;    
-      recommendedGzipSettings = true;
-      recommendedOptimisation = true;
-      recommendedProxySettings = true;
-      recommendedTlsSettings = true;
-      virtualHosts."${cfg.domain}" = {
-        locations."/".proxyPass = "http://localhost:${builtins.toString cfg.httpPort}/";
-      };
-    };
+    #services.nginx = {
+    #  enable = true;    
+    #  virtualHosts."${cfg.domain}" = {
+    #    locations."/".proxyPass = "http://localhost:3001/";
+    #  };
+    #};
 
     services.openssh =
     {
@@ -87,7 +69,7 @@ in
 
     networking.firewall = 
     {
-      enable = true;
+      enable = false;
       allowPing = false;
       rejectPackets = false;
       filterForward = false;

@@ -44,7 +44,48 @@ traveling wave are given below.
 
 **Code**
 
-• wave.py just allows you to play with wave form, frequency, etc.
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.animation as animation
+
+# initial conditions
+k = 2.0
+w = 2.0
+x_m = 10.0
+
+# wave form)
+def h(s):
+    if s > -10 and s < -9:
+        return .5
+    return 0
+
+# Time, Space / simulation parameters
+dt = .01
+dx = .01
+t_end = 1000
+t = np.arange(0,t_end, dt)
+x = np.arange(-x_m,x_m, dx)
+
+# Compute dynamics
+y = []
+for i in range(0, t_end):
+    y.append(list(map(lambda x: h(k*x - w*t[i]), x)))
+
+# Animate
+fig, ((ax)) = plt.subplots(1,1)
+ax.set_ylim(bottom=-1,top=1)
+ax.set_xlim(left=-x_m,right=x_m)
+line, = ax.plot([], [], lw=3)
+ax.grid(1)
+
+def animate(i):
+    line.set_data(x, y[i])
+    return line, 
+
+anim = animation.FuncAnimation(fig, animate, interval=5, blit=True)
+plt.show()
+```
 
 ## Energy
 
@@ -102,9 +143,172 @@ $$
 
 **Code:**
 
-* elastic.py simulates a rope as a series of point masses connected via springs. Can set init speed 
-  and velocity of masses. Results show that \(F_{y}=-kdy\) and \(U=.5kdy^{2}\) are the correct forms 
-  of force and potential and they lead to conservation of energy. 
+```python
+# Elastic Model) Model a string as a series of point masses connected by
+# Springs with constant string stiffness. We will approximate the dynamics
+# such that a mass only feels it two neighbors and is of course only free
+# to move in the dir. Also use the approximation that F = -k dy
+
+# Weirdness: If you calc U as U = .25 * k * dy^2 then you get conservatoin of energy?
+
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.animation as animation
+from time import sleep
+
+# Params
+N_nodes = 50
+dt = .01
+dx = .1
+t_end = 100
+L = dx * N_nodes
+N_iter = int(t_end / dt)
+m_node = 1.0
+k = .5            # spring stiffness
+fixed_BD = 1
+
+# The update function to calculate the upwards or downward accel of a mass.
+# Assumes F = -kdy
+def calc_accel1(y, i, j):
+    # calculate differnce forward
+    dy_forward = 0
+    if not j == N_nodes-1:
+        dy_forward = y[i-1][j] - y[i-1][j+1]
+
+    # calculate backward difference
+    dy_backward = 0
+    if not j == 0:
+        dy_backward = y[i-1][j] - y[i-1][j-1]
+
+    # Calculate force
+    F_forward  = -1.0*k*(dy_forward)
+    F_backward = -1.0*k*(dy_backward)
+
+    # For fixed boundary conditions, the outer nodes feel no acceleration
+    if fixed_BD and (j==0 or j==N_nodes-1):
+        return 0
+
+    # Update accel
+    return (F_backward + F_forward) / m_node
+
+# The update function to calculate the upwards or downward accel of a mass.
+# Assumes F = -k (dl - dx) (dy/dl)
+def calc_accel2(y, i, j):
+    # calculate differnce forward
+    dy_forward = 0
+    if not j == N_nodes-1:
+        dy_forward = y[i-1][j] - y[i-1][j+1]
+
+    # calculate backward difference
+    dy_backward = 0
+    if not j == 0:
+        dy_backward = y[i-1][j] - y[i-1][j-1]
+
+    # Calculate size of stretched segment
+    dl_forward = np.sqrt(dx*dx + dy_forward*dy_forward)
+    dl_backward = np.sqrt(dx*dx + dy_backward*dy_backward)
+
+    # Calculate force
+    F_forward  = -1.0*k*(dl_forward - dx) * dy_forward / dl_forward
+    F_backward = -1.0*k*(dl_backward - dx) * dy_backward / dl_backward
+
+    # For fixed boundary conditions, the outer nodes feel no acceleration
+    if fixed_BD and (j==0 or j==N_nodes-1):
+        return 0
+
+    # Update accel
+    return (F_backward + F_forward) / m_node
+
+def f_init(x):
+    return 2.0*np.sin(2 * np.pi * x / L)
+
+def g_init(x):
+    return 0
+
+# Set the initial wave form, will not use generator to drive wave
+y_init = np.zeros(N_nodes)
+for i in range(0,N_nodes):
+    y_init[i] = (f_init(i*dx))
+
+# Set the initial velocity at each point.
+v_init = np.zeros(N_nodes)
+for i in range(0, N_nodes):
+    v_init[i] = g_init(i*dx)
+
+# Run the simulation. For each point in time, and for each point, calculate the force on each particle
+# due to its neighbor, then simulate the dynamics from there.
+
+y = list()
+v = list()
+y.append(y_init)
+v.append(v_init)
+
+U = np.zeros(N_iter)
+K = np.zeros(N_iter)
+E = np.zeros(N_iter)
+
+for i in range(1, N_iter):
+    y.append(np.zeros(N_nodes))
+    v.append(np.zeros(N_nodes))
+
+    # Calc last iters U and K
+    for j in range(0, N_nodes):
+        K[i] += .5 * m_node * v[i-1][j]*v[i-1][j]
+
+        dy = 0
+        if not j == 0:
+            dy = y[i-1][j] - y[i-1][j-1]
+
+        U[i] += .5 * k * (dy*dy)
+        E[i] = K[i]+U[i]
+
+    # Calc new pos and vel
+    for j in range(0, N_nodes):
+        # Update accel
+        a = calc_accel1(y, i, j)
+
+        # velocity update
+        v[i][j] += v[i-1][j] + (a * dt)
+
+        # Pos update
+        y[i][j] += y[i-1][j] + (v[i][j] * dt)
+
+# Animate
+x = np.zeros(N_nodes)
+for i in range(0, N_nodes):
+    x[i] = i*dx
+
+t = np.zeros(N_iter)
+for i in range(0, N_iter):
+    t[i] = i*dt
+
+fig, ((ax), (ax2)) = plt.subplots(2,1)
+
+ax.set_ylim(bottom=-1,top=1)
+ax.set_xlim(left=0,right=L)
+scat = ax.scatter(x, y[0])
+ax.grid(1)
+
+ax2.set_ylim(bottom=0,top=max(E)+.1)
+ax2.set_xlim(left=0,right=t_end)
+lineU, = ax2.plot([], [])
+lineU.set_label('U')
+lineK, = ax2.plot([],[])
+lineK.set_label('K')
+lineE, = ax2.plot([], [])
+lineE.set_label('E')
+ax2.legend()
+
+def animate(i):
+    scat.set_offsets(np.c_[x,y[i]])
+    lineU.set_data(t[0:i], U[0:i])
+    lineK.set_data(t[0:i], K[0:i])
+    lineE.set_data(t[0:i], E[0:i])
+    return scat, lineU, lineK, lineE, 
+
+anim = animation.FuncAnimation(fig, animate, interval=5, blit=True)
+plt.show()
+```
 
 ## Deriving the 1D Wave Equation
 
@@ -223,3 +427,129 @@ Where \(y'_{m}=e^{i(\alpha-\beta)/2}\) and \(\gamma=\frac{\alpha+\beta}{2}\).
 
 * Standing Waves
 * Reasonance
+
+## 1D wave EQ solution code
+
+```python
+# script contains functions for visuaulizing the 1D wave equation u_tt = c^2 u_xx + F(x,t)
+# with u(0,x) = f(x) and u_t(0,x) = g(x). We will also assume no BD cond and
+# will solve for x on the entire plane.
+
+# solution and visualization using D'Alemberts solution i.e. u(t,x) = p(x-ct) + q(x+ct)
+# in other words the solution is a superposition of a left and right ward moving standing wave
+
+from util import uniform, moving_plot
+import scipy.integrate as integrate
+import math
+import numpy as np
+
+def solver(max_t, n_t, min_x, max_x, n_x, f, g, F, c):
+	xs = uniform(min_x, max_x, n_x)
+	ts = uniform(0, max_t, n_t)
+	u = np.zeros((n_t, n_x))
+
+	i = 0
+	j = 0
+	for t in ts:
+		j = 0
+		for x in xs:
+			quad = integrate.quad(g, x - c*t, x + c*t)
+
+
+			def lower(s):
+				return x - c * (t-s)
+			def upper(s):
+				return x + c * (t-s)
+			quad_F = integrate.dblquad(F, 0, t, lower, upper)
+
+
+			u[i][j] = f(x - c*t) + f(x + c *t) + ((1.0 / (2.0 * c)) * (quad[0] + quad_F[0]))
+			j += 1
+		i+= 1
+
+	moving_plot(u, xs, ts)
+
+def f(x):
+	return 0
+
+def g(x):
+	return 0
+
+def F(x,t):
+	return math.sin(2*t) * math.sin(x)
+
+
+solver(10, 100, -10, 10, 100, f, g, F, 2)
+```
+
+## SHM Code
+
+```python
+# SHM animation. i.e. show dynamics of a(t) = -(k/m) x(t). Show occilator,
+# pos, vel, and accel as func of time, show K and U as func of time,
+
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.animation as animation
+
+# initial conditions
+x_m = 1.0
+k = 1.0
+m = 1.0
+w = np.sqrt(k/m)
+
+# Time / simulation parameters
+dt = .01
+t_end = int(4*(2*np.pi / w))
+t = np.arange(0,t_end, dt)
+
+# Compute dynamics
+x = list( map(lambda t : x_m*np.cos(w*t), t) )
+v = list( map(lambda t : -1.0*w*x_m*np.sin(w*t), t) )
+a = list( map(lambda t : -1.0*w*w*x_m*np.cos(w*t), t) )
+
+K = list(map(lambda t : .5*m*w*w*x_m*x_m*np.sin(w*t)*np.sin(w*t), t))
+U = list(map(lambda t : .5*k*x_m*x_m*np.cos(w*t)*np.cos(w*t), t))
+
+fig2, ((ax), (ax2), (ax3)) = plt.subplots(3,1)
+
+ax.grid(1)
+ax.set_xlim(left=-x_m,right=x_m)
+scat = ax.scatter(x[0], 0, s=50)
+qF = ax.quiver([0], [0], [m*a[0]], [0], color='g')
+
+ax2.set_ylim(bottom=-x_m*max(1,w,w*w),top=x_m*max(1,w,w*w))
+ax2.set_xlim(left=0,right=t_end)
+ax2.grid(1)
+line2, = ax2.plot([], [], lw=3)
+line2.set_label("Pos")
+line3, = ax2.plot([], [], lw=3)
+line3.set_label("Vel")
+line4, = ax2.plot([], [], lw=3)
+line4.set_label("Accel")
+ax2.legend()
+
+ax3.set_ylim(bottom=0,top=.5*k*x_m*x_m)
+ax3.set_xlim(left=0,right=t_end)
+ax3.grid(1)
+line6, = ax3.plot([], [], lw=3)
+line6.set_label("U")
+line5, = ax3.plot([], [], lw=3)
+line5.set_label("K")
+
+ax3.legend()
+
+def animate2(i):
+    line2.set_data(t[0:i], x[0:i] )
+    line3.set_data(t[0:i], v[0:i] )
+    line4.set_data(t[0:i], a[0:i])
+    line5.set_data(t[0:i], K[0:i])
+    line6.set_data(t[0:i], U[0:i])
+    scat.set_offsets((x[i], 0))
+    qF.set_UVC([m*a[i]], [0])
+    return (line2, line3,line4, line5, line6, scat, qF)
+
+anim = animation.FuncAnimation(fig2, animate2, interval=5, blit=True)
+
+plt.show()
+```
