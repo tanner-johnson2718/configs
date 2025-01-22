@@ -97,7 +97,7 @@ let
     mkdocs-jupyter
   ]);
 in
-pkgs.writeScriptBin "buildDocs" ''
+pkgs.writeScriptBin "mkdocs-generator" ''
 	mkdir ./docs/rendered_images
 	echo "${yml siteName theme colorScheme}" > ./mkdocs.yml
 	echo '${dir2Index ../../docs 1}' > ./docs/index.md

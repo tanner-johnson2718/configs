@@ -13,5 +13,6 @@ jobs:
         with:
           python-version: 3.x
       - run: pip install mkdocs
-      - run: nix run .#mkdocs-generator
+      - run: nix build .#mkdocs-generator
+      - run: ./result/bin/mkdocs-generator
       - run: mkdocs gh-deploy --force --clean --verbose
