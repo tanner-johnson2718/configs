@@ -1,40 +1,28 @@
-# Module to wrap a gitea server with mkdocs support..
+# Configure the users, ssh daemon, firewall, etc in strict manner such that
+# the network attack surface is minimal. The following policies are implemented
+# by this module:
+# 
+# TODO Verify all these
+# - Root user with no password and ssh auth from a single key only
+# - Only allow port 22 on ssh and port 80 HTTPS traffic
+# - Disable all unneeded services
+# - Try to get rid of unneeded users, groups, etc
+# - Log all network traffic, logins, etc 
+# - Do not allow loadable kernel module
+# - Definetly more stuff like this ^^ exists
 
-{config, lib, pkgs, ...}:
+{config, lib, ...}:
 let
-  cfg = config.gitea-server;
+  cfg = config.lockedSystem;
 in
 {
   options = {
-    gitea-server.enable = lib.mkEnableOption "Enable the gitea server module";
-    gitea-server.sshPort = lib.mkOption { type = lib.types.port; };
-    gitea-server.gitSshPort = lib.mkOption { type = lib.types.port; };
-    gitea-server.httpPort = lib.mkOption { type = lib.types.port; };
-    gitea-server.domain = lib.mkOption { type = lib.types.str; };
-    gitea-server.sshLoginKey = lib.mkOption { type = lib.types.str; };
-    gitea-server.hashedPassword = lib.mkOption { type = lib.types.str; };
-  };
+    lockedSystem.enable = lib.mkEnableOption "Enable Locked System Module";
+    lockedSystem.sshLoginKey = lib.mkOption { type = lib.types.str; };
+    lockedSystem.hashedPassword = lib.mkOption { type = lib.types.str; };
+  };    
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [
-      lsof
-    ];
-
-    services.gitea = {
-      enable = true;
-      settings = {
-	server.SSH_PORT = cfg.gitSshPort;
-	server.HTTP_PORT = 3001;
-      };  
-    };
-
-    #services.nginx = {
-    #  enable = true;    
-    #  virtualHosts."${cfg.domain}" = {
-    #    locations."/".proxyPass = "http://localhost:3001/";
-    #  };
-    #};
-
     services.openssh =
     {
       startWhenNeeded = true;
@@ -51,7 +39,7 @@ in
       settings.AuthorizedPrincipalsFile = "none";
       settings.AllowUsers = [ "root" ];
       settings.AllowGroups = [ "root" ];
-      ports = [ cfg.sshPort ];
+      ports = [ 22 ];
       openFirewall = false;
       enable = true;
       banner = ''
@@ -69,16 +57,12 @@ in
 
     networking.firewall = 
     {
-      enable = false;
+      enable = true;
       allowPing = false;
       rejectPackets = false;
       filterForward = false;
       allowedUDPPorts = lib.mkForce [];
-      allowedTCPPorts = [ 
-	cfg.sshPort
-	cfg.gitSshPort
-	cfg.httpPort
-      ];
+      allowedTCPPorts = [ 22 80 ];
       checkReversePath = "strict";
       trustedInterfaces = lib.mkForce [];
       logRefusedPackets = true;
