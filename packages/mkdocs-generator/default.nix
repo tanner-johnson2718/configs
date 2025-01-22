@@ -28,9 +28,9 @@
 # TODO ' chars break it because of the echo '<index.md content>' command
 # TODO replace the last modified date with the abstract from the page.
 # TODO Generate docs from comments of Nix modules?
-# TODO Doc this module better
+# TODO Doc this package better
 
-{inputs, pkgs, lib, config, ... }:
+{pkgs, lib}:
 let
   inherit (builtins) readDir readFile toString attrNames foldl' filter;
   inherit (lib.path) append;
@@ -38,7 +38,10 @@ let
   inherit (lib.filesystem) pathIsDirectory;
   inherit (lib.strings) hasSuffix splitString replicate concatMapStrings;
   inherit (lib.lists) last sublist removePrefix;
-  cfg = config.mkdocs;
+  
+  siteName = "Mono";
+  theme = "readthedocs";
+  colorScheme = "dark";
 
   yml = siteName: theme: colorScheme: ''
     site_name: ${siteName}
@@ -94,60 +97,17 @@ let
     mkdocs-jupyter
   ]);
 in
-{
-  options = with lib.types; {
-    mkdocs.enable = lib.mkEnableOption "Enable Module";
-    mkdocs.siteName = lib.mkOption {
-      type = str;
-      default = "My Docs";
-    };
-    mkdocs.ip = lib.mkOption { 
-      type = str;
-      default = "127.0.0.1";
-    };
-    mkdocs.port = lib.mkOption { 
-      type = str;
-      default = "8000";
-    };
-    mkdocs.colorScheme = lib.mkOption {
-      type = enum ["light" "dark" "auto"];
-      default = "dark";
-    };
-    mkdocs.theme = lib.mkOption {
-      type = enum [ "readthedocs" "mkdocs" ];
-      default = "readthedocs";
-    };
-    mkdocs.workingDir = lib.mkOption {
-      type = str;
-      default = "/var/mkdocs";
-    };
-    mkdocs.docsDir = lib.mkOption {
-      type = path;
-    };
-  };
-
-  config = lib.mkIf cfg.enable {
-    systemd.services.mkdocs = {
-      enable = true;
-      description = "Service to run backend of mkdocs";
-      wantedBy = [ "multi-user.target" ];
-      serviceConfig = { Type = "simple"; };
-      path = [ pkgs.drawio-headless ];
-      script = ''
-	cd ${cfg.workingDir}
-	rm -rf ./*
-	mkdir ./docs
+pkgs.writeScriptBin "buildDocs" ''
 	mkdir ./docs/rendered_images
-	echo "${yml cfg.siteName cfg.theme cfg.colorScheme}" > ${cfg.workingDir}/mkdocs.yml
-	cp -r ${cfg.docsDir}/* ${cfg.workingDir}/docs
-	echo '${dir2Index cfg.docsDir 1}' > ${cfg.workingDir}/docs/index.md
+	echo "${yml siteName theme colorScheme}" > ./mkdocs.yml
+	echo '${dir2Index ../../docs 1}' > ./docs/index.md
 	
 	# Break index into lines
 	lines=()
 	IFS=$'\n'
 	while read line; do
 	  lines+=($line)
-	done < ${cfg.workingDir}/docs/index.md
+	done < ./docs/index.md
 	unset IFS
 	
 	# Go over each line and look 2 lines ahead, if we see the pattern)
@@ -181,7 +141,7 @@ in
 	echo "''${line_1}" >> _index.md
 	echo "''${line_2}" >> _index.md
 
-	sed -i "s/\#docs/\# ${cfg.siteName}/" _index.md
+	sed -i "s/\#docs/\# ${siteName}/" _index.md
 
 	mv _index.md ./docs/index.md 
   
@@ -189,9 +149,4 @@ in
 	do
 	  drawio -x -f svg $i -o ./docs/rendered_images/$(basename $i | tr -d '.drawio').svg --no-sandbox
 	done
-
-	${myenv}/bin/mkdocs serve -a ${cfg.ip}:${cfg.port}
-      '';
-    };
-  };
-}
+      ''
