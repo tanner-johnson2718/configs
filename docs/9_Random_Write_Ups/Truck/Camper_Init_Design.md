@@ -1,1 +1,3 @@
-![](../../rendered_images/Camper_Floor_Plan.svg)
+# Camper Init Design
+
+![](./floor.svg)

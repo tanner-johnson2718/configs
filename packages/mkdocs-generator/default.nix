@@ -17,18 +17,16 @@
 # of the topic and/or the contents of the docs in the directory this file is
 # contained in. Then for each markdown file in a given, a table is generated
 # linking to that file. Finally, for every .drawio file we have, we generate
-# an .svg of that drawio file and place it in a dir at <base>/docs/rendered_images
-# This image can then be referened in your markdown files.
+# an .svg of that drawio file and place it in the dir of the drawio file, 
+# replacing the extension with .svg. 
 
 # TODO Link Checker
 # TODO get rid of secondary lhs drop down menu thing
-# TODO allow for references to drawio files and rename as naming collision could
-#      be an issue
 # TODO Can we increase column width? My GDB Table is being cut off
 # TODO ' chars break it because of the echo '<index.md content>' command
 # TODO replace the last modified date with the abstract from the page.
-# TODO Generate docs from comments of Nix modules?
-# TODO Doc this package better
+# TODO Generate docs from comments of Nix modules / confs?
+# TODO create a nix shell for launching
 
 {pkgs, lib}:
 let
@@ -98,7 +96,6 @@ let
   ]);
 in
 pkgs.writeScriptBin "mkdocs-generator" ''
-	mkdir ./docs/rendered_images
 	echo "${yml siteName theme colorScheme}" > ./mkdocs.yml
 	echo '${dir2Index ../../docs 1}' > ./docs/index.md
 	
@@ -147,6 +144,9 @@ pkgs.writeScriptBin "mkdocs-generator" ''
   
 	for i in $(find ./docs -name "*.drawio")
 	do
-	  ${pkgs.drawio-headless}/bin/drawio -x -f svg $i -o ./docs/rendered_images/$(basename $i | tr -d '.drawio').svg --no-sandbox
+	  pushd . &> /dev/null
+	  cd $(dirname $i)
+	  ${pkgs.drawio-headless}/bin/drawio -x -f svg $(basename $i) -o $(basename $i '.drawio').svg --no-sandbox
+	  popd &> /dev/null
 	done
       ''
