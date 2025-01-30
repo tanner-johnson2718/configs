@@ -27,6 +27,7 @@
 # TODO replace the last modified date with the abstract from the page.
 # TODO Generate docs from comments of Nix modules / confs?
 # TODO create a nix shell for launching
+# TODO need to have atleast two mds in a dir??
 
 {pkgs, lib}:
 let
