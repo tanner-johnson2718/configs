@@ -10,6 +10,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: cachix/install-nix-action@v18
       - uses: actions/setup-python@v2
+      - uses: Burnett01/actions-drawio@1.
         with:
           python-version: 3.x
       - run: pip install mkdocs
