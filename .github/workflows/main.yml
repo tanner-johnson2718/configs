@@ -16,6 +16,7 @@ jobs:
       - run: pip install mkdocs
       - run: pip install mkdocs-jupyter
       - run: pip install python-markdown-math
+      - run: export NIXPKGS_ALLOW_UNFREE=1
       - run: nix build .#mkdocs-generator
       - run: ./result/bin/mkdocs-generator
       - run: mkdocs gh-deploy --force --clean --verbose
