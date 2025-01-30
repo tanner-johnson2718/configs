@@ -147,6 +147,6 @@ pkgs.writeScriptBin "mkdocs-generator" ''
   
 	for i in $(find ./docs -name "*.drawio")
 	do
-	  drawio -x -f svg $i -o ./docs/rendered_images/$(basename $i | tr -d '.drawio').svg --no-sandbox
+	  ${pkgs.drawio-headless}/bin/drawio -x -f svg $i -o ./docs/rendered_images/$(basename $i | tr -d '.drawio').svg --no-sandbox
 	done
       ''
