@@ -1,5 +1,0 @@
-config BR2_PACKAGE_SYSCALL
-    bool "syscall"
-    default y
-    help
-     Enter short description here
