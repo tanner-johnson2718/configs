@@ -4,17 +4,21 @@ Lets start with the mininum requirements:
 
 * Bed space
 * Heater - Will mount this underneath the truck on passenger side 
-* Water System (Externally acessible)
+* Water System (Externally accessible)
 * 12v Fridge / Freezer
 * Desk
 * Kitchen Area
-* Propane (Externally acessible)
+* Propane (Externally accessible)
+* Can fully stand up in most of the camper
 
 ## Floor Plan
 
 The initial floor plan is something like the following:
 
 ![](./floor.svg)
+
+The key Parameters are the following, we list here as these might change and these will
+be the first values we port into CAD.
 
 | Parameter | Value | Note |
 | --- | --- | --- |
@@ -49,3 +53,21 @@ The floor plan gives us a good overview but lets look at the rear profile, this 
 define our door / entrance and our roof profile:
   
 ![](./back.svg)
+
+Again the key parameters here are:
+
+| Parameter | Value | Note |
+| --- | --- | --- |
+| Center Height | 80" | This is the single most important height measurement. Given the roof profile this needs to be sufficently larger than 72" so as to create a "head pocket" along the center of the camper. |
+| Wall Height | 64" | This measurement defines the slope of the roof. Made this roughly eye level. I think a few extra inches here is gonna greatly affect the feeling of spaciousness in the camper. |
+| Rail Height | 20.5" | - |
+| Truck Bed Height | 31" | - |
+| Clearance | 108" | Sum of Rail Height and Truck Bed Height |
+
+* A key concept here is the notion of the **head pocket**, which is the volume of the interior of the camper where the ceiling is taller than 72".
+* The next most important concept is the **roof slope** whose definition is self evident.
+    * 4/12 is the mininum for metal roofing and 4/12 to 9/12 is the standard
+    * Right now have a slope of 5/12 but can see wanting to increase this for asthectics and water shedding.
+* Finally **clearance** is the last key value to consider for the rear profile
+    * The camper is already gonna be tall.
+    * Willing to add ~6" here it greatly improves the looks or feel of the camper.
