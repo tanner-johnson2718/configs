@@ -29,5 +29,8 @@ The initial floor plan is something like the following:
 * Overhead storage
     * Half Hanger / Clothes
     * Other half cubbies
-
+  
+The floor plan gives us a good overview but lets look at the rear profile, this will
+define our door / entrance and our roof profile:
+  
 ![](./back.svg)
