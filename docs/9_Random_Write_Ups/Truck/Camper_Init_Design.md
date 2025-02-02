@@ -58,8 +58,8 @@ Again the key parameters here are:
 
 | Parameter | Value | Note |
 | --- | --- | --- |
-| Center Height | 80" | <ul><li>This is the single most important height measurement</li><li>Needs to be sufficently larger than 72" so as to create a "head pocket" along the center of the camper</li></ul> |
-| Wall Height | 64" | This measurement defines the slope of the roof. Made this roughly eye level. I think a few extra inches here is gonna greatly affect the feeling of spaciousness in the camper. |
+| Center Height | 80" | <ul><li>This is the single most important height measurement</li><li>Needs to be larger than 72" so as to create a "head pocket".</li></ul> |
+| Wall Height | 64" | <ul><li>This measurement defines the slope of the roof.</li><li>Made this roughly eye level.</li><li>I think a few extra inches here is gonna greatly affect the feeling of spaciousness in the camper.<\li></ul> |
 | Rail Height | 20.5" | - |
 | Truck Bed Height | 31" | - |
 | Clearance | 108" | Sum of Rail Height and Truck Bed Height |
