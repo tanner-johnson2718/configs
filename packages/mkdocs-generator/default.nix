@@ -23,7 +23,7 @@
 # TODO Link Checker
 # TODO get rid of secondary lhs drop down menu thing
 # TODO ' chars break it because of the echo '<index.md content>' command
-# TODO replace the last modified date with the abstract from the page.
+# TODO replace the last modified date with the title from the page.
 # TODO Generate docs from comments of Nix modules / confs?
 # TODO create a nix shell for launching
 # TODO need to have atleast two mds in a dir??

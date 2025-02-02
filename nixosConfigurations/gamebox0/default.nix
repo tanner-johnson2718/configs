@@ -11,7 +11,6 @@ in
     gnome
     nvidiaPrime
     yubi
-    mkdocs
   ];
 
   config = {
@@ -36,7 +35,6 @@ in
       yubioath-flutter
       wireshark
       qbittorrent
-      freecad
       drawio
     ];
     
