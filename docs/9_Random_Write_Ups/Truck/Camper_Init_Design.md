@@ -58,7 +58,7 @@ Again the key parameters here are:
 
 | Parameter | Value | Note |
 | --- | --- | --- |
-| Center Height | 80" | This is the single most important height measurement. Given the roof profile this needs to be sufficently larger than 72" so as to create a "head pocket" along the center of the camper. |
+| Center Height | 80" | <ul><li>This is the single most important height measurement</li><li>Needs to be sufficently larger than 72" so as to create a "head pocket" along the center of the camper</li></ul> |
 | Wall Height | 64" | This measurement defines the slope of the roof. Made this roughly eye level. I think a few extra inches here is gonna greatly affect the feeling of spaciousness in the camper. |
 | Rail Height | 20.5" | - |
 | Truck Bed Height | 31" | - |
@@ -70,4 +70,4 @@ Again the key parameters here are:
     * Right now have a slope of 5/12 but can see wanting to increase this for asthectics and water shedding.
 * Finally **clearance** is the last key value to consider for the rear profile
     * The camper is already gonna be tall.
-    * Willing to add ~6" here it greatly improves the looks or feel of the camper.
+    * Willing to add ~6" here if it greatly improves the looks or feel of the camper.
