@@ -21,3 +21,10 @@ The initial floor plan is something like the following:
     * Maybe shoes
     * Maybe battery and electrical distribution?
     * Maybe just open Storage
+* Can put out water system in the kitchen/desk area "above the wing"
+* Kitchen area
+* Overhead storge
+    * Half Hanger / Clothes
+    * Other half cubbies
+
+![](./back.svg)
