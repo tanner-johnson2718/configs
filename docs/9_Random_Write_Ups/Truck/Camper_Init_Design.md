@@ -10,9 +10,22 @@ Lets start with the mininum requirements:
 * Kitchen Area
 * Propane (Externally acessible)
 
+## Floor Plan
+
 The initial floor plan is something like the following:
 
 ![](./floor.svg)
+
+| Parameter | Value | Note |
+| --- | --- | --- |
+| Width (Inner) | 76" | - |
+| Floor Length (Inner) | 75" | May need to shrink this |
+| Bed Length | 76" | Equal to "Width (Inner)" |
+| Bed Width | 38" | Adjustable bet set to twin size |
+| Floor Width | 48" | - |
+| Wing Width | 14" | - |
+| Overhead Storage Length | 24" | - |
+| Desk Depth | 24" | - |
 
 * The 48" floor is the space between the wheel wells
 * The rectangles opposite  the floor create the "wings" of the camper and will rest on the rails
@@ -29,7 +42,9 @@ The initial floor plan is something like the following:
 * Overhead storage
     * Half Hanger / Clothes
     * Other half cubbies
-  
+
+## Rear Profile
+
 The floor plan gives us a good overview but lets look at the rear profile, this will
 define our door / entrance and our roof profile:
   
