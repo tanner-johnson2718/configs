@@ -51,19 +51,19 @@ be the first values we port into CAD.
 
 The floor plan gives us a good overview but lets look at the rear profile, this will
 define our door / entrance and our roof profile:
-  
+   
 ![](./back.svg)
-
+  
 Again the key parameters here are:
-
+  
 | Parameter | Value | Note |
 | --- | --- | --- |
 | Center Height | 80" | <ul><li>This is the single most important height measurement</li><li>Needs to be larger than 72" so as to create a "head pocket".</li></ul> |
-| Wall Height | 64" | <ul><li>This measurement defines the slope of the roof.</li><li>Made this roughly eye level.</li><li>I think a few extra inches here is gonna greatly affect the feeling of spaciousness in the camper.<\li></ul> |
+| Wall Height | 64" | <ul><li>This measurement defines the slope of the roof.</li><li>Made this roughly eye level.</li><li>I think a few extra inches here is gonna go a long way.</li></ul> |
 | Rail Height | 20.5" | - |
 | Truck Bed Height | 31" | - |
 | Clearance | 108" | Sum of Rail Height and Truck Bed Height |
-
+  
 * A key concept here is the notion of the **head pocket**, which is the volume of the interior of the camper where the ceiling is taller than 72".
 * The next most important concept is the **roof slope** whose definition is self evident.
     * 4/12 is the mininum for metal roofing and 4/12 to 9/12 is the standard
@@ -71,3 +71,20 @@ Again the key parameters here are:
 * Finally **clearance** is the last key value to consider for the rear profile
     * The camper is already gonna be tall.
     * Willing to add ~6" here if it greatly improves the looks or feel of the camper.
+  
+## Side Profile
+    
+The side profile is almost defined by the floor plan and the rear profile but,
+  
+![](./side.svg)
+   
+| Parameter | Value | Note |
+| --- | --- | --- |
+| Rail to Cab | 24" | - |
+| Nose Height | 9.5" | Defined to give 5/12 slope from wall height to nose. |
+  
+* The side profile is hard to project to 2d because of the slope of the roof.
+* Showing just the wall height and ignoring the center height.
+* More appropriate to specify this in CAD.
+  
+

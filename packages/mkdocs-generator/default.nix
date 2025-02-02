@@ -22,7 +22,6 @@
 
 # TODO Link Checker
 # TODO get rid of secondary lhs drop down menu thing
-# TODO Can we increase column width? My GDB Table is being cut off
 # TODO ' chars break it because of the echo '<index.md content>' command
 # TODO replace the last modified date with the abstract from the page.
 # TODO Generate docs from comments of Nix modules / confs?
