@@ -87,4 +87,7 @@ The side profile is almost defined by the floor plan and the rear profile but,
 * Showing just the wall height and ignoring the center height.
 * More appropriate to specify this in CAD.
   
+## Exterior Siding Options
 
+* Aluminum Diamond Cut
+* Cedar Lap Planks

@@ -36,6 +36,7 @@ in
       wireshark
       qbittorrent
       drawio
+      freecad
     ];
     
     asus-gu603.enable = true;
