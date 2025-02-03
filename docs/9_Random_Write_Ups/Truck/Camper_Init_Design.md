@@ -85,9 +85,4 @@ The side profile is almost defined by the floor plan and the rear profile but,
   
 * The side profile is hard to project to 2d because of the slope of the roof.
 * Showing just the wall height and ignoring the center height.
-* More appropriate to specify this in CAD.
-  
-## Exterior Siding Options
-
-* Aluminum Diamond Cut
-* Cedar Lap Planks
+* More appropriate to specify this in CAD. 
