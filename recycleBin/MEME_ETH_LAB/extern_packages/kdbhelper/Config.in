@@ -1,6 +1,0 @@
-config BR2_PACKAGE_KDBHELPER
-    bool "kdbhelper"
-    depends on BR2_LINUX_KERNEL
-    default y
-    help
-     Enter short description here

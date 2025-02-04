@@ -1,6 +1,0 @@
-config BR2_PACKAGE_V2P
-    bool "v2p"
-    depends on BR2_LINUX_KERNEL
-    default y
-    help
-     Enter short description here

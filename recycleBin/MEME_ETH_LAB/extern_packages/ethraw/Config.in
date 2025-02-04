@@ -1,5 +1,0 @@
-config BR2_PACKAGE_ETHRAW
-    bool "ethraw"
-    default y
-    help
-     Enter short description here
