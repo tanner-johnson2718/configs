@@ -5,26 +5,42 @@
 
   outputs = {...}@inputs:
   let
+    inherit (inputs.nixpkgs) lib;
+    pkgs = inputs.nixpkgs.legacyPackages;
+    genSetOverDir = dir: f: 
+      (lib.genAttrs
+	(builtins.attrNames (builtins.readDir dir))
+	f
+      );
+      
     inherit (inputs.self.helpers) 
       dir2Set
       dir2ConfigsSet
       dir2PackageSet
-      config2RunPackage;
-    inherit (inputs.nixpkgs) lib;
-    pkgs = inputs.nixpkgs.legacyPackages;
+      ;
   in
   {
-    # TODO Good way to export esp32 code via flakes?
-    # TODO Shit is gonna get weird when we throw in aarch64 stuff
-    homeModules              = dir2Set  lib ./homeModules;
-    nixosModules             = dir2Set  lib ./nixosModules;
-    nixosConfigurations      = dir2ConfigsSet inputs ./nixosConfigurations;
-    packages = {
-      "x86_64-linux"  = (dir2PackageSet pkgs."x86_64-linux"  ./packages)
-	// config2RunPackage inputs.self.nixosConfigurations pkgs."x86_64-linux";
-      "aarch64-linux" = dir2PackageSet pkgs."aarch64-linux" ./packages;
-    };  
-    helpers                  = import ./helpers.nix;
+    homeModules = genSetOverDir 
+      ./homeModules 
+      (name: import (lib.path.append ./homeModules name));
+
+    nixosModules = genSetOverDir  
+      ./nixosModules
+      (name: import (lib.path.append ./nixosModules name));
+      
+    nixosConfigurations = genSetOverDir 
+      ./nixosConfigurations
+      (name: inputs.nixpkgs.lib.nixosSystem {
+	system = "x86_64-linux";
+	specialArgs = { inherit inputs; };
+	modules = [ 
+	  (import (inputs.nixpkgs.lib.path.append ./nixosConfigurations name)) 
+	];
+      });
+
+    packages."x86_64-linux" = genSetOverDir
+      ./packages
+      (name: pkgs.callPackage (import (pkgs.lib.path.append ./packages name)){});
   };
 }
 
