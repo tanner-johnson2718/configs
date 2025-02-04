@@ -62,7 +62,6 @@ in
       lF = "declare";
       lc = "complete";
       lv = "echo shell levl = ''$SHLVL";
-      lw = "echo 'Desktops)' ; wmctrl -d ; echo '' ; echo 'Windows)' ; wmctrl -lG";
       lu = "systemctl list-units";
 
       jctl = "journalctl";
