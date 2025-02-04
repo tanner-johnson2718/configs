@@ -34,6 +34,7 @@ in
       ignores = [
 	"*.o"
 	"*.so"
+	".FCBak"
       ];
 
       lfs.enable = true;
