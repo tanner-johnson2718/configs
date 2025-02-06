@@ -41,17 +41,6 @@ in
       loader.efi.canTouchEfiVariables = true;
     };
 
-      # OOM configuration:
-      systemd = {
-	# Create a separate slice for nix-daemon that is
-	# memory-managed by the userspace systemd-oomd killer
-	slices."nix-daemon".sliceConfig = {
-	  ManagedOOMMemoryPressure = "kill";
-	  ManagedOOMMemoryPressureLimit = "85%";
-	};
-	services."nix-daemon".serviceConfig.Slice = "nix-daemon.slice";
-
-	services."nix-daemon".serviceConfig.OOMScoreAdjust = -1000;
-      };
+    nvidiaPrime.enable = true;
   };
 }
