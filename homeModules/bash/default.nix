@@ -71,6 +71,11 @@ in
     programs.kitty = {
       enable = true;
       themeFile = "Darkside";
+      extraConfig = ''
+	map ctrl+shift+n no_op
+	map ctrl+shift+enter no_op
+	map ctrl+shift+t no_op
+      '';
     };
     
     programs.bash = {

@@ -53,11 +53,13 @@ in
 	set-option -g status-position top
 	set -g base-index 1 
 	setw -g pane-base-index 1
+	set-option -g history-limit 50000
 
 	setw -g mode-keys vi
-	bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "xclip -selection clipboard -i"
+	bind-key -T copy-mode-vi y send-keys -X copy-selection "xclip -selection clipboard -i"
 	bind-key -T copy-mode-vi v send -X begin-selection
 	bind-key -T copy-mode-vi C-v send -X rectangle-toggle
+	bind -T copy-mode-vi MouseDragEnd1Pane send -X copy-selection "xclip -selection clipboard -i"
 
 	bind-key -T copy-mode-vi C-Up send-keys -X previous-paragraph
 	bind-key -T copy-mode-vi C-Down send-keys -X next-paragraph
