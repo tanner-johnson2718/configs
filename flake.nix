@@ -12,12 +12,6 @@
 	(builtins.attrNames (builtins.readDir dir))
 	f
       );
-      
-    inherit (inputs.self.helpers) 
-      dir2Set
-      dir2ConfigsSet
-      dir2PackageSet
-      ;
   in
   {
     homeModules = genSetOverDir 

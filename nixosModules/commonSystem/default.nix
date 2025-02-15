@@ -28,8 +28,8 @@ in
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
     nix.settings.trusted-users = [ "root" "${cfg.userName}" ];
     nixpkgs.config.allowUnfree = true;
+    nixpkgs.config.allowBroken = true;
     system.stateVersion = "24.11";
-    
     networking.networkmanager.enable = lib.mkDefault true;
     networking.hostName              = lib.mkDefault cfg.userName; 
 
