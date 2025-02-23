@@ -36,6 +36,8 @@ in
       wirelesstools
       dracut
       ethtool
+      wirelesstools
+      iw
     ];
 
     home.file = { 

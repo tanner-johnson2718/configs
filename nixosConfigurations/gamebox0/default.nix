@@ -30,6 +30,7 @@ in
       qbittorrent
       drawio
       freecad
+      vlc
     ];
     
     asus-gu603.enable = true;

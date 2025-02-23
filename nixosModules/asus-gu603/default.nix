@@ -32,8 +32,17 @@ in
     swapDevices = [ ];
 
     boot = {
-      kernelPackages = pkgs.linuxPackages_6_11;
-      initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "vmd" "nvme" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
+      kernelPackages = pkgs.linuxPackages_6_12;
+      initrd.availableKernelModules = [ 
+	"xhci_pci" 
+	"thunderbolt" 
+	"vmd" 
+	"nvme"
+	"usbhid"
+	"usb_storage" 
+	"sd_mod" 
+	"sdhci_pci"
+      ];
       initrd.kernelModules = [ ];
       kernelModules = [ "kvm-intel" ];
       extraModulePackages = [ ];

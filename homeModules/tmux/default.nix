@@ -39,7 +39,6 @@ in
 	set -g prefix C-Space
 	unbind-key C-b
 	bind-key C-Space send-prefix
-	bind-key    z command-prompt
 	bind-key    v copy-mode
 	bind-key -r b previous-window
 	bind-key -r n next-window
