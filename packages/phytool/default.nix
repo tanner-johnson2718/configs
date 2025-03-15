@@ -1,6 +1,7 @@
 {
   pkgs,
-  fetchFromGitHub
+  fetchFromGitHub,
+  ...
 }:
 pkgs.stdenv.mkDerivation{
   pname = "phytool";

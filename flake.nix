@@ -17,7 +17,9 @@
     callPackageOverDir = dir: arch: 
       genSetOverDir 
 	dir
-	(name: pkgs."${arch}".callPackage (import (append ./packages name)){});
+	(name: pkgs."${arch}".callPackage (import (append ./packages name)){
+	  inherit inputs;
+	});
   in
   {
     homeModules = importOverDir ./homeModules; 
@@ -29,10 +31,14 @@
 	modules = [ (import (append ./nixosConfigurations name)) ];
       });
 
-    packages = {
-      "x86_64-linux" = callPackageOverDir ./packages "x86_64-linux";
-      "aarch64-linux" = callPackageOverDir ./packages "aarch64-linux";
-    };
+    packages = lib.genAttrs 
+      ["x86_64-linux" "aarch64-linux"]
+      (arch: callPackageOverDir ./packages arch);
+
+    
+    checks = lib.genAttrs 
+      ["x86_64-linux" "aarch64-linux"]
+      (arch: callPackageOverDir ./checks arch);
   };
 }
 
