@@ -6,35 +6,28 @@
   outputs = {...}@inputs:
   let
     inherit (inputs.nixpkgs) lib;
+    inherit (lib.path) append;
     pkgs = inputs.nixpkgs.legacyPackages;
     genSetOverDir = dir: f: 
       (lib.genAttrs
 	(builtins.attrNames (builtins.readDir dir))
 	f
       );
+    importOverDir = dir: genSetOverDir dir (name: import (append dir name));
   in
   {
-    homeModules = genSetOverDir 
-      ./homeModules 
-      (name: import (lib.path.append ./homeModules name));
-
-    nixosModules = genSetOverDir  
-      ./nixosModules
-      (name: import (lib.path.append ./nixosModules name));
-      
+    homeModules = importOverDir ./homeModules; 
+    nixosModules = importOverDir ./nixosModules;
     nixosConfigurations = genSetOverDir 
       ./nixosConfigurations
-      (name: inputs.nixpkgs.lib.nixosSystem {
-	system = "x86_64-linux";
+      (name: lib.nixosSystem {
 	specialArgs = { inherit inputs; };
-	modules = [ 
-	  (import (inputs.nixpkgs.lib.path.append ./nixosConfigurations name)) 
-	];
+	modules = [ (import (append ./nixosConfigurations name)) ];
       });
 
     packages."x86_64-linux" = genSetOverDir
       ./packages
-      (name: pkgs.callPackage (import (pkgs.lib.path.append ./packages name)){});
+      (name: pkgs."x86_64-linux".callPackage (import (append ./packages name)){});
   };
 }
 

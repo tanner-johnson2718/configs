@@ -17,6 +17,9 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    nixpkgs.hostPlatform = "x86_64-linux";
+    nixpkgs.system = "x86_64-linux";
+
     fileSystems = {
       "/" = { 
         device = "/dev/disk/by-uuid/3f986e0c-dd3e-42d8-8693-c46c02c06e94";

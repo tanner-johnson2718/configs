@@ -14,21 +14,15 @@ in
   ];
 
   config = {
-    nixpkgs.hostPlatform = "x86_64-linux";
-
     programs.steam = {
       enable = true;
       extraCompatPackages = with pkgs; [proton-ge-bin];
     };
 
     environment.systemPackages = with pkgs; [
-      discord
-      prusa-slicer
       google-chrome
       yubioath-flutter
-      wireshark
       qbittorrent
-      drawio
       freecad
       vlc
     ];
