@@ -25,6 +25,7 @@ in
       qbittorrent
       freecad
       vlc
+      atlauncher
     ];
     
     asus-gu603.enable = true;
