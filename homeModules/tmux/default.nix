@@ -40,8 +40,12 @@ in
 	unbind-key C-b
 	bind-key C-Space send-prefix
 	bind-key    v copy-mode
-	bind-key -r b previous-window
+	bind-key -r m previous-window
 	bind-key -r n next-window
+	bind -r k select-pane -U 
+	bind -r j select-pane -D 
+	bind -r h select-pane -L 
+	bind -r l select-pane -R 		
 
 	set-option -g status-right ""
 	set -g status-bg "#5b6078"

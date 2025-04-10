@@ -27,8 +27,9 @@ in
 	    filetypes = [ "nix" ];
 	    rootPatterns = [ "flake.nix" ];
 	  };
-	ccls=  {
-	  commandiletypes = ["c"  "cc"  "cpp"  "c++"  "objc"  "objcpp"];
+	ccls =  {
+	  command = "ccls";
+	  filetypes = ["c"  "cc"  "cpp"  "c++"  "objc"  "objcpp"];
 	  rootPatterns = [".ccls"  "compile_commands.json" ".git/" ".hg/"];
 	};
       };
@@ -45,6 +46,7 @@ in
 	nnoremap ff :Telescope find_files<CR>
 	nnoremap fb :Telescope buffers<CR>
 	nnoremap fn :bNext<CR>
+	nnoremap fm :bprevious<CR>
 	nnoremap fs :Telescope live_grep<CR>
 	nnoremap fc :bd<CR>
 	nnoremap fd :Gdiffsplit<CR>
