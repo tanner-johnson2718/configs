@@ -1,6 +1,8 @@
 {pkgs, lib, config, ...}: 
 let
   cfg = config.dashboard;
+  wakeup-hour = 5;
+  beddown-hour = 21;
 in 
 {
   options.dashboard = {
@@ -36,7 +38,7 @@ in
       };
       ip = lib.mkOption {
 	type = lib.types.str;
-	default = "";
+	default = "127.0.0.1";
       };
       port = lib.mkOption {
 	type = lib.types.port;
@@ -55,7 +57,7 @@ in
       };
       ip = lib.mkOption {
 	type = lib.types.str;
-	default = "";
+	default = "127.0.0.1";
       };
       port = lib.mkOption {
 	type = lib.types.port;
@@ -87,7 +89,7 @@ in
       };
       ip = lib.mkOption {
 	type = lib.types.str;
-	default = "";
+	default = "127.0.0.1";
       };
       port = lib.mkOption {
 	type = lib.types.port;
@@ -106,7 +108,7 @@ in
       };
       ip = lib.mkOption {
 	type = lib.types.str;
-	default = "";
+	default = "127.0.0.1";
       };
       port = lib.mkOption {
 	type = lib.types.port;
@@ -119,6 +121,26 @@ in
   config = lib.mkIf cfg.enable {
     environment.systemPackages = [
       pkgs.prometheus
+      (pkgs.writeShellScriptBin "wakeup" ''
+	h=$(date +%H)
+	m=$(date +%M)
+	h=$((h-${wakeup-hour}))
+	t=$((h*60))
+	t=$((t+m))
+	cat <<EOF | curl --data-binary @- http://${cfg.pushgateway.ip}:${toString cfg.pushgateway.port}/metrics/job/manual/instance/$(hostname)
+	  wakeup $t
+	EOF
+      '')
+      (pkgs.writeShellScriptBin "beddown" ''
+	h=$(date +%H)
+	m=$(date +%M)
+	h=$((h-${beddown-hour}))
+	t=$((h*60))
+	t=$((t+m))
+	cat <<EOF | curl --data-binary @- http://${cfg.pushgateway.ip}:${toString cfg.pushgateway.port}/metrics/job/manual/instance/$(hostname)
+	  beddown $t
+	EOF
+      '')
     ];
 
     services.prometheus = {
@@ -170,7 +192,7 @@ in
 	    name = "prometheus";
 	    isDefault = true;
 	    type = "prometheus";
-	    url = "http://localhost:${toString cfg.prometheusServer.port}";
+	    url = "http://${cfg.prometheusServer.ip}:${toString cfg.prometheusServer.port}";
 	  }
 	];
       };
