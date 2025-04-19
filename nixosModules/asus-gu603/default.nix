@@ -53,6 +53,24 @@ in
       loader.efi.canTouchEfiVariables = true;
     };
 
+    hardware.cpu.intel.updateMicrocode = true;
+
     nvidiaPrime.enable = true;
+
+    powerManagement = {
+      enable = true;
+      cpuFreqGovernor = "performance";
+      cpufreq = {
+	min = null;
+	max = null;
+      };
+      scsiLinkPolicy = "max_performance";
+      powertop.enable = false;      
+
+      resumeCommands = "";
+      powerUpCommands = "";
+      powerDownCommands = "";
+      
+    };
   };
 }

@@ -8,6 +8,7 @@ in
   imports = with inputs.self.nixosModules; [
     asus-gu603
     commonSystem
+    dashboard
     gnome
     nvidiaPrime
     yubi
@@ -49,6 +50,7 @@ in
         nvim.enable = true;
         tmux.enable = true;
       });
+    dashboard.enable = true;
     gnome.enable = true;
     nvidiaPrime.enable = true;
     yubi.enable = true;
