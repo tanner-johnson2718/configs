@@ -55,6 +55,7 @@ in
       node.enable = true;
       prometheusServer.enable = true;
       pushgateway.enable = true;
+      grafana.enable = true;
     };
     gnome.enable = true;
     nvidiaPrime.enable = true;

@@ -95,6 +95,25 @@ in
       };
     };
 
+    grafana = {
+      enable = lib.mkOption {
+	type = lib.types.bool;
+	default = false;
+	example = "true";
+	description = ''
+	  Enable the grafana server.
+	'';
+      };
+      ip = lib.mkOption {
+	type = lib.types.str;
+	default = "";
+      };
+      port = lib.mkOption {
+	type = lib.types.port;
+	default = 3000;
+      };
+    };
+
   };
 
   config = lib.mkIf cfg.enable {
@@ -129,13 +148,32 @@ in
 	
 	exporters = {
 	  node = {
-	    enable = true;
+	    enable = cfg.node.enable;
 	    port = cfg.node.port;
 	    enabledCollectors = [ "systemd" ];
 	    listenAddress = cfg.node.ip;
 	  };
 	};
 	
+    };
+
+    services.grafana = {
+      enable = cfg.grafana.enable;
+      settings = {
+	server.http_addr = cfg.grafana.ip;
+	server.http_port = cfg.grafana.port;
+      };
+      provision = {
+	enable = cfg.grafana.enable;
+	datasources.settings.datasources = [
+	  {
+	    name = "prometheus";
+	    isDefault = true;
+	    type = "prometheus";
+	    url = "http://localhost:${toString cfg.prometheusServer.port}";
+	  }
+	];
+      };
     };
   };
 }
