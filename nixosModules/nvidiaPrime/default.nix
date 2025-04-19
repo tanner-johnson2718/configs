@@ -1,6 +1,6 @@
 # TODO Will the system even work if this isn't set?
-
 # TODO Could expose power settings and full GPU disable
+# TODO maybe move over that xserver driver setting
 
 {config, lib, ...}:
 let

@@ -1,9 +1,8 @@
 # TODO I'd like an enum flag to dictate power saving vs performance mode and be
 # able selectively switch between the two.
-
 # TODO Also want to do actual power draw testing
-
 # TODO also want to expose and set up luks disk encryption
+# TODO want asus firmware configed and packaged here.
 
 {config, lib, modulesPath, pkgs, ...}:
 let

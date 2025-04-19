@@ -50,7 +50,12 @@ in
         nvim.enable = true;
         tmux.enable = true;
       });
-    dashboard.enable = true;
+    dashboard = {
+      enable = true;
+      node.enable = true;
+      prometheusServer.enable = true;
+      pushgateway.enable = true;
+    };
     gnome.enable = true;
     nvidiaPrime.enable = true;
     yubi.enable = true;
