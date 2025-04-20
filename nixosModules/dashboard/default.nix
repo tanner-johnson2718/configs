@@ -1,8 +1,6 @@
 {pkgs, lib, config, ...}: 
 let
   cfg = config.dashboard;
-  wakeup-hour = 5;
-  beddown-hour = 21;
 in 
 {
   options.dashboard = {
