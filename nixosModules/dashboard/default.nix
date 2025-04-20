@@ -1,3 +1,6 @@
+# TODO export and declare dashboards
+# TODO back up images of prom-db
+
 {pkgs, lib, config, ...}: 
 let
   cfg = config.dashboard;
@@ -126,7 +129,7 @@ in
       listenAddress = cfg.prometheusServer.ip;
       port          = cfg.prometheusServer.port;
       retentionTime = cfg.prometheusServer.retentionTime;
-      scrapeConfigs = [
+      scrapeConfigs = lib.mkIf cfg.prometheusServer.enable [
 	  {
 	    job_name = "scrape0";
 	    scrape_interval = cfg.prometheusServer.scrapeInterval;
