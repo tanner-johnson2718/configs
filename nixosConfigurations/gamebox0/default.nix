@@ -27,6 +27,7 @@ in
       freecad
       vlc
       atlauncher
+      scrcpy
     ];
     
     asus-gu603.enable = true;
