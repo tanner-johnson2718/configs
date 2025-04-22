@@ -1,3 +1,3 @@
-# Configs
+# modules
 
-Nixos Configs boi
+nixos modules boi
