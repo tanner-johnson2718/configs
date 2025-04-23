@@ -86,6 +86,12 @@ in
 	  -- load the theme without affecting devicon colors.
 	  vim.cmd.colorscheme "vscode"
 	  vim.opt.clipboard = "unnamedplus"
+
+	  require'nvim-treesitter.configs'.setup {
+	    highlight = {
+	      enable = true,
+	    }
+	  }
 	'';
 
       plugins = 
