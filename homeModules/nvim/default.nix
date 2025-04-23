@@ -5,6 +5,18 @@ in
 {
   options = {
     nvim.enable = lib.mkEnableOption "Enable nvim module";
+    nvim.extraConfig = lib.mkOption {
+      type = lib.types.str;
+      default = "";
+    };
+    nvim.extraLuaConfig = lib.mkOption {
+      type = lib.types.str;
+      default = "";
+    };
+    nvim.extraPlugins = lib.mkOption {
+      type = lib.types.listOf lib.types.pkgs;
+      default = [];
+    };
   };
 
   config = lib.mkIf cfg.enable{	  
@@ -51,7 +63,7 @@ in
 	nnoremap fc :bd<CR>
 	nnoremap fd :Gdiffsplit<CR>
 	nnoremap mp :MarkdownPreview<CR>
-      '';
+      '' + cfg.extraConfig;
       extraLuaConfig = ''
 	local c = require('vscode.colors').get_colors()
 	require('vscode').setup({
@@ -92,7 +104,7 @@ in
 	      enable = true,
 	    }
 	  }
-	'';
+	'' + cfg.extraLuaConfig;
 
       plugins = 
       let
@@ -105,7 +117,9 @@ in
 	(addPlugIn "vim-fugitive")
 	(addPlugIn "render-markdown-nvim")
 	(addPlugIn "markdown-preview-nvim")
-      ];
+	(addPlugIn "venn-nvim")
+	pkgs.vimPlugins.nvim-treesitter.withAllGrammars
+      ] ++ cfg.extraPlugins;
     };
   };
 }
