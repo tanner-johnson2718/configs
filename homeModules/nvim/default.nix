@@ -63,6 +63,14 @@ in
 	nnoremap fc :bd<CR>
 	nnoremap fd :Gdiffsplit<CR>
 	nnoremap mp :MarkdownPreview<CR>
+
+	
+	nnoremap mf :set ve=all<CR>
+	nnoremap mn :set ve=none<CR>
+	nnoremap <C-PageUp> :bprevious<CR>
+	nnoremap <C-PageDown> :bNext<CR>
+
+	vnoremap f :VBox<CR>
       '' + cfg.extraConfig;
       extraLuaConfig = ''
 	local c = require('vscode.colors').get_colors()
