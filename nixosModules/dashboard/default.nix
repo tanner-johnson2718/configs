@@ -4,6 +4,14 @@
 {pkgs, lib, config, ...}: 
 let
   cfg = config.dashboard;
+  ip = lib.mkOption {
+    type = lib.types.str;
+    default = "127.0.0.1";
+  };
+  port = p: lib.mkOption {
+    type = lib.types.port;
+    default = p;
+  };
 in 
 {
   options.dashboard = {
@@ -22,7 +30,9 @@ in
       '';
     };
 
-    pushgateway = { 
+    pushgateway = {
+      inherit ip;
+      port = port 9091;
       enable = lib.mkOption {
 	type = lib.types.bool;
 	default = false;
@@ -37,17 +47,11 @@ in
 	    EOF
 	'';
       };
-      ip = lib.mkOption {
-	type = lib.types.str;
-	default = "127.0.0.1";
-      };
-      port = lib.mkOption {
-	type = lib.types.port;
-	default = 9091;
-      };
     };
 
     prometheusServer = {
+      inherit ip;
+      port = port 9090;
       enable = lib.mkOption {
 	type = lib.types.bool;
 	default = false;
@@ -55,14 +59,6 @@ in
 	description = ''
 	  Enable the main prometheus server and scrape services.
 	'';
-      };
-      ip = lib.mkOption {
-	type = lib.types.str;
-	default = "127.0.0.1";
-      };
-      port = lib.mkOption {
-	type = lib.types.port;
-	default = 9090;
       };
       scrapeInterval = lib.mkOption {
 	type = lib.types.str;
@@ -80,6 +76,8 @@ in
     };
 
     node = {
+      inherit ip; 
+      port = port 9100;
       enable = lib.mkOption {
 	type = lib.types.bool;
 	default = false;
@@ -88,17 +86,11 @@ in
 	   Enable systemd node exporter on this system. 
 	'';
       };
-      ip = lib.mkOption {
-	type = lib.types.str;
-	default = "127.0.0.1";
-      };
-      port = lib.mkOption {
-	type = lib.types.port;
-	default = 9100;
-      };
     };
 
     grafana = {
+      inherit ip;
+      port = port 3000;
       enable = lib.mkOption {
 	type = lib.types.bool;
 	default = false;
@@ -107,22 +99,55 @@ in
 	  Enable the grafana server.
 	'';
       };
-      ip = lib.mkOption {
-	type = lib.types.str;
-	default = "127.0.0.1";
-      };
-      port = lib.mkOption {
-	type = lib.types.port;
-	default = 3000;
-      };
     };
 
+    fileExporter = {
+      inherit ip;
+      port = port 9101;
+      enable = lib.mkOption {
+	type = lib.types.bool;
+	default = false;
+	example = "true";
+	description = ''
+	  Enable file node exporter
+	'';
+      };
+      updateRate = lib.mkOption {
+	type = lib.types.int;
+	default = 30;
+      }; 
+      files = lib.mkOption {
+	type = lib.types.listOf (lib.types.submodule {
+	  options = {
+	    metric = lib.mkOption {
+	      type = lib.types.str;
+	    };
+	    type = lib.mkOption {
+	      type = lib.types.enum [
+		"counter"
+		"gauge"
+		"histogram"
+		"native_histogram"
+		"summary"
+	      ];
+	    };
+	  };
+	});
+      };
+    };
   };
 
   config = lib.mkIf cfg.enable {
     environment.systemPackages = [
-      pkgs.prometheus
+      (pkgs.python3.withPackages (python-pkgs: with python-pkgs; [
+	prometheus-client
+      ]))
     ];
+
+    systemd.tmpfiles.rules = lib.mkIf cfg.fileExporter.enable
+      (map 
+	(a: "f /var/metrics/${toString cfg.fileExporter.port}/${a.type}/${a.metric}/value 0755 root root -")
+	cfg.fileExporter.files);
 
     services.prometheus = {
       enable        = cfg.prometheusServer.enable;
@@ -157,7 +182,6 @@ in
 	    listenAddress = cfg.node.ip;
 	  };
 	};
-	
     };
 
     services.grafana = {

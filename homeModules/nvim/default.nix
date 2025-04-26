@@ -54,6 +54,7 @@ in
 	set number
 	set nowrap
 	set spell
+	set ve=block
 
 	nnoremap ff :Telescope find_files<CR>
 	nnoremap fb :Telescope buffers<CR>
@@ -63,10 +64,6 @@ in
 	nnoremap fc :bd<CR>
 	nnoremap fd :Gdiffsplit<CR>
 	nnoremap mp :MarkdownPreview<CR>
-
-	
-	nnoremap mf :set ve=all<CR>
-	nnoremap mn :set ve=none<CR>
 	nnoremap <C-PageUp> :bprevious<CR>
 	nnoremap <C-PageDown> :bNext<CR>
 
