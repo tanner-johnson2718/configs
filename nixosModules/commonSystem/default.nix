@@ -50,7 +50,7 @@ in
     users.mutableUsers = false; 
     users.users."${cfg.userName}" = {
       isNormalUser = true;
-      description = "Mono User";
+      description = "${cfg.userName}";
       extraGroups = [ "networkmanager" "wheel" "dialout" ];
       hashedPassword = cfg.hashedPassword;
     };

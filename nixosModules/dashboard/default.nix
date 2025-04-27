@@ -126,10 +126,11 @@ in
 	      type = lib.types.enum [
 		"counter"
 		"gauge"
-		"histogram"
-		"native_histogram"
-		"summary"
 	      ];
+	    };
+	    description = lib.mkOption {
+	      type = lib.types.str;
+	      default = "";
 	    };
 	  };
 	});

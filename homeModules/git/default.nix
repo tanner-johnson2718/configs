@@ -1,6 +1,8 @@
 # Git is somewhat of a bad name for this module, also contains stuff like fd
 # and ripgrep.
 
+# TODO public private overlays
+
 {config, lib, ...}:
 let
   cfg = config.git;
