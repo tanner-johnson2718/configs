@@ -172,7 +172,7 @@ in
     systemd.tmpfiles.rules = lib.mkIf cfg.postExporter.enable
       (map 
 	(a: "f ${cfg.postExporter.rootDir}/${toString cfg.postExporter.port}/${a.type}/${a.metric}/value 0755 root root -")
-	cfg.postExporter.files);
+	cfg.postExporter.metrics);
 
     services.prometheus = lib.mkIf cfg.enable {
       enable        = cfg.prometheusServer.enable;
