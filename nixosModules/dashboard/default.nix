@@ -1,4 +1,4 @@
-# TODO export and declare dashboards
+# TODO export and declare dashboards (i.e. grafan backup)
 # TODO back up images of prom-db
 # TODO add collectors under the 9100 node exporter
 
@@ -17,28 +17,23 @@ in
 {
   options.dashboard = {
 
-    enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      example = "true";
-      description = ''
+    enable = lib.mkEnableOption ''
 	Enable the dashboard module. This is composed of three main components:
 
 	  1) Grafana for visualization
 	  2) Prometheus as a DB and Data Aggregator
 	  3) Prometheus built in and custom node 
 	     exporters for scraping data.
+
+	As of right now the suggested use of this module is as follows.
       '';
-    };
 
     pushgateway = {
       inherit ip;
       port = port 9091;
-      enable = lib.mkOption {
-	type = lib.types.bool;
-	default = false;
-	example = "true";
-	description = ''
+      enable = lib.mkEnableOption ''
+	  !!! WARNING Depricated in favor of the postExporter !!!
+
 	  Enable the pushgateway service. This creates a service that accepts
 	  "pushes" in the form of an http request:
 
@@ -47,20 +42,14 @@ in
 	      another_metric 2398.283
 	    EOF
 	'';
-      };
     };
 
     prometheusServer = {
       inherit ip;
       port = port 9090;
-      enable = lib.mkOption {
-	type = lib.types.bool;
-	default = false;
-	example = "true";
-	description = ''
+      enable = lib.mkEnableOption ''
 	  Enable the main prometheus server and scrape services.
 	'';
-      };
       scrapeInterval = lib.mkOption {
 	type = lib.types.str;
 	default = "1m";
@@ -76,64 +65,77 @@ in
       };
     };
 
-    node = {
+    systemExporter = {
       inherit ip; 
       port = port 9100;
-      enable = lib.mkOption {
-	type = lib.types.bool;
-	default = false;
-	example = "true";
-	description = ''
-	   Enable systemd node exporter on this system. 
+      enable = lib.mkEnableOption ''
+	   Enable the "default" node exporter and enble the systemd node collector.
+	   This exporter is intended to capture system metrics and data. If it
+	   relates to system health it should be exported via this exporter.
 	'';
-      };
     };
 
     grafana = {
       inherit ip;
       port = port 3000;
-      enable = lib.mkOption {
-	type = lib.types.bool;
-	default = false;
-	example = "true";
-	description = ''
-	  Enable the grafana server.
-	'';
-      };
+      enable = lib.mkEanbleOption ''
+	Enable the grafana server.
+      '';
     };
 
-    fileExporter = {
+    postExporter = {
       inherit ip;
       port = port 9101;
-      enable = lib.mkOption {
-	type = lib.types.bool;
-	default = false;
-	example = "true";
-	description = ''
-	  Enable file node exporter
-	'';
-      };
+      enable = lib.mkEnableOption ''
+	Enable post node exporter. This node exporter is intended to replace the 
+	pushgateway. It is intended to be bound to the systems localhost ip, allowing
+	userspace i.e. non system metrics to be posted on the system. To use it
+
+	  1) Declare it in postExporter.metrics, choosing its type and name. This
+	     will create a file under the root dir :
+	     
+		/var/metrics/<postExporter port>/<metric type><metric name>/value
+
+	     For now we assume no labels and that value will be the only file in the
+	     metric dir.
+
+	  2) Anybody on the system can now post to that metric (assuming the defaults) 
+	     by executing:
+
+	        curl -X POST 127.0.0.1:9101/metrics/<metric> -d "<value>"
+
+	     The interpetation of value will be done based on the metrics type.
+	     Counters this will be interpeted as inc and on a gauge a set. Failure
+	     to provide a value is an error.
+
+	  3) On updates the value of the will be written to "value" in the metric's 
+	     dir
+      '';
       rootDir = lib.mkOption {
 	type = lib.types.str;
 	default = "/var/metrics";	
       };
+      metricPrefix = lib.mkOption {
+	type = lib.types.str;
+	default = "post";
+      };
       package = lib.mkOption {
 	type = lib.types.package;
 	default = pkgs.stdenv.mkDerivation {
-	  name = "file-node-exporter";
+	  name = "post-exporter";
 	  propagatedBuildInputs = [
 	    (pkgs.python3.withPackages (python-pkgs: with python-pkgs; [
 	      prometheus-client
 	    ]))
 	  ];
 	  dontUnpack = true;
-	   installPhase = "install -Dm755 ${./file-node-exporter.py} $out/bin/file-node-exporter";
+	   installPhase = "install -Dm755 ${./post-exporter.py} $out/bin/post-exporter";
 	};
       };
-      files = lib.mkOption {
+      metrics = lib.mkOption {
 	type = lib.types.listOf (lib.types.submodule {
 	  options = {
-	    metric = lib.mkOption {
+	    name = lib.mkOption {
 	      type = lib.types.str;
 	    };
 	    type = lib.mkOption {
@@ -150,19 +152,25 @@ in
 
   config = lib.mkIf cfg.enable {
     
-    systemd.services.file-node-exporter = lib.mkIf cfg.fileExporter.enable {
+    systemd.services.file-node-exporter = lib.mkIf cfg.postExporter.enable {
       enable = true;
       serviceConfig = {
-	ExecStart = "${cfg.fileExporter.package}/bin/file-node-exporter -a ${cfg.fileExporter.ip} -p ${toString cfg.fileExporter.port} -d ${cfg.fileExporter.rootDir}";
+	ExecStart = ''
+	  ${cfg.postExporter.package}/bin/post-exporter \
+	    -a ${cfg.postExporter.ip} \ 
+	    -p ${toString cfg.postExporter.port} \
+	    -d ${cfg.postExporter.rootDir}/${toString cfg.postExporter.port}
+	    -r ${cfg.postExporter.metricPrefix}
+	'';
       };
     };
 
-    systemd.tmpfiles.rules = lib.mkIf cfg.fileExporter.enable
+    systemd.tmpfiles.rules = lib.mkIf cfg.postExporter.enable
       (map 
-	(a: "f ${cfg.fileExporter.rootDir}/${toString cfg.fileExporter.port}/${a.type}/${a.metric}/value 0755 root root -")
-	cfg.fileExporter.files);
+	(a: "f ${cfg.postExporter.rootDir}/${toString cfg.postExporter.port}/${a.type}/${a.metric}/value 0755 root root -")
+	cfg.postExporter.files);
 
-    services.prometheus = {
+    services.prometheus = lib.mkIf cfg.enable {
       enable        = cfg.prometheusServer.enable;
       listenAddress = cfg.prometheusServer.ip;
       port          = cfg.prometheusServer.port;
@@ -175,30 +183,30 @@ in
 	      {
 		targets = [] 
 		  ++ (lib.optionals cfg.pushgateway.enable [ "${cfg.pushgateway.ip}:${toString cfg.pushgateway.port}" ])
-		  ++ (lib.optionals cfg.node.enable [ "${cfg.node.ip}:${toString cfg.node.port}" ])
-		  ++ (lib.optionals cfg.fileExporter.enable [ "${cfg.fileExporter.ip}:${toString cfg.fileExporter.port}" ])
+		  ++ (lib.optionals cfg.systemExporter.enable [ "${cfg.systemExporter.ip}:${toString cfg.systemExporter.port}" ])
+		  ++ (lib.optionals cfg.postExporter.enable [ "${cfg.postExporter.ip}:${toString cfg.postExporter.port}" ])
 		  ++ cfg.prometheusServer.additionalNodes;
 	      }
 	    ];
 	  }
 	];
 
-	pushgateway = { 
+	pushgateway = lib.mkIf cfg.pushgateway.enable { 
 	  enable = cfg.pushgateway.enable;
 	  extraFlags = [ "--web.listen-address ${cfg.pushgateway.ip}:${toString cfg.pushgateway.port}" ];
 	};
 	
-	exporters = {
+	exporters = lib.mkIf cfg.systemExporter.enable {
 	  node = {
-	    enable = cfg.node.enable;
-	    port = cfg.node.port;
+	    enable = cfg.systemExporter.enable;
+	    port = cfg.systemExporter.port;
 	    enabledCollectors = [ "systemd" ];
-	    listenAddress = cfg.node.ip;
+	    listenAddress = cfg.systemExporter.ip;
 	  };
 	};
     };
 
-    services.grafana = {
+    services.grafana = lib.mkIf cfg.grafana.enable {
       enable = cfg.grafana.enable;
       settings = {
 	server.http_addr = cfg.grafana.ip;

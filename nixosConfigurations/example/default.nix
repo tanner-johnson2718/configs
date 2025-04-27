@@ -15,9 +15,9 @@
     boot.loader.grub.enable = false;
 
     dashboard.enable = true;
-    dashboard.fileExporter.enable = true;
-    dashboard.fileExporter.port = 6969;
-    dashboard.fileExporter.files = [
+    dashboard.postExporter.enable = true;
+    dashboard.postExporter.port = 6969;
+    dashboard.postExporter.metrics = [
 	{
 	  metric = "test";
 	  type = "counter";
