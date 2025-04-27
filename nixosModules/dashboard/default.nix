@@ -114,7 +114,7 @@ in
 	'';
       };
       package = lib.mkOption {
-	type = lib.type.pkgs;
+	type = lib.types.pkgs;
 	default = null;
       };
       files = lib.mkOption {
