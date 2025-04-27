@@ -78,7 +78,7 @@ in
     grafana = {
       inherit ip;
       port = port 3000;
-      enable = lib.mkEanbleOption ''
+      enable = lib.mkEnableOption ''
 	Enable the grafana server.
       '';
     };
