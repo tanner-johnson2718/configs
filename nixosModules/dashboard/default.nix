@@ -113,9 +113,22 @@ in
 	  Enable file node exporter
 	'';
       };
+      rootDir = lib.mkOption {
+	type = lib.types.str;
+	default = "/var/metrics";	
+      };
       package = lib.mkOption {
 	type = lib.types.package;
-	default = null;
+	default = pkgs.stdenv.mkDerivation {
+	  name = "file-node-exporter";
+	  propagatedBuildInputs = [
+	    (pkgs.python3.withPackages (python-pkgs: with python-pkgs; [
+	      prometheus-client
+	    ]))
+	  ];
+	  dontUnpack = true;
+	   installPhase = "install -Dm755 ${./file-node-exporter.py} $out/bin/file-node-exporter";
+	};
       };
       files = lib.mkOption {
 	type = lib.types.listOf (lib.types.submodule {
@@ -129,10 +142,6 @@ in
 		"gauge"
 	      ];
 	    };
-	    description = lib.mkOption {
-	      type = lib.types.str;
-	      default = "";
-	    };
 	  };
 	});
       };
@@ -140,10 +149,17 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    
+    systemd.services.myservice = {
+      enable = true;
+      serviceConfig = {
+	ExecStart = "${cfg.fileExporter.package}/bin/* -a ${cfg.fileExporter.ip} -p ${cfg.fileExporter.port} -d ${cfg.fileExporter.rootDir}";
+      };
+    };
 
     systemd.tmpfiles.rules = lib.mkIf cfg.fileExporter.enable
       (map 
-	(a: "f /var/metrics/${toString cfg.fileExporter.port}/${a.type}/${a.metric}/value 0755 root root -")
+	(a: "f ${cfg.fileExporter.rootDir}/${toString cfg.fileExporter.port}/${a.type}/${a.metric}/value 0755 root root -")
 	cfg.fileExporter.files);
 
     services.prometheus = {
