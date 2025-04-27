@@ -152,7 +152,7 @@ in
 
   config = lib.mkIf cfg.enable {
     
-    systemd.services.file-node-exporter = lib.mkIf cfg.postExporter.enable {
+    systemd.services.post-exporter = lib.mkIf cfg.postExporter.enable {
       enable = true;
       wantedBy = [ "multi-user.target" ];
       unitConfig = {
@@ -160,11 +160,7 @@ in
       };
       serviceConfig = {
 	ExecStart = ''
-	  ${cfg.postExporter.package}/bin/post-exporter 
-	    -a ${cfg.postExporter.ip} 
-	    -p ${toString cfg.postExporter.port}
-	    -d ${cfg.postExporter.rootDir}/${toString cfg.postExporter.port}
-	    -r ${cfg.postExporter.metricPrefix}
+	  ${cfg.postExporter.package}/bin/post-exporter -a ${cfg.postExporter.ip} -p ${toString cfg.postExporter.port} -d ${cfg.postExporter.rootDir}/${toString cfg.postExporter.port} -r ${cfg.postExporter.metricPrefix}
 	'';
       };
     };
