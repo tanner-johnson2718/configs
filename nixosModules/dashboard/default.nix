@@ -153,7 +153,7 @@ in
     systemd.services.file-node-exporter = lib.mkIf cfg.fileExporter.enable {
       enable = true;
       serviceConfig = {
-	ExecStart = "${cfg.fileExporter.package}/bin/* -a ${cfg.fileExporter.ip} -p ${cfg.fileExporter.port} -d ${cfg.fileExporter.rootDir}";
+	ExecStart = "${cfg.fileExporter.package}/bin/* -a ${cfg.fileExporter.ip} -p ${toString cfg.fileExporter.port} -d ${cfg.fileExporter.rootDir}";
       };
     };
 
