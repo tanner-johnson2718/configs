@@ -160,9 +160,9 @@ in
       };
       serviceConfig = {
 	ExecStart = ''
-	  ${cfg.postExporter.package}/bin/post-exporter \
-	    -a ${cfg.postExporter.ip} \ 
-	    -p ${toString cfg.postExporter.port} \
+	  ${cfg.postExporter.package}/bin/post-exporter 
+	    -a ${cfg.postExporter.ip} 
+	    -p ${toString cfg.postExporter.port}
 	    -d ${cfg.postExporter.rootDir}/${toString cfg.postExporter.port}
 	    -r ${cfg.postExporter.metricPrefix}
 	'';
