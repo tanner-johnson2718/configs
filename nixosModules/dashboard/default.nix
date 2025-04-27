@@ -154,6 +154,10 @@ in
     
     systemd.services.file-node-exporter = lib.mkIf cfg.postExporter.enable {
       enable = true;
+      wantedBy = [ "multi-user.target" ];
+      unitConfig = {
+        Type = "simple";
+      };
       serviceConfig = {
 	ExecStart = ''
 	  ${cfg.postExporter.package}/bin/post-exporter \
