@@ -16,17 +16,14 @@ class Metric:
         self.metric_type = tup[1]
         self.metric_name = tup[2]
         self.path = path
-        self.fd = open(path, "r")
         self.value = 0.0
 
         try:
-            self.value = float(self.fd.read())
+            with fd as open(path, "r"):
+                self.value = float(fd.read())
         except:
-            self.fd.close()
-            self.fd = open(path, "w")
-            self.fd.write("0.0")
-            self.fd.close()
-            self.fd =open(path, "r")
+            with fd as open(path, "w"):
+                self.fd.write("0.0")
 
         if self.metric_type == "counter":
             self.metric_obj = Counter("fnode_" + self.metric_name, "")
@@ -36,13 +33,8 @@ class Metric:
             print(f"ERROR unrecognized type {self.metric_type}")
 
     def update(self):
-        self.fd.seek(0)
-        if self.metric_type == "counter":
-            value_now = float(self.fd.read())
-            if value_now > self.value:
-                self.value = value_now
-        elif self.metric_type == "gauge":
-            self.value = self.fd.read()
+        with fd as open(self.path, "r"):
+            self.value = float(fd.read())
 
 class MetricsHandler(BaseHTTPRequestHandler):
     def do_GET(self):
