@@ -113,10 +113,10 @@ in
 	  Enable file node exporter
 	'';
       };
-      updateRate = lib.mkOption {
-	type = lib.types.int;
-	default = 30;
-      }; 
+      package = lib.mkOption {
+	type = lib.type.pkgs;
+	default = null;
+      };
       files = lib.mkOption {
 	type = lib.types.listOf (lib.types.submodule {
 	  options = {
@@ -132,10 +132,6 @@ in
 	    description = lib.mkOption {
 	      type = lib.types.str;
 	      default = "";
-	    };
-	    package = lib.mkOption {
-	      type = lib.type.pkgs;
-	      default = null;
 	    };
 	  };
 	});
