@@ -150,7 +150,7 @@ in
 
   config = lib.mkIf cfg.enable {
     
-    systemd.services.myservice = {
+    systemd.services.file-node-exporter = lib.mkIf cfg.fileExporter.enable {
       enable = true;
       serviceConfig = {
 	ExecStart = "${cfg.fileExporter.package}/bin/* -a ${cfg.fileExporter.ip} -p ${cfg.fileExporter.port} -d ${cfg.fileExporter.rootDir}";
@@ -176,6 +176,7 @@ in
 		targets = [] 
 		  ++ (lib.optionals cfg.pushgateway.enable [ "${cfg.pushgateway.ip}:${toString cfg.pushgateway.port}" ])
 		  ++ (lib.optionals cfg.node.enable [ "${cfg.node.ip}:${toString cfg.node.port}" ])
+		  ++ (lib.optionals cfg.fileExporter.enable [ "${cfg.fileExporter.ip}:${toString cfg.fileExporter.port}" ])
 		  ++ cfg.prometheusServer.additionalNodes;
 	      }
 	    ];
