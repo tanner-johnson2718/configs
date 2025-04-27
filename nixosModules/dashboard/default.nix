@@ -1,5 +1,6 @@
 # TODO export and declare dashboards
 # TODO back up images of prom-db
+# TODO add collectors under the 9100 node exporter
 
 {pkgs, lib, config, ...}: 
 let
@@ -132,6 +133,10 @@ in
 	      type = lib.types.str;
 	      default = "";
 	    };
+	    package = lib.mkOption {
+	      type = lib.type.pkgs;
+	      default = null;
+	    };
 	  };
 	});
       };
@@ -139,11 +144,6 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = [
-      (pkgs.python3.withPackages (python-pkgs: with python-pkgs; [
-	prometheus-client
-      ]))
-    ];
 
     systemd.tmpfiles.rules = lib.mkIf cfg.fileExporter.enable
       (map 
