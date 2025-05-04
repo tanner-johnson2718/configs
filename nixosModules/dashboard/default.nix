@@ -1,6 +1,8 @@
 # TODO export and declare dashboards (i.e. grafan backup)
 # TODO back up images of prom-db
 # TODO add collectors under the 9100 node exporter
+# TODO delete and see all metrics
+# TODO get stale metrics??
 
 {pkgs, lib, config, ...}: 
 let
@@ -30,6 +32,8 @@ in
       inherit ip;
       port = port 9091;
       enable = lib.mkEnableOption ''
+	  Don't use this ...
+
 	  Enable the pushgateway service. This creates a service that accepts
 	  "pushes" in the form of an http request:
 
@@ -83,6 +87,8 @@ in
       inherit ip;
       port = port 9101;
       enable = lib.mkEnableOption ''
+	Dont use this ...
+
 	Enable post node exporter. This node exporter is intended to replace the 
 	pushgateway. It is intended to be bound to the systems localhost ip, allowing
 	userspace i.e. non system metrics to be posted on the system. To use it
@@ -207,9 +213,9 @@ in
 	      "processes"
 	      "interrupts"
 	      "tcpstat"
+	      "node"
 	    ];
 	    listenAddress = cfg.systemExporter.ip;
-	    # openFirewall = true;
 	  };
 	};
     };

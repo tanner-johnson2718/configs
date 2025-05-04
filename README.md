@@ -1,3 +1,0 @@
-# modules
-
-nixos modules boi
