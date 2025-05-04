@@ -204,13 +204,12 @@ in
 	    port = cfg.systemExporter.port;
 	    enabledCollectors = [ 
 	      "systemd"
-	      "process"
+	      "processes"
 	      "interrupts"
 	      "tcpstat"
 	    ];
 	    listenAddress = cfg.systemExporter.ip;
 	    # openFirewall = true;
-	     
 	  };
 	};
     };
