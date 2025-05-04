@@ -24,16 +24,12 @@ in
 	  2) Prometheus as a DB and Data Aggregator
 	  3) Prometheus built in and custom node 
 	     exporters for scraping data.
-
-	As of right now the suggested use of this module is as follows.
       '';
 
     pushgateway = {
       inherit ip;
       port = port 9091;
       enable = lib.mkEnableOption ''
-	  !!! WARNING Depricated in favor of the postExporter !!!
-
 	  Enable the pushgateway service. This creates a service that accepts
 	  "pushes" in the form of an http request:
 
@@ -94,7 +90,7 @@ in
 	  1) Declare it in postExporter.metrics, choosing its type and name. This
 	     will create a file under the root dir :
 	     
-		/var/metrics/<postExporter port>/<metric type><metric name>/value
+		/var/metrics/<postExporter port>/<metric type>/<metric name>/value
 
 	     For now we assume no labels and that value will be the only file in the
 	     metric dir.
@@ -151,6 +147,13 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+
+    warnings = (
+      lib.optionals cfg.pushgateway.enable 
+	"The pushgateway can likely be replaced with collectors ... "
+      lib.optionsals cfg.postExporter.enable 
+	"The post exporter can likely be replaced with collectors ... "
+    );
     
     systemd.services.post-exporter = lib.mkIf cfg.postExporter.enable {
       enable = true;
@@ -200,8 +203,15 @@ in
 	  node = {
 	    enable = cfg.systemExporter.enable;
 	    port = cfg.systemExporter.port;
-	    enabledCollectors = [ "systemd" ];
+	    enabledCollectors = [ 
+	      "systemd"
+	      "process"
+	      "interrupts"
+	      "tcpstat"
+	    ];
 	    listenAddress = cfg.systemExporter.ip;
+	    # openFirewall = true;
+	     
 	  };
 	};
     };
