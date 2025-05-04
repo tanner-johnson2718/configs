@@ -148,12 +148,12 @@ in
 
   config = lib.mkIf cfg.enable {
 
-    warnings = (
-      lib.optionals cfg.pushgateway.enable 
-	"The pushgateway can likely be replaced with collectors ... "
-      lib.optionsals cfg.postExporter.enable 
-	"The post exporter can likely be replaced with collectors ... "
-    );
+    warnings = [
+      (lib.optionals cfg.pushgateway.enable 
+	"The pushgateway can likely be replaced with collectors ... ")
+      (lib.optionals cfg.postExporter.enable 
+	"The post exporter can likely be replaced with collectors ... ")
+    ];
     
     systemd.services.post-exporter = lib.mkIf cfg.postExporter.enable {
       enable = true;
