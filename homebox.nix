@@ -29,6 +29,20 @@ in
   ];
 
   config = {
+    programs.steam = {
+      enable = true;
+      extraCompatPackages = with pkgs; [proton-ge-bin];
+    };
+
+    environment.systemPackages = with pkgs; [
+      google-chrome
+      yubioath-flutter
+      qbittorrent
+      freecad
+      vlc
+      atlauncher
+    ];
+
     ###########################################################################
     # Nix Daemon, Nixpkgs, Homemanager and Users
     ###########################################################################
