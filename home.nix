@@ -91,6 +91,7 @@ in
     sctl = "systemctl";
 
     gs = "git status";
+    gd = "git diff";
   };
     
   programs.bash = {
