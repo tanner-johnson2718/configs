@@ -365,7 +365,7 @@ in
 	".lib"
       ];
 
-      userEmail = email;
-      userName  = user;
+      userEmail = lib.mkDefault email;
+      userName  = lib.mkDefault user;
     };
 }

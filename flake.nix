@@ -11,6 +11,8 @@
 	modules = [ ./homebox.nix ];
       };
     };
+
+    homeConfigurations = import ./home.nix;
   };
 }
 
