@@ -42,7 +42,7 @@ in
     nil
     ccls
     fd
-    rg
+    ripgrep
   ];
 
   programs.kitty = {

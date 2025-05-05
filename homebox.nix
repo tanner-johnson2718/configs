@@ -1,6 +1,6 @@
 # homebox.nix - nixos system config for my asus gu603 gaming laptop.
 
-# TODO gamebox0 -> homebox
+# TODO gamebox0 -> homebox -> redeploy
 # TODO Better control and measuring of power draw
 # TODO Asus FW?
 # TODO FDE
@@ -8,6 +8,7 @@
 # TODO back up promDB and grafana
 # TODO how do I add custom collectors?
 # TODO verify that after 30d promDB entries get cleared
+# TODO chrome module
 
 {config, lib, pkgs, inputs, modulesPath, ...}:
 let
@@ -317,7 +318,7 @@ in
 	{
 	  job_name = "high_freq";
 	  scrape_interval = "1m";
-	  static_configs = [ {targets = ["${prometheusNodeIp}:${prometheusNodePort}"];} ];
+	  static_configs = [ {targets = ["${prometheusNodeIp}:${toString prometheusNodePort}"];} ];
 	}
       ];
 
