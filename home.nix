@@ -43,6 +43,7 @@ in
     ccls
     fd
     ripgrep
+    httpie
   ];
 
   programs.kitty = {
