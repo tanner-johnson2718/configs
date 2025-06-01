@@ -5,28 +5,16 @@
 # TODO Asus FW?
 # TODO FDE
 # TODO suspend doesnt work properly
-# TODO back up promDB and grafana
-# TODO how do I add custom collectors?
-# TODO verify that after 30d promDB entries get cleared
-# TODO chrome module
 
-{config, lib, pkgs, inputs, modulesPath, ...}:
+{config, lib, pkgs, inputs, ...}:
 let
   user            = "gamebox0";
   hashedPassword  = "$y$j9T$IBmfxiN89ruEnbsSZEdVY/$KfBV6TLSYhuPo6Q/JLEMJZMhi5yjJUPUA/3KTz8rdmD";
   yubiID          = "29490434";
-  prometheusDbIp        = "127.0.0.1";
-  prometheusDbPort      = 9090;
-  prometheusDbRetention = "30d";
-  prometheusNodeIp      = "127.0.0.1";
-  prometheusNodePort    = 9100; 
-  grafanaIp             = "127.0.0.1";
-  grafanaPort           = 3000;
 in
 {
   imports = [ 
     inputs.home-manager.nixosModules.default
-    (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
   config = {
@@ -42,6 +30,7 @@ in
       freecad
       vlc
       atlauncher
+      drawio
     ];
 
     ###########################################################################
@@ -304,56 +293,5 @@ in
       yelp
       gnome-software
     ];
-
-    ###########################################################################
-    # Dashboard
-    ###########################################################################
-
-    services.prometheus = {
-      enable        = true;
-      listenAddress = prometheusDbIp;
-      port          = prometheusDbPort;
-      retentionTime = prometheusDbRetention;
-      scrapeConfigs = [
-	{
-	  job_name = "high_freq";
-	  scrape_interval = "1m";
-	  static_configs = [ {targets = ["${prometheusNodeIp}:${toString prometheusNodePort}"];} ];
-	}
-      ];
-
-      exporters = {
-	node = {
-	  enable = true;
-	  listenAddress = prometheusNodeIp;
-	  port = prometheusNodePort;
-	  enabledCollectors = [ 
-	    "systemd"
-	    "processes"
-	    "interrupts"
-	    "tcpstat"
-	  ];
-	};
-      };
-    };
-
-    services.grafana = {
-      enable = true;
-      settings = {
-	server.http_addr = grafanaIp;
-	server.http_port = grafanaPort;
-      };
-      provision = {
-	enable = true;
-	datasources.settings.datasources = [
-	  {
-	    name = "prometheus";
-	    isDefault = true;
-	    type = "prometheus";
-	    url = "http://${prometheusDbIp}:${toString prometheusDbPort}";
-	  }
-	];
-      };
-    };
   };
 }

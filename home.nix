@@ -53,7 +53,6 @@ in
       map ctrl+shift+n no_op
       map ctrl+shift+enter no_op
       map ctrl+shift+t no_op
-      map ctrl+space+z no_op
     '';
   };
 
@@ -82,9 +81,6 @@ in
     e = "exit";
     la = "alias";
     ll = "ls -la --color=auto";
-    lf = "declare -F"; 
-    lF = "declare";
-    lc = "complete";
     lv = "echo shell levl = ''$SHLVL";
     lu = "systemctl list-units";
 
@@ -132,17 +128,6 @@ in
 	kill -9 $(ps -aux | grep $1 | awk '{print $2}')
       }
       export gkill
-      
-      # Grep-ps
-      function gps {
-	if [ $# -ne 1 ]; then
-	  echo "pass pattern"
-	  return 1
-	fi
-	ps -aux | grep $1
-      }
-      export gps
-
     '';
   };
 
@@ -151,11 +136,9 @@ in
   #############################################################################
 
   home.shellAliases = {
-    tc = "tmux copy-mode                                  # T COPY";
-    tw = "tmux new-window                                 # T WINDOW";
-    tp = "tmux split-window -h -c '#{pane_current_path}'  # T PANE";
-    tj = "tmux last-pane                                  # T JUMP";
-    ts = "tmux swap-pane -D                               # T SWAP";
+    tv = "tmux copy-mode";
+    tc = "tmux new-window";
+    tp = "tmux split-window -h -c '#{pane_current_path}'";
     tsd = "tmux swap-pane -D                              # T SWAP DOWN";
     tsu = "tmux swap-pane -U                              # T SWAP UP";
     th = "tmux split-window -v -c '#{pane_current_path}'  # T HALF";
@@ -176,9 +159,9 @@ in
     newSession = true;
     baseIndex = 1;
     extraConfig = ''
-      set -g prefix C-Space
+      set -g prefix M-Space
       unbind-key C-b
-      bind-key C-Space send-prefix
+      bind-key M-Space send-prefix
       bind-key    v copy-mode
       bind-key -r m previous-window
       bind-key -r n next-window
@@ -204,11 +187,6 @@ in
       bind-key -T copy-mode-vi C-v send -X rectangle-toggle
       bind -T copy-mode-vi MouseDragEnd1Pane send -X copy-selection "xclip -selection clipboard -i"
 
-      bind-key -T copy-mode-vi C-Up send-keys -X previous-paragraph
-      bind-key -T copy-mode-vi C-Down send-keys -X next-paragraph
-      bind-key -T copy-mode-vi C-Left send-keys -X previous-word
-      bind-key -T copy-mode-vi C-Right send-keys -X next-word-end
-
       unbind-key C-Left
       unbind-key C-Right
       unbind-key C-Up
@@ -218,29 +196,8 @@ in
       bind-key -T prefix Left select-pane -L
       bind-key -T prefix Right select-pane -R
 
-      bind-key -T prefix / split-window -h -c '#{pane_current_path}'
-      bind-key -T prefix - split-window -v -c '#{pane_current_path}'
-
-      set -s command-alias[00] tj='last-pane'
-      set -s command-alias[01] tp='split-window -h'
-      set -s command-alias[02] tw='new-window'
-      set -s command-alias[03] tc='copy-mode'
-      set -s command-alias[04] tl='rename-window'
-      set -s command-alias[05] ts='swap-pane -D'
-      set -s command-alias[06] tsd='swap-pane -D'
-      set -s command-alias[07] tsu='swap-pane -U'
-      set -s command-alias[08] th='split-window -v'
-
-      set -s command-alias[100] t0='select-window -t 0'
-      set -s command-alias[101] t1='select-window -t 1'
-      set -s command-alias[102] t2='select-window -t 2'
-      set -s command-alias[103] t3='select-window -t 3'
-      set -s command-alias[104] t4='select-window -t 4'
-      set -s command-alias[105] t5='select-window -t 5'
-      set -s command-alias[106] t6='select-window -t 6'
-      set -s command-alias[107] t7='select-window -t 7'
-      set -s command-alias[108] t8='select-window -t 8'
-      set -s command-alias[109] t9='select-window -t 9'
+      bind-key -T prefix f split-window -h -c '#{pane_current_path}'
+      bind-key -T prefix a split-window -v -c '#{pane_current_path}'
     '';
   };
 
