@@ -27,10 +27,10 @@ in
       google-chrome
       yubioath-flutter
       qbittorrent
-      freecad
       vlc
       atlauncher
       drawio
+      orca-slicer
     ];
 
     ###########################################################################
@@ -248,11 +248,11 @@ in
       # file-roller
       geary
       gnome-disk-utility
-      # seahorse
+      seahorse
       # sushi
       # sysprof
       #
-      # gnome-shell-extensions
+      gnome-shell-extensions
       #
       # adwaita-icon-theme
       # nixos-background-info
@@ -260,7 +260,6 @@ in
       # gnome-bluetooth
       # gnome-color-manager
       # gnome-control-center
-      # gnome-shell-extensions
       gnome-tour # GNOME Shell detects the .desktop file on first log-in.
       gnome-user-docs
       # glib # for gsettings program
@@ -275,14 +274,14 @@ in
       gnome-calculator
       gnome-calendar
       gnome-characters
-      # gnome-clocks
+      gnome-clocks
       gnome-console
       gnome-contacts
       gnome-font-viewer
       gnome-logs
       gnome-maps
       gnome-music
-      # gnome-system-monitor
+      gnome-system-monitor
       gnome-weather
       # loupe
       # nautilus

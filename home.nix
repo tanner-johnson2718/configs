@@ -180,6 +180,7 @@ in
       set -g base-index 1 
       setw -g pane-base-index 1
       set-option -g history-limit 50000
+      set-option -g repeat-time 0
 
       setw -g mode-keys vi
       bind-key -T copy-mode-vi y send-keys -X copy-selection "xclip -selection clipboard -i"
@@ -187,16 +188,6 @@ in
       bind-key -T copy-mode-vi C-v send -X rectangle-toggle
       bind -T copy-mode-vi MouseDragEnd1Pane send -X copy-selection "xclip -selection clipboard -i"
 
-      unbind-key C-Left
-      unbind-key C-Right
-      unbind-key C-Up
-      unbind-key C-Down
-      bind-key -T prefix Up select-pane -U
-      bind-key -T prefix Down select-pane -D
-      bind-key -T prefix Left select-pane -L
-      bind-key -T prefix Right select-pane -R
-
-      bind-key -T prefix f split-window -h -c '#{pane_current_path}'
       bind-key -T prefix a split-window -v -c '#{pane_current_path}'
     '';
   };
