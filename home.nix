@@ -189,6 +189,7 @@ in
       bind -T copy-mode-vi MouseDragEnd1Pane send -X copy-selection "xclip -selection clipboard -i"
 
       bind-key -T prefix a split-window -v -c '#{pane_current_path}'
+      bind-key -T prefix f split-window -h -c '#{pane_current_path}'
     '';
   };
 
