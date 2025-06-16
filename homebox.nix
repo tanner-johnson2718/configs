@@ -1,14 +1,12 @@
 # homebox.nix - nixos system config for my asus gu603 gaming laptop.
 
-# TODO gamebox0 -> homebox -> redeploy
 # TODO Better control and measuring of power draw
 # TODO Asus FW?
-# TODO FDE
 # TODO suspend doesnt work properly
 
 {config, lib, pkgs, inputs, ...}:
 let
-  user            = "gamebox0";
+  user            = "homebox";
   hashedPassword  = "$y$j9T$IBmfxiN89ruEnbsSZEdVY/$KfBV6TLSYhuPo6Q/JLEMJZMhi5yjJUPUA/3KTz8rdmD";
   yubiID          = "29490434";
 in
@@ -30,7 +28,6 @@ in
       vlc
       atlauncher
       drawio
-      orca-slicer
     ];
 
     ###########################################################################
@@ -104,11 +101,11 @@ in
 
     fileSystems = {
       "/" = { 
-        device = "/dev/disk/by-uuid/3f986e0c-dd3e-42d8-8693-c46c02c06e94";
+        device = "/dev/disk/by-uuid/b58c2c94-e702-41e5-9d14-36d1d6502f8e";
         fsType = "ext4";
       };
       "/boot" = { 
-        device = "/dev/disk/by-uuid/1ED3-74FC";
+        device = "/dev/disk/by-uuid/8A99-3B34";
         fsType = "vfat";
         options = [ "fmask=0077" "dmask=0077" ];
       };
@@ -131,9 +128,13 @@ in
       extraModulePackages = [ ];
       loader.systemd-boot.enable = true;
       loader.efi.canTouchEfiVariables = true;
+      initrd.luks.devices."luks-b22281d7-b2d0-4031-90a9-958f6d95b034".device = "/dev/disk/by-uuid/b22281d7-b2d0-4031-90a9-958f6d95b034";
     };
 
     hardware.cpu.intel.updateMicrocode = true;
+    hardware.enableRedistributableFirmware = true;
+    hardware.enableAllFirmware = true;
+    hardware.enableAllHardware = true;
 
     powerManagement = {
       enable = true;
@@ -252,7 +253,7 @@ in
       # sushi
       # sysprof
       #
-      gnome-shell-extensions
+      # gnome-shell-extensions
       #
       # adwaita-icon-theme
       # nixos-background-info
@@ -294,3 +295,6 @@ in
     ];
   };
 }
+
+  
+

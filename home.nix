@@ -70,6 +70,7 @@ in
       '';
     };
     "${config.home.homeDirectory}/git-prompt.sh" = { source = ./git-prompt.sh;};
+    ".background-image" = { source = ./.background-image; };
   };
 
   home.sessionVariables = {
@@ -317,5 +318,18 @@ in
 
       userEmail = lib.mkDefault email;
       userName  = lib.mkDefault user;
+    };
+
+    #############################################################################
+    # Dconf
+    ############################################################################# 
+
+    dconf.settings = {
+      "org/gnome/desktop/background" = {
+	"picture-uri" = "file:///home/${user}/.background-image";
+      };
+      "org/gnome/desktop/screensaver" = {
+        "picture-uri" = "file:///home/${user}/.background-image";
+      };
     };
 }
