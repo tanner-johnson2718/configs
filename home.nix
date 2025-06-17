@@ -37,7 +37,6 @@ in
     wirelesstools
     dracut
     ethtool
-    wirelesstools
     iw
     nil
     ccls
@@ -70,7 +69,7 @@ in
       '';
     };
     "${config.home.homeDirectory}/git-prompt.sh" = { source = ./git-prompt.sh;};
-    ".background-image" = { source = ./.background-image; };
+    "${config.home.homeDirectory}/.background-image" = { source = ./.background-image; };
   };
 
   home.sessionVariables = {
@@ -326,10 +325,41 @@ in
 
     dconf.settings = {
       "org/gnome/desktop/background" = {
-	"picture-uri" = "file:///home/${user}/.background-image";
+	picture-uri = "file:///${config.home.homeDirectory}/.background-image";
+	picture-uri-dark = "file:///${config.home.homeDirectory}/.background-image";
+	color-shading-type = "solid";
+	picture-options = "zoom";
+	primary-color = "#000000000000";
+	secondary-color = "#000000000000";
       };
       "org/gnome/desktop/screensaver" = {
-        "picture-uri" = "file:///home/${user}/.background-image";
+	picture-uri = "file:///${config.home.homeDirectory}/.background-image";
+	picture-uri-dark = "file:///${config.home.homeDirectory}/.background-image";
+	color-shading-type = "solid";
+	picture-options = "zoom";
+	primary-color = "#000000000000";
+	secondary-color = "#000000000000";
+      };
+      "org/gnome/desktop/interface" = { 
+	color-scheme = "prefer-dark";
+	show-battery-percentage = true;
+      };
+      "org/gtk/gtk4/settings/file-chooser" = {
+	show-hidden = true;
+      };
+      "org/gnome/desktop/wm/keybindings" = {
+	activate-window-menu = ["<Alt>slash"];
+      };
+      "org/gnome/shell" = {
+	favorite-apps = [
+	  "kitty.desktop"
+	  "google-chrome.desktop" 
+	  "drawio.desktop" 
+	  "org.gnome.Nautilus.desktop"
+	  "com.yubico.authenticator.desktop" 
+	  "steam.desktop" 
+	  "atlauncher.desktop"
+	];
       };
     };
 }
