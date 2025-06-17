@@ -43,6 +43,8 @@ in
     fd
     ripgrep
     httpie
+
+    gnomeExtensions.freon
   ];
 
   programs.kitty = {
@@ -359,6 +361,10 @@ in
 	  "com.yubico.authenticator.desktop" 
 	  "steam.desktop" 
 	  "atlauncher.desktop"
+	];
+	disable-user-extensions = false;
+	enabled-extensions = [
+	  "freon@UshakovVasilii_Github.yahoo.com"
 	];
       };
     };
