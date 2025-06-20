@@ -28,6 +28,7 @@ in
       vlc
       atlauncher
       drawio
+      wireshark
     ];
 
     ###########################################################################
@@ -94,7 +95,7 @@ in
   
     networking.networkmanager.enable = lib.mkDefault true;
     networking.hostName              = lib.mkDefault user;
- 
+
     ###########################################################################
     # Hardware (CPU)
     ###########################################################################
@@ -240,7 +241,7 @@ in
         pulse.enable = true;
       };
 
-      gnome.gnome-keyring.enable = lib.mkForce false;
+      gnome.gnome-keyring.enable = true;
     };
 
     environment.gnome.excludePackages = with pkgs; [
