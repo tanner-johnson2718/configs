@@ -21,16 +21,6 @@ in
       extraCompatPackages = with pkgs; [proton-ge-bin];
     };
 
-    environment.systemPackages = with pkgs; [
-      google-chrome
-      yubioath-flutter
-      qbittorrent
-      vlc
-      atlauncher
-      drawio
-      wireshark
-    ];
-
     ###########################################################################
     # Nix Daemon, Nixpkgs, Homemanager and Users
     ###########################################################################

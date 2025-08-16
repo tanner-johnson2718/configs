@@ -45,6 +45,15 @@ in
     httpie
 
     gnomeExtensions.freon
+
+    google-chrome
+    yubioath-flutter
+    qbittorrent
+    vlc
+    atlauncher
+    drawio
+    libreoffice
+    freecad
   ];
 
   programs.kitty = {
@@ -107,10 +116,6 @@ in
       
       source ~/.bash_complete
 
-      if [ -z $TMUX ]; then
-	tmux attach
-      fi
-
       # Grep-closure
       function gcl {
 	if [ $# -ne 2 ]; then
@@ -127,71 +132,9 @@ in
 	  echo "pass pattern"
 	  return 1
 	fi
-	kill -9 $(ps -aux | grep $1 | awk '{print $2}')
+	kill -9 $(ps -aux | grep -i $1 | awk '{print $2}')
       }
       export gkill
-    '';
-  };
-
-  #############################################################################
-  # TMUX Settings
-  #############################################################################
-
-  home.shellAliases = {
-    tv = "tmux copy-mode";
-    tc = "tmux new-window";
-    tp = "tmux split-window -h -c '#{pane_current_path}'";
-    tsd = "tmux swap-pane -D                              # T SWAP DOWN";
-    tsu = "tmux swap-pane -U                              # T SWAP UP";
-    th = "tmux split-window -v -c '#{pane_current_path}'  # T HALF";
-    t0 = "tmux select-window -t 0";
-    t1 = "tmux select-window -t 1";
-    t2 = "tmux select-window -t 2";
-    t3 = "tmux select-window -t 3";
-    t4 = "tmux select-window -t 4";
-    t5 = "tmux select-window -t 5";
-    t6 = "tmux select-window -t 6";
-    t7 = "tmux select-window -t 7";
-    t8 = "tmux select-window -t 8";
-    t9 = "tmux select-window -t 9";
-  };
-
-  programs.tmux = {
-    enable = true;
-    newSession = true;
-    baseIndex = 1;
-    extraConfig = ''
-      set -g prefix M-Space
-      unbind-key C-b
-      bind-key M-Space send-prefix
-      bind-key    v copy-mode
-      bind-key -r m previous-window
-      bind-key -r n next-window
-      bind -r k select-pane -U 
-      bind -r j select-pane -D 
-      bind -r h select-pane -L 
-      bind -r l select-pane -R 		
-
-      set-option -g status-right ""
-      set -g status-bg "#5b6078"
-      set -g status-fg "#f9e2af"
-      set-window-option -g window-status-current-style bg="#939ab7"
-      set -g mouse on
-      set -g renumber-windows on
-      set-option -g status-position top
-      set -g base-index 1 
-      setw -g pane-base-index 1
-      set-option -g history-limit 50000
-      set-option -g repeat-time 0
-
-      setw -g mode-keys vi
-      bind-key -T copy-mode-vi y send-keys -X copy-selection "xclip -selection clipboard -i"
-      bind-key -T copy-mode-vi v send -X begin-selection
-      bind-key -T copy-mode-vi C-v send -X rectangle-toggle
-      bind -T copy-mode-vi MouseDragEnd1Pane send -X copy-selection "xclip -selection clipboard -i"
-
-      bind-key -T prefix a split-window -v -c '#{pane_current_path}'
-      bind-key -T prefix f split-window -h -c '#{pane_current_path}'
     '';
   };
 
@@ -225,6 +168,7 @@ in
       set autoindent
       set shiftwidth=2
       set softtabstop=2
+      set tabstop=2
       set number
       set nowrap
       set spell
@@ -236,12 +180,8 @@ in
       nnoremap fm :bprevious<CR>
       nnoremap fs :Telescope live_grep<CR>
       nnoremap fc :bd<CR>
-      nnoremap fd :Gdiffsplit<CR>
-      nnoremap mp :MarkdownPreview<CR>
-      nnoremap <C-PageUp> :bprevious<CR>
-      nnoremap <C-PageDown> :bNext<CR>
 
-      vnoremap f :VBox<CR>
+      inoremap <C-s> <Esc>:w<CR>
     '';
 
     extraLuaConfig = ''
@@ -290,10 +230,8 @@ in
       vscode-nvim
       telescope-nvim
       git-blame-nvim
-      vim-fugitive
       render-markdown-nvim
       markdown-preview-nvim
-      venn-nvim
       nvim-treesitter.withAllGrammars
     ];
   };
