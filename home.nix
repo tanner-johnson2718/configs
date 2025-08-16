@@ -95,9 +95,6 @@ in
     lv = "echo shell levl = ''$SHLVL";
     lu = "systemctl list-units";
 
-    jctl = "journalctl";
-    sctl = "systemctl";
-
     gs = "git status";
     gd = "git diff";
   };
@@ -118,21 +115,21 @@ in
 
       # Grep-closure
       function gcl {
-	if [ $# -ne 2 ]; then
-	  echo "pass ./result pattern"
-	  return 1
-	fi
-	nix path-info -r $1 | grep $2
+				if [ $# -ne 2 ]; then
+					echo "pass ./result pattern"
+					return 1
+				fi
+				nix path-info -r $1 | grep $2
       }
       export gcl
 
       # Grep-kill
       function gkill {
-	if [ $# -ne 1 ]; then
-	  echo "pass pattern"
-	  return 1
-	fi
-	kill -9 $(ps -aux | grep -i $1 | awk '{print $2}')
+				if [ $# -ne 1 ]; then
+					echo "pass pattern"
+					return 1
+				fi
+				kill -9 $(ps -aux | grep -i $1 | awk '{print $2}')
       }
       export gkill
     '';
@@ -173,6 +170,9 @@ in
       set nowrap
       set spell
       set ve=block
+		  set nu rnu
+
+			nnoremap e $	
 
       nnoremap ff :Telescope find_files<CR>
       nnoremap fb :Telescope buffers<CR>
@@ -182,6 +182,14 @@ in
       nnoremap fc :bd<CR>
 
       inoremap <C-s> <Esc>:w<CR>
+			nnoremap <C-s> <Esc>:w<CR>
+
+			nnoremap gb :Telescope git_branches<CR>
+			nnoremap gl :Telescope git_commits<CR>
+			nnoremap gs :Telescope git_status<CR>
+
+			:tnoremap <Esc> <C-\><C-n>
+			:tnoremap <C-s> <C-\><C-n>
     '';
 
     extraLuaConfig = ''
