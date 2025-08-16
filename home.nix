@@ -251,16 +251,16 @@ in
   programs.git = {
       enable = true;
       aliases = {
-	sm = "switch master";
-	co = "checkout";
+				sm = "switch master";
+				co = "checkout";
       };
 
       ignores = [
-	"*.o"
-	"*.so"
-	".FCBak"
-	".a"
-	".lib"
+				"*.o"
+				"*.so"
+				".FCBak"
+				".a"
+				".lib"
       ];
 
       userEmail = lib.mkDefault email;
@@ -273,12 +273,12 @@ in
 
     dconf.settings = {
       "org/gnome/desktop/background" = {
-	picture-uri = "file:///${config.home.homeDirectory}/.background-image";
-	picture-uri-dark = "file:///${config.home.homeDirectory}/.background-image";
-	color-shading-type = "solid";
-	picture-options = "zoom";
-	primary-color = "#000000000000";
-	secondary-color = "#000000000000";
+				picture-uri = "file:///${config.home.homeDirectory}/.background-image";
+				picture-uri-dark = "file:///${config.home.homeDirectory}/.background-image";
+				color-shading-type = "solid";
+				picture-options = "zoom";
+				primary-color = "#000000000000";
+				secondary-color = "#000000000000";
       };
       "org/gnome/desktop/screensaver" = {
 	picture-uri = "file:///${config.home.homeDirectory}/.background-image";
