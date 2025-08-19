@@ -190,7 +190,7 @@ in
 			:tnoremap <Esc> <C-\><C-n>
 			:tnoremap <C-s> <C-\><C-n>
 			:nnoremap <C-w>t :term<CR>
-			:nnoremap <C-w>l :exec (&lines / 4 * 3)." split"<CR><C-w>j<C-w>ti
+			:nnoremap <C-w>l :exec (&lines / 4 * 3)." split"<CR>:wincmd j<CR>:term<CR>i
     '';
 
     extraLuaConfig = ''
@@ -242,6 +242,7 @@ in
       render-markdown-nvim
       markdown-preview-nvim
       nvim-treesitter.withAllGrammars
+			vim-be-good
     ];
   };
 
