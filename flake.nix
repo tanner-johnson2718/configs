@@ -8,8 +8,8 @@
   {
     nixosConfigurations = { 
       homebox = inputs.nixpkgs.lib.nixosSystem {
-	specialArgs = { inherit inputs; };
-	modules = [ ./homebox.nix ];
+			specialArgs = { inherit inputs; };
+			modules = [ ./homebox.nix ];
       };
     };
 

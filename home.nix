@@ -74,9 +74,7 @@ in
     "${config.home.homeDirectory}/complete_alias" = { source = ./complete_alias;};
     "${config.home.homeDirectory}/.bash_complete" = {
       text = ''
-	. ~/complete_alias
-	complete -F _complete_alias jctl
-	complete -F _complete_alias sctl
+				. ~/complete_alias
       '';
     };
     "${config.home.homeDirectory}/git-prompt.sh" = { source = ./git-prompt.sh;};
@@ -148,16 +146,16 @@ in
     coc.enable = true;
     coc.settings = {
       languageserver = {
-	nix = {
-	  command = "nil";
-	  filetypes = [ "nix" ];
-	  rootPatterns = [ "flake.nix" ];
-	};
-	ccls =  {
-	  command = "ccls";
-	  filetypes = ["c"  "cc"  "cpp"  "c++"  "objc"  "objcpp"];
-	  rootPatterns = [".ccls"  "compile_commands.json" ".git/" ".hg/"];
-	};
+				nix = {
+					command = "nil";
+					filetypes = [ "nix" ];
+					rootPatterns = [ "flake.nix" ];
+				};
+				ccls =  {
+					command = "ccls";
+					filetypes = ["c"  "cc"  "cpp"  "c++"  "objc"  "objcpp"];
+					rootPatterns = [".ccls"  "compile_commands.json" ".git/" ".hg/"];
+				};
       };
     };
 
@@ -172,7 +170,8 @@ in
       set ve=block
 		  set nu rnu
 
-			nnoremap e $	
+			nnoremap e $
+			vnoremap e $
 
       nnoremap ff :Telescope find_files<CR>
       nnoremap fb :Telescope buffers<CR>
@@ -190,6 +189,8 @@ in
 
 			:tnoremap <Esc> <C-\><C-n>
 			:tnoremap <C-s> <C-\><C-n>
+			:nnoremap <C-w>t :term<CR>
+			:nnoremap <C-w>l :exec (&lines / 4 * 3)." split"<CR><C-w>j<C-w>ti
     '';
 
     extraLuaConfig = ''

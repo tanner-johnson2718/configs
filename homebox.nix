@@ -50,8 +50,8 @@ in
 
     nixpkgs = {
       config.allowUnfree = true;
-      config.allowBroken = true;
-      hostPlatform = "x86_64-linux";
+				config.allowBroken = true;
+				hostPlatform = "x86_64-linux";
       system = "x86_64-linux";
     };
 
