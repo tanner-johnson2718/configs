@@ -74,7 +74,7 @@ in
     "${config.home.homeDirectory}/complete_alias" = { source = ./complete_alias;};
     "${config.home.homeDirectory}/.bash_complete" = {
       text = ''
-				. ~/complete_alias
+        . ~/complete_alias
       '';
     };
     "${config.home.homeDirectory}/git-prompt.sh" = { source = ./git-prompt.sh;};
@@ -95,7 +95,7 @@ in
 
     gs = "git status";
     gd = "git diff";
-		gdc = "git add ./* ; git commit -m \"..\" ; git push";
+    gdc = "git add ./* ; git commit -m \"..\" ; git push";
   };
     
   programs.bash = {
@@ -114,21 +114,21 @@ in
 
       # Grep-closure
       function gcl {
-				if [ $# -ne 2 ]; then
-					echo "pass ./result pattern"
-					return 1
-				fi
-				nix path-info -r $1 | grep $2
+        if [ $# -ne 2 ]; then
+          echo "pass ./result pattern"
+          return 1
+        fi
+        nix path-info -r $1 | grep $2
       }
       export gcl
 
       # Grep-kill
       function gkill {
-				if [ $# -ne 1 ]; then
-					echo "pass pattern"
-					return 1
-				fi
-				kill -9 $(ps -aux | grep -i $1 | awk '{print $2}')
+        if [ $# -ne 1 ]; then
+          echo "pass pattern"
+          return 1
+        fi
+        kill -9 $(ps -aux | grep -i $1 | awk '{print $2}')
       }
       export gkill
     '';
@@ -141,22 +141,22 @@ in
   programs.neovim = {
     enable       = true;
     viAlias      = true;
-    vimAlias	 = true;
+    vimAlias   = true;
     vimdiffAlias = true;
 
     coc.enable = true;
     coc.settings = {
       languageserver = {
-				nix = {
-					command = "nil";
-					filetypes = [ "nix" ];
-					rootPatterns = [ "flake.nix" ];
-				};
-				ccls =  {
-					command = "ccls";
-					filetypes = ["c"  "cc"  "cpp"  "c++"  "objc"  "objcpp"];
-					rootPatterns = [".ccls"  "compile_commands.json" ".git/" ".hg/"];
-				};
+        nix = {
+          command = "nil";
+          filetypes = [ "nix" ];
+          rootPatterns = [ "flake.nix" ];
+        };
+        ccls =  {
+          command = "ccls";
+          filetypes = ["c"  "cc"  "cpp"  "c++"  "objc"  "objcpp"];
+          rootPatterns = [".ccls"  "compile_commands.json" ".git/" ".hg/"];
+        };
       };
     };
 
@@ -169,11 +169,11 @@ in
       set nowrap
       set spell
       set ve=block
-		  set nu rnu
-			colorscheme onedark
+      set nu rn
+      colorscheme onedark
 
-			nnoremap e $ 
-			vnoremap e $
+      nnoremap e $ 
+      vnoremap e $
 
       nnoremap ff :Telescope find_files<CR>
       nnoremap fb :Telescope buffers<CR>
@@ -183,24 +183,24 @@ in
       nnoremap fc :bd<CR>
 
       inoremap <C-s> <Esc>:w<CR>
-			nnoremap <C-s> <Esc>:w<CR>
+      nnoremap <C-s> <Esc>:w<CR>
 
-			nnoremap gb :Telescope git_branches<CR>
-			nnoremap gl :Telescope git_commits<CR>
-			nnoremap gs :Telescope git_status<CR>
+      nnoremap gb :Telescope git_branches<CR>
+      nnoremap gl :Telescope git_commits<CR>
+      nnoremap gs :Telescope git_status<CR>
 
-			:tnoremap <Esc> <C-\><C-n>
-			:tnoremap <C-s> <C-\><C-n>
-			:nnoremap <C-w>t :term<CR>
-			:nnoremap <C-w>b :exec (&lines / 4 * 3)." split"<CR>:wincmd j<CR>:term<CR>i
+      :tnoremap <Esc> <C-\><C-n>
+      :tnoremap <C-s> <C-\><C-n>
+      :nnoremap <C-w>t :term<CR>
+      :nnoremap <C-w>b :exec (&lines / 4 * 3)." split"<CR>:wincmd j<CR>:term<CR>i
     '';
 
     extraLuaConfig = ''
-     	require'nvim-treesitter.configs'.setup {
-				highlight = {
-					enable = true,
-				}
-			}
+      require'nvim-treesitter.configs'.setup {
+        highlight = {
+          enable = true,
+        }
+      }
     '';
 
     plugins = with pkgs.vimPlugins; [
@@ -209,8 +209,8 @@ in
       render-markdown-nvim
       markdown-preview-nvim
       nvim-treesitter.withAllGrammars
-			vim-be-good
-			onedark-nvim
+      vim-be-good
+      onedark-nvim
     ];
   };
 
@@ -221,16 +221,16 @@ in
   programs.git = {
       enable = true;
       aliases = {
-				sm = "switch master";
-				co = "checkout";
+        sm = "switch master";
+        co = "checkout";
       };
 
       ignores = [
-				"*.o"
-				"*.so"
-				".FCBak"
-				".a"
-				".lib"
+        "*.o"
+        "*.so"
+        ".FCBak"
+        ".a"
+        ".lib"
       ];
 
       userEmail = lib.mkDefault email;
@@ -243,45 +243,45 @@ in
 
     dconf.settings = {
       "org/gnome/desktop/background" = {
-				picture-uri = "file:///${config.home.homeDirectory}/.background-image";
-				picture-uri-dark = "file:///${config.home.homeDirectory}/.background-image";
-				color-shading-type = "solid";
-				picture-options = "zoom";
-				primary-color = "#000000000000";
-				secondary-color = "#000000000000";
+        picture-uri = "file:///${config.home.homeDirectory}/.background-image";
+        picture-uri-dark = "file:///${config.home.homeDirectory}/.background-image";
+        color-shading-type = "solid";
+        picture-options = "zoom";
+        primary-color = "#000000000000";
+        secondary-color = "#000000000000";
       };
       "org/gnome/desktop/screensaver" = {
-	picture-uri = "file:///${config.home.homeDirectory}/.background-image";
-	picture-uri-dark = "file:///${config.home.homeDirectory}/.background-image";
-	color-shading-type = "solid";
-	picture-options = "zoom";
-	primary-color = "#000000000000";
-	secondary-color = "#000000000000";
+  picture-uri = "file:///${config.home.homeDirectory}/.background-image";
+  picture-uri-dark = "file:///${config.home.homeDirectory}/.background-image";
+  color-shading-type = "solid";
+  picture-options = "zoom";
+  primary-color = "#000000000000";
+  secondary-color = "#000000000000";
       };
       "org/gnome/desktop/interface" = { 
-	color-scheme = "prefer-dark";
-	show-battery-percentage = true;
+  color-scheme = "prefer-dark";
+  show-battery-percentage = true;
       };
       "org/gtk/gtk4/settings/file-chooser" = {
-	show-hidden = true;
+  show-hidden = true;
       };
       "org/gnome/desktop/wm/keybindings" = {
-	activate-window-menu = ["<Alt>slash"];
+  activate-window-menu = ["<Alt>slash"];
       };
       "org/gnome/shell" = {
-	favorite-apps = [
-	  "kitty.desktop"
-	  "google-chrome.desktop" 
-	  "drawio.desktop" 
-	  "org.gnome.Nautilus.desktop"
-	  "com.yubico.authenticator.desktop" 
-	  "steam.desktop" 
-	  "atlauncher.desktop"
-	];
-	disable-user-extensions = false;
-	enabled-extensions = [
-	  "freon@UshakovVasilii_Github.yahoo.com"
-	];
+  favorite-apps = [
+    "kitty.desktop"
+    "google-chrome.desktop" 
+    "drawio.desktop" 
+    "org.gnome.Nautilus.desktop"
+    "com.yubico.authenticator.desktop" 
+    "steam.desktop" 
+    "atlauncher.desktop"
+  ];
+  disable-user-extensions = false;
+  enabled-extensions = [
+    "freon@UshakovVasilii_Github.yahoo.com"
+  ];
       };
     };
 }
