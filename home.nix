@@ -170,6 +170,8 @@ in
       set spell
       set ve=block
       set nu rn
+      set expandtab
+      set list
       colorscheme onedark
 
       nnoremap e $ 
