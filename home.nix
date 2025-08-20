@@ -172,7 +172,8 @@ in
 		  set nu rnu
 			colorscheme onedark
 
-			nnoremap e $ vnoremap e $
+			nnoremap e $ 
+			vnoremap e $
 
       nnoremap ff :Telescope find_files<CR>
       nnoremap fb :Telescope buffers<CR>
@@ -191,7 +192,7 @@ in
 			:tnoremap <Esc> <C-\><C-n>
 			:tnoremap <C-s> <C-\><C-n>
 			:nnoremap <C-w>t :term<CR>
-			:nnoremap <C-w>l :exec (&lines / 4 * 3)." split"<CR>:wincmd j<CR>:term<CR>i
+			:nnoremap <C-w>b :exec (&lines / 4 * 3)." split"<CR>:wincmd j<CR>:term<CR>i
     '';
 
     extraLuaConfig = ''
