@@ -69,7 +69,7 @@ in
   #############################################################################
   # Alias's, home files, and bash init
   #############################################################################
-  
+
   home.file = { 
     "${config.home.homeDirectory}/complete_alias" = { source = ./complete_alias;};
     "${config.home.homeDirectory}/.bash_complete" = {
@@ -97,7 +97,7 @@ in
     gd = "git diff";
     gdc = "git add ./* ; git commit -m \"..\" ; git push";
   };
-    
+
   programs.bash = {
     enable = true;
     enableCompletion = true;
@@ -109,7 +109,7 @@ in
       source ~/git-prompt.sh
       export PROMPT_COLOR='34'
       export PS1='\n\[\033[01;''${PROMPT_COLOR}m\]\W\[\033[01;32m\]$(__git_ps1 " (%s)") \[\033[00m\] '
-      
+
       source ~/.bash_complete
 
       # Grep-closure
@@ -137,7 +137,7 @@ in
   #############################################################################
   # NVIM Settings
   ############################################################################# 
-  
+
   programs.neovim = {
     enable       = true;
     viAlias      = true;
@@ -169,7 +169,7 @@ in
       set nowrap
       set spell
       set ve=block
-      set nu rn
+      set nu rnu
       set expandtab
       set list
       colorscheme onedark
@@ -182,6 +182,7 @@ in
       nnoremap fn :bNext<CR>
       nnoremap fm :bprevious<CR>
       nnoremap fs :Telescope live_grep<CR>
+      nnoremap fS :Telescope current_buffer_fuzzy_find<CR>
       nnoremap fc :bd<CR>
 
       inoremap <C-s> <Esc>:w<CR>
@@ -190,6 +191,7 @@ in
       nnoremap gb :Telescope git_branches<CR>
       nnoremap gl :Telescope git_commits<CR>
       nnoremap gs :Telescope git_status<CR>
+      nnoremap gS :Telescope git_stash<CR>
 
       :tnoremap <Esc> <C-\><C-n>
       :tnoremap <C-s> <C-\><C-n>
@@ -253,37 +255,37 @@ in
         secondary-color = "#000000000000";
       };
       "org/gnome/desktop/screensaver" = {
-  picture-uri = "file:///${config.home.homeDirectory}/.background-image";
-  picture-uri-dark = "file:///${config.home.homeDirectory}/.background-image";
-  color-shading-type = "solid";
-  picture-options = "zoom";
-  primary-color = "#000000000000";
-  secondary-color = "#000000000000";
-      };
-      "org/gnome/desktop/interface" = { 
-  color-scheme = "prefer-dark";
-  show-battery-percentage = true;
-      };
-      "org/gtk/gtk4/settings/file-chooser" = {
-  show-hidden = true;
-      };
-      "org/gnome/desktop/wm/keybindings" = {
-  activate-window-menu = ["<Alt>slash"];
-      };
-      "org/gnome/shell" = {
-  favorite-apps = [
-    "kitty.desktop"
-    "google-chrome.desktop" 
-    "drawio.desktop" 
-    "org.gnome.Nautilus.desktop"
-    "com.yubico.authenticator.desktop" 
-    "steam.desktop" 
-    "atlauncher.desktop"
-  ];
-  disable-user-extensions = false;
-  enabled-extensions = [
-    "freon@UshakovVasilii_Github.yahoo.com"
-  ];
+        picture-uri = "file:///${config.home.homeDirectory}/.background-image";
+        picture-uri-dark = "file:///${config.home.homeDirectory}/.background-image";
+        color-shading-type = "solid";
+        picture-options = "zoom";
+        primary-color = "#000000000000";
+        secondary-color = "#000000000000";
+            };
+            "org/gnome/desktop/interface" = { 
+        color-scheme = "prefer-dark";
+        show-battery-percentage = true;
+            };
+            "org/gtk/gtk4/settings/file-chooser" = {
+        show-hidden = true;
+            };
+            "org/gnome/desktop/wm/keybindings" = {
+        activate-window-menu = ["<Alt>slash"];
+            };
+            "org/gnome/shell" = {
+        favorite-apps = [
+          "kitty.desktop"
+          "google-chrome.desktop" 
+          "drawio.desktop" 
+          "org.gnome.Nautilus.desktop"
+          "com.yubico.authenticator.desktop" 
+          "steam.desktop" 
+          "atlauncher.desktop"
+        ];
+        disable-user-extensions = false;
+        enabled-extensions = [
+          "freon@UshakovVasilii_Github.yahoo.com"
+        ];
       };
     };
 }
