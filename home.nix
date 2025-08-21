@@ -174,7 +174,7 @@ in
       set list
       colorscheme onedark
 
-      nnoremap e $ 
+      nnoremap e $
       vnoremap e $
 
       nnoremap ff :Telescope find_files<CR>
@@ -196,6 +196,8 @@ in
       :tnoremap <Esc> <C-\><C-n>
       :tnoremap <C-s> <C-\><C-n>
       :nnoremap <C-w>t :term<CR>
+      :nnoremap <C-w>T :tab new
+      :nnoremap <C-2>z :tab split
       :nnoremap <C-w>b :exec (&lines / 4 * 3)." split"<CR>:wincmd j<CR>:term<CR>i
     '';
 
