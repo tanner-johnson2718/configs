@@ -222,6 +222,7 @@ in
       nvim-treesitter.withAllGrammars
       vim-be-good
       onedark-nvim
+      nvzone-typr
     ];
   };
 
