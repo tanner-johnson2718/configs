@@ -54,6 +54,9 @@ in
     drawio
     libreoffice
     freecad
+    thunderbolt
+    bolt
+    cachix
   ];
 
   programs.kitty = {
@@ -172,7 +175,9 @@ in
       set nu rnu
       set expandtab
       set list
+      set clipboard=unnamedplus
       colorscheme onedark
+      autocmd BufEnter term://* startinsert
 
       nnoremap e $
       vnoremap e $
@@ -196,8 +201,8 @@ in
       :tnoremap <Esc> <C-\><C-n>
       :tnoremap <C-s> <C-\><C-n>
       :nnoremap <C-w>t :term<CR>
-      :nnoremap <C-w>T :tab new
-      :nnoremap <C-w>z :tab split
+      :nnoremap <C-w>T :tab new<CR>
+      :nnoremap <C-w>z :tab split<CR>
       :nnoremap <C-w>b :exec (&lines / 4 * 3)." split"<CR>:wincmd j<CR>:term<CR>i
     '';
 
