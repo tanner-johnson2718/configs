@@ -59,16 +59,6 @@ in
     cachix
   ];
 
-  programs.kitty = {
-    enable = true;
-    themeFile = "Darkside";
-    extraConfig = ''
-      map ctrl+shift+n no_op
-      map ctrl+shift+enter no_op
-      map ctrl+shift+t no_op
-    '';
-  };
-
   #############################################################################
   # Alias's, home files, and bash init
   #############################################################################
@@ -177,7 +167,6 @@ in
       set list
       set clipboard=unnamedplus
       colorscheme onedark
-      autocmd BufEnter term://* startinsert
 
       nnoremap e $
       vnoremap e $
@@ -188,7 +177,8 @@ in
       nnoremap fm :bprevious<CR>
       nnoremap fs :Telescope live_grep<CR>
       nnoremap fS :Telescope current_buffer_fuzzy_find<CR>
-      nnoremap fc :bd<CR>
+      nnoremap fc :Bwipeout<CR>
+      nnoremap fj :Telescope jumplist<CR>
 
       inoremap <C-s> <Esc>:w<CR>
       nnoremap <C-s> <Esc>:w<CR>
@@ -197,13 +187,6 @@ in
       nnoremap gl :Telescope git_commits<CR>
       nnoremap gs :Telescope git_status<CR>
       nnoremap gS :Telescope git_stash<CR>
-
-      :tnoremap <Esc> <C-\><C-n>
-      :tnoremap <C-s> <C-\><C-n>
-      :nnoremap <C-w>t :term<CR>
-      :nnoremap <C-w>T :tab new<CR>
-      :nnoremap <C-w>z :tab split<CR>
-      :nnoremap <C-w>b :exec (&lines / 4 * 3)." split"<CR>:wincmd j<CR>:term<CR>i
     '';
 
     extraLuaConfig = ''
@@ -223,7 +206,92 @@ in
       vim-be-good
       onedark-nvim
       nvzone-typr
+      vim-bbye
     ];
+  };
+
+  #############################################################################
+  # TMUX Settings
+  #############################################################################
+
+  programs.tmux = {
+    enable = true;
+    newSession = false;
+    baseIndex = 1;
+    extraConfig = ''
+      set -g prefix C-Space
+      unbind-key C-b
+      bind-key M-Space send-prefix
+      bind-key    i copy-mode
+      bind-key -r m previous-window
+      bind-key -r n next-window
+      bind -r k select-pane -U 
+      bind -r j select-pane -D 
+      bind -r h select-pane -L 
+      bind -r l select-pane -R            
+
+      set-option -g status-right ""
+      set -g status-bg "#5b6078"
+      set -g status-fg "#f9e2af"
+      set-window-option -g window-status-current-style bg="#939ab7"
+      set -g mouse on
+      set -g renumber-windows on
+      set-option -g status-position top
+      set -g base-index 1 
+      setw -g pane-base-index 1
+      set-option -g history-limit 50000
+      set-option -g repeat-time 0
+
+      setw -g mode-keys vi
+      bind-key -T copy-mode-vi y send-keys -X copy-selection "xclip -selection clipboard -i"
+      bind-key -T copy-mode-vi v send -X begin-selection
+      bind-key -T copy-mode-vi C-v send -X rectangle-toggle
+      bind -T copy-mode-vi MouseDragEnd1Pane send -X copy-selection "xclip -selection clipboard -i"
+
+      bind-key -T prefix s split-window -v -c '#{pane_current_path}'
+      bind-key -T prefix v split-window -h -c '#{pane_current_path}'
+    '';
+  };
+
+  #############################################################################
+  # Kitty!
+  #############################################################################
+
+  programs.kitty = {
+    enable = true;
+    themeFile = "Darkside";
+    extraConfig = ''
+      map ctrl+shift+n no_op
+      map ctrl+shift+enter no_op
+      map ctrl+shift+t no_op
+
+      # Colors
+      foreground #979eab
+      background #282c34
+
+      color0 #282c34
+      color1 #e06c75
+      color2 #98c379
+      color3 #e5c07b
+      color4 #61afef
+      color5 #be5046
+      color6 #56b6c2
+      color7 #979eab
+      color8 #393e48
+      color9 #d19a66
+      color10 #56b6c2
+      color11 #e5c07b
+      color12 #61afef
+      color13 #be5046
+      color14 #56b6c2
+      color15 #abb2bf
+
+      # Tab Bar
+      active_tab_foreground   #282c34
+      active_tab_background   #979eab
+      inactive_tab_foreground #abb2bf
+      inactive_tab_background #282c34
+    '';
   };
 
   #############################################################################
@@ -269,18 +337,21 @@ in
         picture-options = "zoom";
         primary-color = "#000000000000";
         secondary-color = "#000000000000";
-            };
-            "org/gnome/desktop/interface" = { 
+      };
+      "org/gnome/desktop/interface" = { 
         color-scheme = "prefer-dark";
         show-battery-percentage = true;
-            };
-            "org/gtk/gtk4/settings/file-chooser" = {
+      };
+      "org/gtk/gtk4/settings/file-chooser" = {
         show-hidden = true;
-            };
-            "org/gnome/desktop/wm/keybindings" = {
+      };
+      "org/gnome/desktop/wm/keybindings" = {
         activate-window-menu = ["<Alt>slash"];
-            };
-            "org/gnome/shell" = {
+      };
+      "org/gnome/desktop/input-sources" = {
+        xkb-options = ["ctrl:nocaps"];
+      };
+      "org/gnome/shell" = {
         favorite-apps = [
           "kitty.desktop"
           "google-chrome.desktop" 
@@ -289,6 +360,7 @@ in
           "com.yubico.authenticator.desktop" 
           "steam.desktop" 
           "atlauncher.desktop"
+          "freecad.desktop"
         ];
         disable-user-extensions = false;
         enabled-extensions = [

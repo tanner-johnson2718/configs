@@ -24,7 +24,7 @@ in
     ###########################################################################
     # Nix Daemon, Nixpkgs, Homemanager and Users
     ###########################################################################
-    
+
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
@@ -36,22 +36,22 @@ in
           home.username = user;
           home.homeDirectory = "/home/${user}";
           home.stateVersion = "24.11";
-	  programs.home-manager.enable = true;
+          programs.home-manager.enable = true;
         };
       });
     };
 
     nix = {
       settings = { 
-	experimental-features = [ "nix-command" "flakes" ];
-	trusted-users = [ "root" "${user}" ];
+        experimental-features = [ "nix-command" "flakes" ];
+        trusted-users = [ "root" "${user}" ];
       };
     };
 
     nixpkgs = {
       config.allowUnfree = true;
-				config.allowBroken = true;
-				hostPlatform = "x86_64-linux";
+      config.allowBroken = true;
+      hostPlatform = "x86_64-linux";
       system = "x86_64-linux";
     };
 
@@ -82,7 +82,7 @@ in
     ###########################################################################
     # Networking
     ###########################################################################
-  
+
     networking.networkmanager.enable = lib.mkDefault true;
     networking.hostName              = lib.mkDefault user;
 
@@ -105,14 +105,14 @@ in
     boot = {
       kernelPackages = pkgs.linuxPackages_6_12;
       initrd.availableKernelModules = [ 
-	"xhci_pci" 
-	"thunderbolt" 
-	"vmd" 
-	"nvme"
-	"usbhid"
-	"usb_storage" 
-	"sd_mod" 
-	"sdhci_pci"
+        "xhci_pci" 
+        "thunderbolt" 
+        "vmd" 
+        "nvme"
+        "usbhid"
+        "usb_storage" 
+        "sd_mod" 
+        "sdhci_pci"
       ];
       initrd.kernelModules = [ ];
       kernelModules = [ "kvm-intel" ];
@@ -131,11 +131,12 @@ in
       enable = true;
       cpuFreqGovernor = "performance";
       cpufreq = {
-	min = null;
-	max = null;
+        min = null;
+        max = null;
       };
+
       scsiLinkPolicy = "max_performance";
-      powertop.enable = false;      
+      powertop.enable = false;
 
       resumeCommands = "";
       powerUpCommands = "";
@@ -147,7 +148,6 @@ in
     ###########################################################################
 
     hardware = {
-      
       nvidiaOptimus.disable = false;
       graphics.enable = true;
 
@@ -156,11 +156,10 @@ in
         open                = false;
         modesetting.enable  = true;
         nvidiaSettings      = true;
-	dynamicBoost.enable = false;
-	nvidiaPersistenced  = false;
-	gsp.enable          = true;
-
-	forceFullCompositionPipeline = false;
+        dynamicBoost.enable = false;
+        nvidiaPersistenced  = false;
+        gsp.enable          = true;
+        forceFullCompositionPipeline = false;
 
         powerManagement = {
           enable = true;
@@ -168,16 +167,16 @@ in
         };
 
         prime = {
-	  sync.enable              = false;
+          sync.enable              = false;
           offload.enable           = true;
           offload.enableOffloadCmd = true;
-	  allowExternalGpu         = false;
+          allowExternalGpu         = false;
           intelBusId               = "PCI:0:2:0";
           nvidiaBusId              = "PCI:1:0:0";
-	  reverseSync = {
-	    enable = false;
-	    setupCommands.enable = true;
-	  };
+          reverseSync = {
+            enable = false;
+            setupCommands.enable = true;
+          };
         };
       };
     };
@@ -286,6 +285,3 @@ in
     ];
   };
 }
-
-  
-
