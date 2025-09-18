@@ -47,13 +47,6 @@ in
     gnomeExtensions.freon
 
     google-chrome
-    yubioath-flutter
-    qbittorrent
-    vlc
-    atlauncher
-    drawio
-    libreoffice
-    freecad
     thunderbolt
     bolt
     cachix
@@ -355,17 +348,18 @@ in
         favorite-apps = [
           "kitty.desktop"
           "google-chrome.desktop" 
-          "drawio.desktop" 
-          "org.gnome.Nautilus.desktop"
-          "com.yubico.authenticator.desktop" 
-          "steam.desktop" 
-          "atlauncher.desktop"
-          "freecad.desktop"
         ];
         disable-user-extensions = false;
         enabled-extensions = [
           "freon@UshakovVasilii_Github.yahoo.com"
         ];
+        last-selected-power-profile = "power-saver";
+      };
+      "org/gnome/shell/extensions/freon" = {
+        hot-sensors = [ "BAT0 Power" "__max__" ];
+      };
+      "org/gnome/desktop/peripherals/touchpad" = {
+        speed = 1.0;
       };
     };
 }
