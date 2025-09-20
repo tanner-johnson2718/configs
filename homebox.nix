@@ -13,6 +13,7 @@ in
 {
   imports = [ 
     inputs.home-manager.nixosModules.default
+    inputs.self.nixosModules.gnome
   ];
 
   config = {
@@ -31,7 +32,10 @@ in
       backupFileExtension = ".bak";
       extraSpecialArgs = { inherit inputs; };
       users."${user}" = ({...}: {
-        imports = [ ./home.nix ]; 
+        imports = [ 
+          inputs.self.homeModules.home
+          inputs.self.homeModules.gnomeHome
+        ]; 
         config = {
           home.username = user;
           home.homeDirectory = "/home/${user}";
@@ -206,82 +210,5 @@ in
     };
 
     services.pcscd.enable = true;
-
-    ###########################################################################
-    # GNOME
-    ###########################################################################
-
-    services = {
-      xserver = { 
-        videoDrivers = lib.mkDefault [ "nvidia" ];
-        enable = true;
-        displayManager.gdm.enable = true;
-        desktopManager.gnome.enable = true;
-        xkb = {
-          layout = "us";
-          variant = "";
-        };
-      };
-
-      pipewire = {
-        enable = true;
-        alsa.enable = true;
-        alsa.support32Bit = true;
-        pulse.enable = true;
-      };
-
-      gnome.gnome-keyring.enable = true;
-    };
-
-    environment.gnome.excludePackages = with pkgs; [
-      orca
-      evince
-      # file-roller
-      geary
-      gnome-disk-utility
-      seahorse
-      # sushi
-      # sysprof
-      #
-      # gnome-shell-extensions
-      #
-      # adwaita-icon-theme
-      # nixos-background-info
-      gnome-backgrounds
-      # gnome-bluetooth
-      # gnome-color-manager
-      # gnome-control-center
-      gnome-tour # GNOME Shell detects the .desktop file on first log-in.
-      gnome-user-docs
-      # glib # for gsettings program
-      # gnome-menus
-      # gtk3.out # for gtk-launch program
-      # xdg-user-dirs # Update user dirs as described in https://freedesktop.org/wiki/Software/xdg-user-dirs/
-      # xdg-user-dirs-gtk # Used to create the default bookmarks
-      #
-      baobab
-      epiphany
-      gnome-text-editor
-      gnome-calculator
-      gnome-calendar
-      gnome-characters
-      gnome-clocks
-      gnome-console
-      gnome-contacts
-      gnome-font-viewer
-      gnome-logs
-      gnome-maps
-      gnome-music
-      gnome-system-monitor
-      gnome-weather
-      # loupe
-      # nautilus
-      gnome-connections
-      simple-scan
-      # snapshot
-      totem
-      yelp
-      gnome-software
-    ];
   };
 }

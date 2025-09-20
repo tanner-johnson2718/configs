@@ -8,12 +8,17 @@
   {
     nixosConfigurations = { 
       homebox = inputs.nixpkgs.lib.nixosSystem {
-			specialArgs = { inherit inputs; };
-			modules = [ ./homebox.nix ];
+      specialArgs = { inherit inputs; };
+      modules = [ ./homebox.nix ];
       };
     };
-
-    homeConfigurations = import ./home.nix;
+    nixosModules = {
+      gnome = import ./gnome.nix;
+    };
+    homeModules = {
+      home = import ./home.nix;
+      gnomeHome = import ./gnomeHome.nix;
+    };
   };
 }
 
