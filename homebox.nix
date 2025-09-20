@@ -17,6 +17,11 @@ in
   ];
 
   config = {
+
+    ###########################################################################
+    # Do you have games on your phone
+    ###########################################################################
+
     programs.steam = {
       enable = true;
       extraCompatPackages = with pkgs; [proton-ge-bin];
