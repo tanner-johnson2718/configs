@@ -2,7 +2,6 @@
 {
   services = {
     xserver = { 
-      videoDrivers = lib.mkDefault [ "nvidia" ];
       enable = true;
       displayManager.gdm.enable = true;
       desktopManager.gnome.enable = true;

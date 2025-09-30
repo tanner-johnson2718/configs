@@ -9,6 +9,7 @@ let
   user            = "homebox";
   hashedPassword  = "$y$j9T$IBmfxiN89ruEnbsSZEdVY/$KfBV6TLSYhuPo6Q/JLEMJZMhi5yjJUPUA/3KTz8rdmD";
   yubiID          = "29490434";
+  powerSaver      = false;
 in
 {
   imports = [ 
@@ -138,26 +139,22 @@ in
 
     powerManagement = {
       enable = true;
-      cpuFreqGovernor = "performance";
+      cpuFreqGovernor = if powerSaver then "powersave" else "performance";
       cpufreq = {
         min = null;
         max = null;
       };
 
-      scsiLinkPolicy = "max_performance";
+      scsiLinkPolicy = if powerSaver then "min_power" else "max_performance";
       powertop.enable = false;
-
-      resumeCommands = "";
-      powerUpCommands = "";
-      powerDownCommands = "";
     };
 
     ###########################################################################
     # Hardware (GPU)
     ###########################################################################
-
+    services.xserver.videoDrivers = lib.mkIf (!powerSaver) [ "nvidia" ];
     hardware = {
-      nvidiaOptimus.disable = false;
+      nvidiaOptimus.disable = powerSaver;
       graphics.enable = true;
 
       nvidia = {
@@ -165,27 +162,18 @@ in
         open                = false;
         modesetting.enable  = true;
         nvidiaSettings      = true;
-        dynamicBoost.enable = false;
         nvidiaPersistenced  = false;
-        gsp.enable          = true;
         forceFullCompositionPipeline = false;
 
         powerManagement = {
-          enable = true;
+          enable = false;
           finegrained = false;
         };
 
         prime = {
-          sync.enable              = false;
-          offload.enable           = true;
-          offload.enableOffloadCmd = true;
-          allowExternalGpu         = false;
+          sync.enable              = true;
           intelBusId               = "PCI:0:2:0";
           nvidiaBusId              = "PCI:1:0:0";
-          reverseSync = {
-            enable = false;
-            setupCommands.enable = true;
-          };
         };
       };
     };
