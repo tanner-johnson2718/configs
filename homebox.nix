@@ -9,7 +9,6 @@ let
   user            = "homebox";
   hashedPassword  = "$y$j9T$IBmfxiN89ruEnbsSZEdVY/$KfBV6TLSYhuPo6Q/JLEMJZMhi5yjJUPUA/3KTz8rdmD";
   yubiID          = "29490434";
-  powerSaver      = false;
 in
 {
   imports = [ 
@@ -113,7 +112,7 @@ in
     };
 
     boot = {
-      kernelPackages = pkgs.linuxPackages_6_12;
+      kernelPackages = pkgs.linuxPackages_latest;
       initrd.availableKernelModules = [ 
         "xhci_pci" 
         "thunderbolt" 
@@ -130,6 +129,7 @@ in
       loader.systemd-boot.enable = true;
       loader.efi.canTouchEfiVariables = true;
       initrd.luks.devices."luks-b22281d7-b2d0-4031-90a9-958f6d95b034".device = "/dev/disk/by-uuid/b22281d7-b2d0-4031-90a9-958f6d95b034";
+      kernelParams = [];
     };
 
     hardware.cpu.intel.updateMicrocode = true;
@@ -139,28 +139,28 @@ in
 
     powerManagement = {
       enable = true;
-      cpuFreqGovernor = if powerSaver then "powersave" else "performance";
+      cpuFreqGovernor = "powersave";
       cpufreq = {
         min = null;
         max = null;
       };
 
-      scsiLinkPolicy = if powerSaver then "min_power" else "max_performance";
+      scsiLinkPolicy = "min_power";
       powertop.enable = false;
     };
 
     ###########################################################################
     # Hardware (GPU)
     ###########################################################################
-    services.xserver.videoDrivers = lib.mkIf (!powerSaver) [ "nvidia" ];
+    services.xserver.videoDrivers = [ "intel" ];
     hardware = {
-      nvidiaOptimus.disable = powerSaver;
+      nvidiaOptimus.disable = true;
       graphics.enable = true;
 
       nvidia = {
         package             = config.boot.kernelPackages.nvidiaPackages.stable;
         open                = false;
-        modesetting.enable  = true;
+        modesetting.enable  = false;
         nvidiaSettings      = true;
         nvidiaPersistenced  = false;
         forceFullCompositionPipeline = false;
@@ -171,12 +171,29 @@ in
         };
 
         prime = {
-          sync.enable              = true;
-          intelBusId               = "PCI:0:2:0";
-          nvidiaBusId              = "PCI:1:0:0";
+          sync.enable = false;
+          intelBusId  = "PCI:0:2:0";
+          nvidiaBusId = "PCI:1:0:0";
         };
       };
     };
+
+    boot.extraModprobeConfig = ''
+  blacklist nouveau
+  options nouveau modeset=0
+'';
+  
+services.udev.extraRules = ''
+  # Remove NVIDIA USB xHCI Host Controller devices, if present
+  ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x0c0330", ATTR{power/control}="auto", ATTR{remove}="1"
+  # Remove NVIDIA USB Type-C UCSI devices, if present
+  ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x0c8000", ATTR{power/control}="auto", ATTR{remove}="1"
+  # Remove NVIDIA Audio devices, if present
+  ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x040300", ATTR{power/control}="auto", ATTR{remove}="1"
+  # Remove NVIDIA VGA/3D controller devices
+  ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x03[0-9]*", ATTR{power/control}="auto", ATTR{remove}="1"
+'';
+boot.blacklistedKernelModules = [ "nouveau" "nvidia" "nvidia_drm" "nvidia_modeset" ];
 
     ###########################################################################
     # Yubi Key
