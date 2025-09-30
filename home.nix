@@ -216,9 +216,9 @@ in
       bind-key    i copy-mode
       bind-key -r m previous-window
       bind-key -r n next-window
-      bind -r k select-pane -U 
-      bind -r j select-pane -D 
-      bind -r h select-pane -L 
+      bind -r k select-pane -U
+      bind -r j select-pane -D
+      bind -r h select-pane -L
       bind -r l select-pane -R            
 
       set-option -g status-right ""
