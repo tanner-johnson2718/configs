@@ -9,6 +9,7 @@ let
   user            = "homebox";
   hashedPassword  = "$y$j9T$IBmfxiN89ruEnbsSZEdVY/$KfBV6TLSYhuPo6Q/JLEMJZMhi5yjJUPUA/3KTz8rdmD";
   yubiID          = "29490434";
+  useGPU          = false;
 in
 {
   imports = [ 
@@ -129,7 +130,7 @@ in
       loader.systemd-boot.enable = true;
       loader.efi.canTouchEfiVariables = true;
       initrd.luks.devices."luks-b22281d7-b2d0-4031-90a9-958f6d95b034".device = "/dev/disk/by-uuid/b22281d7-b2d0-4031-90a9-958f6d95b034";
-      kernelParams = [];
+      kernelParams = [ "i915.force_probe=28fd" ];
     };
 
     hardware.cpu.intel.updateMicrocode = true;
@@ -150,9 +151,10 @@ in
     };
 
     ###########################################################################
-    # Hardware (GPU)
+    # Hardware (GPU) - rn set up to use integrated graphics
     ###########################################################################
     services.xserver.videoDrivers = [ "intel" ];
+    hardware.graphics.extraPackages = with pkgs; [ vaapiIntel intel-media-driver ];
     hardware = {
       nvidiaOptimus.disable = true;
       graphics.enable = true;
@@ -161,7 +163,7 @@ in
         package             = config.boot.kernelPackages.nvidiaPackages.stable;
         open                = false;
         modesetting.enable  = false;
-        nvidiaSettings      = true;
+        nvidiaSettings      = false;
         nvidiaPersistenced  = false;
         forceFullCompositionPipeline = false;
 
@@ -179,21 +181,21 @@ in
     };
 
     boot.extraModprobeConfig = ''
-  blacklist nouveau
-  options nouveau modeset=0
-'';
-  
-services.udev.extraRules = ''
-  # Remove NVIDIA USB xHCI Host Controller devices, if present
-  ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x0c0330", ATTR{power/control}="auto", ATTR{remove}="1"
-  # Remove NVIDIA USB Type-C UCSI devices, if present
-  ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x0c8000", ATTR{power/control}="auto", ATTR{remove}="1"
-  # Remove NVIDIA Audio devices, if present
-  ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x040300", ATTR{power/control}="auto", ATTR{remove}="1"
-  # Remove NVIDIA VGA/3D controller devices
-  ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x03[0-9]*", ATTR{power/control}="auto", ATTR{remove}="1"
-'';
-boot.blacklistedKernelModules = [ "nouveau" "nvidia" "nvidia_drm" "nvidia_modeset" ];
+      blacklist nouveau
+      options nouveau modeset=0
+    '';
+
+  services.udev.extraRules = ''
+    # Remove NVIDIA USB xHCI Host Controller devices, if present
+    ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x0c0330", ATTR{power/control}="auto", ATTR{remove}="1"
+    # Remove NVIDIA USB Type-C UCSI devices, if present
+    ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x0c8000", ATTR{power/control}="auto", ATTR{remove}="1"
+    # Remove NVIDIA Audio devices, if present
+    ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x040300", ATTR{power/control}="auto", ATTR{remove}="1"
+    # Remove NVIDIA VGA/3D controller devices
+    ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x03[0-9]*", ATTR{power/control}="auto", ATTR{remove}="1"
+  '';
+  boot.blacklistedKernelModules = [ "nouveau" "nvidia" "nvidia_drm" "nvidia_modeset" ];
 
     ###########################################################################
     # Yubi Key
