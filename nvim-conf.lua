@@ -26,6 +26,11 @@ vim.keymap.set('n', 'fg', ':Telescope git_status<CR>', {})
 vim.keymap.set('n', '<C-s>', '<Esc>:w<CR>', {})
 vim.keymap.set('i', '<C-s>', '<Esc>:w<CR>', {})
 
+vim.keymap.set('n', '<C-h>', '<C-w>h', {})
+vim.keymap.set('n', '<C-j>', '<C-w>j', {})
+vim.keymap.set('n', '<C-k>', '<C-w>k', {})
+vim.keymap.set('n', '<C-l>', '<C-w>l', {})
+
 -- Tree sitter highlighting
 require'nvim-treesitter.configs'.setup {
   highlight = {
