@@ -80,23 +80,14 @@ vim.lsp.config('ccls', {
 vim.lsp.enable('ccls')
 
 -- Nix
-vim.lsp.config('nil_ls', {})
-vim.lsp.enable('nil_ls')
-vim.lsp.config('rust-analyzer', {
-  cmd = { 'rust-analyzer' },
-  filetypes = { 'rust' },
-  root_markers = {"Cargo.toml", ".git"},
-  settings = {
-    ['rust-analyzer'] = {
-      diagnostics = {
-        enable = false;
-      }
-    }
-  }
+vim.lsp.config('nil_ls', {
+  cmd = {"nil"},
+  filetypes = { "nix" },
+  root_markers = {"flake.nix", ".git"},
 })
-vim.lsp.enable('nix_ls')
+vim.lsp.enable('nil_ls')
 
-Rust
+-- Rust
 local function reload_workspace(bufnr)
   local clients = vim.lsp.get_clients { bufnr = bufnr, name = 'rust_analyzer' }
   for _, client in ipairs(clients) do

@@ -3,6 +3,8 @@
 {config, lib, pkgs, ...}:
 {
   home.packages = with pkgs; [
+    cargo
+    clippy
     rust-analyzer
     (hiPrio gcc)
     nil
@@ -11,6 +13,7 @@
     ripgrep
     tree-sitter
     nodejs
+    lua-language-server
 
     # Basic cmd tools
     btop
