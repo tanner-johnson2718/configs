@@ -23,13 +23,39 @@ vim.keymap.set('n', 'fS', ':Telescope current_buffer_fuzzy_find<CR>', {})
 vim.keymap.set('n', 'fc', ':Bwipeout<CR>', {})
 vim.keymap.set('n', 'fj', ':Telescope jumplist<CR>', {})
 vim.keymap.set('n', 'fg', ':Telescope git_status<CR>', {})
+vim.keymap.set('n', 'fw', 'yiw:Telescope live_grep<CR><Space><Esc><S-p><S-a><BS>', {})
+vim.keymap.set('n', 'fW', 'yiw:Telescope find_files<CR><Space><Esc><S-p><S-a><BS>', {})
 vim.keymap.set('n', '<C-s>', '<Esc>:w<CR>', {})
 vim.keymap.set('i', '<C-s>', '<Esc>:w<CR>', {})
 
+-- Make changing windows better
 vim.keymap.set('n', '<C-h>', '<C-w>h', {})
 vim.keymap.set('n', '<C-j>', '<C-w>j', {})
 vim.keymap.set('n', '<C-k>', '<C-w>k', {})
 vim.keymap.set('n', '<C-l>', '<C-w>l', {})
+vim.keymap.set('t', '<C-h>', '<C-\\><C-n><C-w>h', {})
+vim.keymap.set('t', '<C-j>', '<C-\\><C-n><C-w>j', {})
+vim.keymap.set('t', '<C-k>', '<C-\\><C-n><C-w>k', {})
+vim.keymap.set('t', '<C-l>', '<C-\\><C-n><C-w>l', {})
+vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', {})
+
+-- Screen Set Up
+vim.api.nvim_create_user_command('Layout', function()
+  local n_win = #vim.api.nvim_tabpage_list_wins(0)
+  if n_win == 1 then
+    vim.cmd('split')
+    vim.cmd('vsplit')
+    vim.cmd('wincmd j')
+    vim.cmd('term')
+    vim.cmd('vsplit')
+    vim.cmd('wincmd l')
+    vim.cmd('term')
+    vim.cmd('resize 20')
+  else
+    print("Only use with single window open!")
+  end
+end ,{})
+
 
 -- Tree sitter highlighting
 require'nvim-treesitter.configs'.setup {
