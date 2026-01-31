@@ -41,11 +41,7 @@ vim.api.nvim_create_user_command('Layout', function()
   local n_win = #vim.api.nvim_tabpage_list_wins(0)
   if n_win == 1 then
     vim.cmd('split')
-    vim.cmd('vsplit')
     vim.cmd('wincmd j')
-    vim.cmd('term')
-    vim.cmd('vsplit')
-    vim.cmd('wincmd l')
     vim.cmd('term')
     vim.cmd('resize 20')
   else

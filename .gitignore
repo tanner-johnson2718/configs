@@ -4,3 +4,4 @@ build
 .ccls-cache
 result
 nixos.qcow2
+.nvim

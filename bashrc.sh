@@ -1,11 +1,22 @@
+# Commands that should be applied only for interactive shells.
+[[ $- == *i* ]] || return
+
+HISTFILESIZE=100000
+HISTSIZE=10000
+
+shopt -s histappend
+shopt -s extglob
+shopt -s globstar
+shopt -s checkjobs
+
 export GIT_PS1_SHOWCOLORHINTS=true
 export GIT_PS1_SHOWDIRTYSTATE=true
 export GIT_PS1_SHOWUNTRACKEDFILES=true
-source ~/git-prompt.sh
+source /var/git/configs/git-prompt.sh
 export PROMPT_COLOR='34'
 export PS1='\n\[\033[01;''${PROMPT_COLOR}m\]\W\[\033[01;32m\]$(__git_ps1 " (%s)") \[\033[00m\] '
 
-source ~/.bash_complete
+source /var/git/configs/.bash_complete
 
 alias l="ls -CF --color=auto";
 alias e="exit";
@@ -16,6 +27,7 @@ alias lu="systemctl list-units";
 alias gs="git status";
 alias gd="git diff";
 alias gdc="git add ./* ; git commit -m \"..\" ; git push";
+alias nvim="/var/git/configs/.nvim/bin/nvim";
 
 # Grep-closure
 function gcl {
