@@ -13,14 +13,11 @@ vim.opt.list = true
 vim.opt.clipboard='unnamedplus'
 vim.cmd("colorscheme onedark")
 
--- Mostly Telescope/Buffer Keybindings
+-- Mostly Telescope Keybindings
 vim.keymap.set('n', 'ff', ':Telescope find_files<CR>', {})
 vim.keymap.set('n', 'fb', ':Telescope buffers<CR>', {})
-vim.keymap.set('n', 'fn', ':bNext<CR>', {})
-vim.keymap.set('n', 'fm', ':bprevious<CR>', {})
 vim.keymap.set('n', 'fs', ':Telescope live_grep<CR>', {})
 vim.keymap.set('n', 'fS', ':Telescope current_buffer_fuzzy_find<CR>', {})
-vim.keymap.set('n', 'fc', ':Bwipeout<CR>', {})
 vim.keymap.set('n', 'fj', ':Telescope jumplist<CR>', {})
 vim.keymap.set('n', 'fg', ':Telescope git_status<CR>', {})
 vim.keymap.set('n', 'fw', 'yiw:Telescope live_grep<CR><Space><Esc><S-p><S-a><BS>', {})
@@ -56,7 +53,6 @@ vim.api.nvim_create_user_command('Layout', function()
   end
 end ,{})
 
-
 -- Tree sitter highlighting
 require'nvim-treesitter.configs'.setup {
   highlight = {
@@ -82,6 +78,15 @@ vim.fn.sign_define('DiagnosticSignHint', { text = '', texthl = 'DiagnosticSig
 
 -- On cursor hold pop the error message on errored line
 vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
+
+vim.api.nvim_create_autocmd({ 'BufWinEnter', 'WinEnter' }, {
+    callback = function()
+        if vim.bo.buftype == 'terminal' then
+            vim.cmd('startinsert')
+        end
+    end,
+})
+
 
 -- All lsps inherit
 -- Run :checkhealth

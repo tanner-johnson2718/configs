@@ -7,7 +7,6 @@ export PS1='\n\[\033[01;''${PROMPT_COLOR}m\]\W\[\033[01;32m\]$(__git_ps1 " (%s)"
 
 source ~/.bash_complete
 
-
 alias l="ls -CF --color=auto";
 alias e="exit";
 alias la="alias";
