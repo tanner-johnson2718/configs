@@ -37,6 +37,9 @@ let
     nvim-treesitter.withAllGrammars
     onedark-nvim
     vim-bbye
+    rustaceanvim
+    blink-cmp
+    nvim-web-devicons
   ];
   nvim_conf = pkgs.writeText "init.lua" (builtins.readFile ./init.lua);
   nvim = pkgs.neovim.override {

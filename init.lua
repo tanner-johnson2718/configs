@@ -85,3 +85,23 @@ vim.api.nvim_create_autocmd({ 'BufWinEnter', 'WinEnter' }, {
         end
     end,
 })
+
+-- Rust lsp
+local bufnr = vim.api.nvim_get_current_buf()
+vim.keymap.set(
+  "n",
+  "K",  -- Override Neovim's built-in hover keymap with rustaceanvim's hover actions
+  function()
+    vim.cmd.RustLsp({'hover', 'actions'})
+  end,
+  { silent = true, buffer = bufnr }
+)
+
+-- Completion
+require("blink.cmp").setup({
+    keymap = {
+      preset = "enter",
+      ["<Tab>"] = { "select_next", "fallback" },
+      ["<S-Tab>"] = { "select_prev", "fallback" },
+    },
+  })
