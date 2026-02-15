@@ -38,6 +38,9 @@ vim.keymap.set('t', '<C-k>', '<C-\\><C-n><C-w>k', {})
 vim.keymap.set('t', '<C-l>', '<C-\\><C-n><C-w>l', {})
 vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', {})
 
+-- Insert Mode bindings
+vim.keymap.set('i', '<C-v>', '<Esc>pa')
+
 -- Screen Set Up
 vim.api.nvim_create_user_command('Layout', function()
   local n_win = #vim.api.nvim_tabpage_list_wins(0)
