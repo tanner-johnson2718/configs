@@ -67,4 +67,4 @@ export scl
 # Build nvim at location of this file. Above alias points "nvim" here
 echo "REBUILDING NEOVIM .... BY THE WAY"
 figlet -f slant NVIM
-nix-build $_CONFIG_ROOT/nvim.nix -o .nvim
+nix-build $_CONFIG_ROOT/nvim.nix -o $_CONFIG_ROOT/.nvim
