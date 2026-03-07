@@ -1,3 +1,8 @@
+# Make sure we defined _CONFIG_ROOT in .bashrc
+if [[ ! -v _CONFIG_ROOT ]]; then
+  echo "Please Define _CONFIG_ROOT in .bashrc as local of configs repo"
+fi
+
 # Commands that should be applied only for interactive shells.
 [[ $- == *i* ]] || return
 
@@ -9,12 +14,14 @@ shopt -s extglob
 shopt -s globstar
 shopt -s checkjobs
 
+source /var/git/configs/git-prompt.sh
 export GIT_PS1_SHOWCOLORHINTS=true
 export GIT_PS1_SHOWDIRTYSTATE=true
 export GIT_PS1_SHOWUNTRACKEDFILES=true
-source /var/git/configs/git-prompt.sh
 export PROMPT_COLOR='34'
 export PS1='\n\[\033[01;''${PROMPT_COLOR}m\]\W\[\033[01;32m\]$(__git_ps1 " (%s)") \[\033[00m\] '
+
+dconf write /org/gnome/desktop/input-sources/xkb-options "['caps:ctrl_modifier']"
 
 alias l="ls -CF --color=auto";
 alias e="exit";
@@ -25,7 +32,7 @@ alias lu="systemctl list-units";
 alias gs="git status";
 alias gd="git diff";
 alias gdc="git add ./* ; git commit -m \"..\" ; git push";
-alias nvim="/var/git/configs/.nvim/bin/nvim";
+alias nvim="$_CONFIG_ROOT/.nvim/bin/nvim";
 
 # Grep-closure
 function gcl {
@@ -46,3 +53,18 @@ function gkill {
   kill -9 $(ps -aux | grep -i $1 | awk '{print $2}')
 }
 export gkill
+
+# Size of Nix Closure
+function scl {
+  if [ $# -ne 1 ]; then
+    echo "pass /nix/store/<hash>"
+    return 1
+  fi
+  nix-store -qR $1 | xargs nix-store -q --size | awk '{s+=$1} END {print s}' | numfmt --to=iec
+}
+export scl
+
+# Build nvim at location of this file. Above alias points "nvim" here
+echo "CHECKINIG FOR NEOVIM UPDATES .... BY THE WAY"
+figlet -f slant NVIM
+nix-build $_CONFIG_ROOT/nvim.nix -o .nvim

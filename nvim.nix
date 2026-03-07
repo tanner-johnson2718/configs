@@ -1,5 +1,3 @@
-# nix-mkShell nvim deployment
-
 let
   nixpkgs_rev = "871b9fd269ff6246794583ce4ee1031e1da71895";
   nixpkgs_src = builtins.fetchTarball {
