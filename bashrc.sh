@@ -1,6 +1,6 @@
 # Make sure we defined _CONFIG_ROOT in .bashrc
 if [[ ! -v _CONFIG_ROOT ]]; then
-  echo "Please Define _CONFIG_ROOT in .bashrc as local of configs repo"
+  echo "Please Define _CONFIG_ROOT in .bashrc as path to configs repo"
 fi
 
 # Commands that should be applied only for interactive shells.
@@ -65,6 +65,6 @@ function scl {
 export scl
 
 # Build nvim at location of this file. Above alias points "nvim" here
-echo "CHECKINIG FOR NEOVIM UPDATES .... BY THE WAY"
+echo "REBUILDING NEOVIM .... BY THE WAY"
 figlet -f slant NVIM
 nix-build $_CONFIG_ROOT/nvim.nix -o .nvim
