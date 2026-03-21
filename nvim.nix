@@ -8,27 +8,6 @@ let
     config = {};
     overlays = [];
   };
-  extra_packages = with pkgs; [
-    zip
-    unzip
-    tree
-    jq
-    lsof
-    tio
-    fd
-  ];
-  nvim_packages = with pkgs; [
-    cargo
-    clippy
-    rust-analyzer
-    nil
-    ccls
-    xclip
-    ripgrep
-    tree-sitter
-    nodejs
-    lua-language-server
-  ];
   nvim_plugins = with pkgs.vimPlugins; [
     telescope-nvim
     git-blame-nvim
@@ -37,7 +16,6 @@ let
     vim-bbye
     rustaceanvim
     blink-cmp
-    nvim-web-devicons
   ];
   nvim_conf = pkgs.writeText "init.lua" (builtins.readFile ./init.lua);
   nvim = pkgs.neovim.override {
@@ -47,7 +25,7 @@ let
       "--append-flags \"-u ${nvim_conf}\""
       "--append-flags \"-c Layout\""
     ];
-    configure.packages.myPlugins.start = nvim_plugins ++ nvim_packages ++ extra_packages;
+    configure.packages.myPlugins.start = nvim_plugins;
   };
 in
 nvim
