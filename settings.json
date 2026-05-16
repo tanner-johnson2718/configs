@@ -1,0 +1,50 @@
+{
+    "editor.minimap.enabled": false,
+    "editor.autoClosingQuotes": "never",
+    "editor.lineNumbers": "relative",
+    "vim.useSystemClipboard": true,
+    "vim.handleKeys": {
+        "<C-f>": false,
+        "<C-p>": false,
+        "<C-m": false,
+        "<C-n>": false,
+        "<C-e>": false,
+        "<C-[>": false,
+        "<C-]>": false,
+        "<C-h>": false,
+        "<C-j>": false,
+        "<C-l>": false,
+        "<C-k>": false,
+        "<C-s>": true,
+        "<C-b>": false,
+        "<C-w>": false,
+    },
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["j", "j"],
+            "after": ["<Esc>"]
+        },
+        {
+            "before": ["<C-s>"],
+            "commands": [
+                "workbench.action.files.save",
+                "extension.vim_escape"
+            ],
+        }
+    ],
+    "vim.normalModeKeyBindings": [
+        {
+            "before": ["<C-s>"],
+            "commands": [
+                "workbench.action.files.save"
+            ] 
+        },
+        {
+            "before": ["s"],
+            "commands": [
+                "editor.action.addSelectionToNextFindMatch",
+                "workbench.action.findInFiles"
+            ]
+        }
+    ],
+}
