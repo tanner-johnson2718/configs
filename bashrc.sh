@@ -9,7 +9,7 @@ shopt -s extglob
 shopt -s globstar
 shopt -s checkjobs
 
-source /var/git/configs/git-prompt.sh
+source ./git-prompt.sh
 export GIT_PS1_SHOWCOLORHINTS=true
 export GIT_PS1_SHOWDIRTYSTATE=true
 export GIT_PS1_SHOWUNTRACKEDFILES=true
