@@ -1,6 +1,3 @@
-# Commands that should be applied only for interactive shells.
-[[ $- == *i* ]] || return
-
 HISTFILESIZE=100000
 HISTSIZE=10000
 
@@ -9,7 +6,6 @@ shopt -s extglob
 shopt -s globstar
 shopt -s checkjobs
 
-source ./git-prompt.sh
 export GIT_PS1_SHOWCOLORHINTS=true
 export GIT_PS1_SHOWDIRTYSTATE=true
 export GIT_PS1_SHOWUNTRACKEDFILES=true
