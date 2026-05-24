@@ -35,11 +35,21 @@
     {
         "key": "ctrl+n",
         "command": "search.action.focusNextSearchResult",
-        "when": "hasSearchResult"
+        "when": "hasSearchResult && searchViewletVisible"
     },
     {
         "key": "ctrl+p",
         "command": "search.action.focusPreviousSearchResult",
-        "when": "hasSearchResult"
+        "when": "hasSearchResult && searchViewletVisible"
     },
+    {
+        "key": "ctrl+n",
+        "command": "selectNextSuggestion",
+        "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "selectPrevSuggestion",
+        "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible"
+    }
 ]
