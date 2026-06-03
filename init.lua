@@ -57,6 +57,16 @@ vim.keymap.set('t', '<C-l>', '<C-\\><C-n><C-w>l', {})
 vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', {})
 vim.keymap.set('t', 'jj', '<C-\\><C-n>', {})
 
+-- Disable arrow keys in Normal, Visual, and Select modes
+local modes = { 'n', 'i', 'v', 'c' }
+local arrows = { '<Up>', '<Down>', '<Left>', '<Right>' }
+
+for _, mode in ipairs(modes) do
+    for _, arrow in ipairs(arrows) do
+        vim.keymap.set(mode, arrow, '<Nop>', { noremap = true, silent = true })
+    end
+end
+
 -- Screen Set Up
 vim.api.nvim_create_user_command('Layout', function()
   local n_win = #vim.api.nvim_tabpage_list_wins(0)
