@@ -11,21 +11,39 @@ vim.opt.ve= 'block'
 vim.opt.expandtab = true
 vim.opt.list = true
 vim.opt.clipboard='unnamedplus'
+vim.opt.scrolloff = 5
+vim.opt.mouse = ""
 vim.cmd("colorscheme onedark")
 
--- Mostly Telescope Keybindings
-vim.keymap.set('n', 'ff', ':Telescope find_files<CR>', {})
-vim.keymap.set('n', 'fb', ':Telescope buffers<CR>', {})
-vim.keymap.set('n', 'fs', ':Telescope live_grep<CR>', {})
-vim.keymap.set('n', 'fh', ':Telescope current_buffer_fuzzy_find<CR>', {})
-vim.keymap.set('n', 'fl', 'yiw:Telescope current_buffer_fuzzy_find<CR><Space><Esc><S-p><S-a><BS>', {})
-vim.keymap.set('n', 'fj', ':Telescope jumplist<CR>', {})
-vim.keymap.set('n', 'fg', ':Telescope git_status<CR>', {})
-vim.keymap.set('n', 'fc', ':Bwipeout<CR>', {})
-vim.keymap.set('n', 'fw', 'yiw:Telescope live_grep<CR><Space><Esc><S-p><S-a><BS>', {})
-vim.keymap.set('n', 'fp', 'yiw:Telescope find_files<CR><Space><Esc><S-p><S-a><BS>', {})
+-- Search Word
+vim.keymap.set('n', 'sw', 'yiw:Telescope live_grep<CR><Space><Esc><S-p><S-a><BS>', {})
+
+-- Search String
+vim.keymap.set('n', 'ss', ':Telescope live_grep<CR>', {})
+
+-- Search Files
+vim.keymap.set('n', 'sf', ':Telescope find_files<CR>', {})
+
+-- Search Path
+vim.keymap.set('n', 'sp', 'yiw:Telescope find_files<CR><Space><Esc><S-p><S-a><BS>', {})
+
+-- Search Buffer
+vim.keymap.set('n', 'sb', ':Telescope current_buffer_fuzzy_find<CR>', {})
+
+-- Search word here
+vim.keymap.set('n', 'sh', 'yiw:Telescope current_buffer_fuzzy_find<CR><Space><Esc><S-p><S-a><BS>', {})
+
+-- Search jump list
+vim.keymap.set('n', 'sj', ':Telescope jumplist<CR>', {})
+
+-- Search Git
+vim.keymap.set('n', 'sg', ':Telescope git_status<CR>', {})
+
+-- Exit inset and term mode
+vim.keymap.set('i', 'jj', '<Esc>:w<CR>', {})
+
+-- C-s to save in normal mode
 vim.keymap.set('n', '<C-s>', '<Esc>:w<CR>', {})
-vim.keymap.set('i', '<C-s>', '<Esc>:w<CR>', {})
 
 -- Make changing windows better
 vim.keymap.set('n', '<C-h>', '<C-w>h', {})
@@ -37,9 +55,7 @@ vim.keymap.set('t', '<C-j>', '<C-\\><C-n><C-w>j', {})
 vim.keymap.set('t', '<C-k>', '<C-\\><C-n><C-w>k', {})
 vim.keymap.set('t', '<C-l>', '<C-\\><C-n><C-w>l', {})
 vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', {})
-
--- Insert Mode bindings
-vim.keymap.set('i', '<C-v>', '<Esc>pa')
+vim.keymap.set('t', 'jj', '<C-\\><C-n>', {})
 
 -- Screen Set Up
 vim.api.nvim_create_user_command('Layout', function()

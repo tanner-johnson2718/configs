@@ -1,11 +1,3 @@
-# Make sure we defined _CONFIG_ROOT in .bashrc
-if [[ ! -v _CONFIG_ROOT ]]; then
-  echo "Please Define _CONFIG_ROOT in .bashrc as path to configs repo"
-fi
-
-# Commands that should be applied only for interactive shells.
-[[ $- == *i* ]] || return
-
 HISTFILESIZE=100000
 HISTSIZE=10000
 
@@ -32,39 +24,4 @@ alias lu="systemctl list-units";
 alias gs="git status";
 alias gd="git diff";
 alias gdc="git add ./* ; git commit -m \"..\" ; git push";
-alias nvim="$_CONFIG_ROOT/.nvim/bin/nvim";
-
-# Grep-closure
-function gcl {
-  if [ $# -ne 2 ]; then
-    echo "pass ./result pattern"
-    return 1
-  fi
-  nix path-info -r $1 | grep $2
-}
-export gcl
-
-# Grep-kill
-function gkill {
-  if [ $# -ne 1 ]; then
-    echo "pass pattern"
-    return 1
-  fi
-  kill -9 $(ps -aux | grep -i $1 | awk '{print $2}')
-}
-export gkill
-
-# Size of Nix Closure
-function scl {
-  if [ $# -ne 1 ]; then
-    echo "pass /nix/store/<hash>"
-    return 1
-  fi
-  nix-store -qR $1 | xargs nix-store -q --size | awk '{s+=$1} END {print s}' | numfmt --to=iec
-}
-export scl
-
-# Build nvim at location of this file. Above alias points "nvim" here
-# echo "REBUILDING NEOVIM .... BY THE WAY"
-figlet -f slant "YOUR CODE SUCKS"
-# nix-build $_CONFIG_ROOT/nvim.nix -o $_CONFIG_ROOT/.nvim
+alias nvim="/nix/store/0iajsr2dpkv0h14h7w6mp404blald2g5-neovim-0.11.5/bin/nvim"
