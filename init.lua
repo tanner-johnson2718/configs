@@ -88,12 +88,6 @@ vim.diagnostic.config({
   virtual_text = false,
 })
 
--- Set the icon in the gutter when LSP errors are present
-vim.fn.sign_define('DiagnosticSignError', { text = '', texthl = 'DiagnosticSignError' })
-vim.fn.sign_define('DiagnosticSignWarn', { text = '', texthl = 'DiagnosticSignWarn' })
-vim.fn.sign_define('DiagnosticSignInfo', { text = '', texthl = 'DiagnosticSignInfo' })
-vim.fn.sign_define('DiagnosticSignHint', { text = '', texthl = 'DiagnosticSignHint' })
-
 -- On cursor hold pop the error message on errored line
 vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
 
@@ -104,17 +98,6 @@ vim.api.nvim_create_autocmd({ 'BufWinEnter', 'WinEnter' }, {
         end
     end,
 })
-
--- Rust lsp
-local bufnr = vim.api.nvim_get_current_buf()
-vim.keymap.set(
-  "n",
-  "K",  -- Override Neovim's built-in hover keymap with rustaceanvim's hover actions
-  function()
-    vim.cmd.RustLsp({'hover', 'actions'})
-  end,
-  { silent = true, buffer = bufnr }
-)
 
 -- Completion
 require("blink.cmp").setup({
