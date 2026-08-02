@@ -15,6 +15,7 @@ let
     onedark-nvim
     vim-bbye
     blink-cmp
+    rustaceanvim
   ];
   nvim_conf = pkgs.writeText "init.lua" (builtins.readFile ./init.lua);
   nvim = pkgs.neovim.override {

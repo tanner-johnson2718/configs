@@ -12,6 +12,7 @@ export GIT_PS1_SHOWDIRTYSTATE=true
 export GIT_PS1_SHOWUNTRACKEDFILES=true
 export PROMPT_COLOR='34'
 export PS1='\n\[\033[01;''${PROMPT_COLOR}m\]\W\[\033[01;32m\]$(__git_ps1 " (%s)") \[\033[00m\] '
+export PATH="$PATH:/home/$USER/.cargo/bin"
 
 alias l="ls -CF --color=auto";
 alias e="exit";
@@ -23,3 +24,4 @@ alias gs="git status";
 alias gd="git diff";
 alias gdc="git add ./* ; git commit -m \"..\" ; git push";
 alias nvim="~/nvim/bin/nvim"
+alias fd="fdfind"
