@@ -47,3 +47,6 @@ aws_ec2_ebs_vols:
   aws ec2 describe-volumes \
     --query "Volumes[*].{ID: VolumeId, Name: Tags[?Key=='Name'].Value | [0], SizeGiB: Size, Type: VolumeType, State: State, AttachedTo: Attachments[*].InstanceId | join(', ', @), AZ: AvailabilityZone}" \
     --output table
+
+deploy_nvim:
+  nix-build nvim.nix -o ~/nvim
