@@ -15,18 +15,6 @@ vim.opt.scrolloff = 5
 vim.opt.mouse = ""
 vim.cmd("colorscheme onedark")
 
-vim.g.clipboard = {
-  name = 'OSC 52',
-  copy = {
-    ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
-    ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
-  },
-  paste = {
-    ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
-    ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
-  },
-}
-
 -- Search Word
 vim.keymap.set('n', 'sw', 'yiw:Telescope live_grep<CR><Space><Esc><S-p><S-a><BS>', {})
 
