@@ -8,6 +8,7 @@ let
     vim-bbye
     blink-cmp
     rustaceanvim
+    plenary-nvim
   ];
   nvim_conf = pkgs.writeText "init.lua" (builtins.readFile ./init.lua);
   nvim = pkgs.neovim.override {
