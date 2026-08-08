@@ -1,3 +1,6 @@
+aws_ec2_key_pairs:
+  aws ec2 describe-key-pairs
+
 aws_sec_group_description n="0":
   aws ec2 describe-security-groups --query "SecurityGroups[{{ n }}]" | jq
 
@@ -15,7 +18,10 @@ aws_ec2_instances:
       Type: InstanceType,\
       State: State.Name,\
       PublicIP: PublicIpAddress,\
-      SecurityGroups: SecurityGroups[*].GroupName | join(', ', @)\
+      SecurityGroups: SecurityGroups[*].GroupName | join(', ', @),\
+      ImageId: ImageId,\
+      KeyName: KeyName,\
+      Volumes: BlockDeviceMappings[*].Ebs.VolumeId | join(', ', @) \
     }" \
   --output table
 
@@ -27,5 +33,17 @@ aws_ec2_instance_name_2_id name:
 
 aws_ec2_start name:
   aws ec2 start-instances --instance-ids $(just aws_ec2_instance_name_2_id {{ name }} )
+
 aws_ec2_stop name:
   aws ec2 stop-instances --instance-ids $(just aws_ec2_instance_name_2_id {{ name }} )
+
+aws_ec2_amis:
+  aws ec2 describe-images \
+    --owners self \
+    --query "Images[*].{ID: ImageId, Name: Name, Arch: Architecture, State: State, Public: Public, Created: CreationDate}" \
+    --output table
+
+aws_ec2_ebs_vols:
+  aws ec2 describe-volumes \
+    --query "Volumes[*].{ID: VolumeId, Name: Tags[?Key=='Name'].Value | [0], SizeGiB: Size, Type: VolumeType, State: State, AttachedTo: Attachments[*].InstanceId | join(', ', @), AZ: AvailabilityZone}" \
+    --output table
