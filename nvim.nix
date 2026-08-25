@@ -9,6 +9,7 @@ let
     blink-cmp
     rustaceanvim
     plenary-nvim
+    nvim-lspconfig
   ];
   nvim_conf = pkgs.writeText "init.lua" (builtins.readFile ./init.lua);
   nvim = pkgs.neovim.override {

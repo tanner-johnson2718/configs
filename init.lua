@@ -117,3 +117,19 @@ require("blink.cmp").setup({
       ["<S-Tab>"] = { "select_prev", "fallback" },
     },
   })
+
+local lspconfig = require('lspconfig')
+
+-- If using blink-cmp, pass its capabilities to lspconfig
+local capabilities = require('blink.cmp').get_lsp_capabilities()
+
+lspconfig.nil_ls.setup({
+  capabilities = capabilities,
+  settings = {
+    ['nil'] = {
+      formatting = {
+        command = { "alejandra" }, -- or "nixpkgs-fmt"
+      },
+    },
+  },
+})
