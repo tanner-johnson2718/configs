@@ -118,18 +118,44 @@ require("blink.cmp").setup({
     },
   })
 
-local lspconfig = require('lspconfig')
+-- Terminator integration
+local codecompanion = require("codecompanion")
 
--- If using blink-cmp, pass its capabilities to lspconfig
-local capabilities = require('blink.cmp').get_lsp_capabilities()
-
-lspconfig.nil_ls.setup({
-  capabilities = capabilities,
-  settings = {
-    ['nil'] = {
-      formatting = {
-        command = { "alejandra" }, -- or "nixpkgs-fmt"
-      },
+codecompanion.setup({
+  -- Defines which backend adapter to use for each mode
+  strategies = {
+    chat = {
+      adapter = "anthropic",
+    },
+    inline = {
+      adapter = "anthropic",
+    },
+    agent = {
+      adapter = "anthropic",
     },
   },
+
+  -- Adapter configurations
+  adapters = {
+    anthropic = function()
+      local adapter = require("codecompanion.adapters").extend("anthropic", {
+        env = {
+          api_key = "cmd:echo $ANTHROPIC_API_KEY",
+        },
+        schema = {
+          model = {
+            default = "claude-sonnet-5",
+          },
+        },
+      })
+
+      -- Completely strip temperature from the schema so it isn't generated in curl payloads
+      adapter.schema.temperature = nil
+
+      return adapter
+    end,
+  },
 })
+
+-- Expand 'cc' in command-line mode to ':CodeCompanion'
+vim.cmd([[cab _cc CodeCompanion]])
