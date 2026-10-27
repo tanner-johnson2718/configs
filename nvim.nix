@@ -10,7 +10,6 @@ let
     rustaceanvim
     plenary-nvim
     nvim-lspconfig
-    codecompanion-nvim
   ];
   nvim_conf = pkgs.writeText "init.lua" (builtins.readFile ./init.lua);
   nvim = pkgs.neovim.override {
